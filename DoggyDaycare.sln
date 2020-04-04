@@ -3,7 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoggyDaycare.Core", "DoggyDaycare.Core\DoggyDaycare.Core.csproj", "{9AB392FC-301B-487D-8ABA-584C47950C49}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC1F496B-4D5A-4A34-BABD-E3395D150B6F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C5A4950-DFFB-4173-9E46-98019E900C02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D64F28AD-0C14-488D-A22D-9D0177CE6B47}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoggyDaycare.Infrastructure", "src\Persistence\DoggyDaycare.Infrastructure.csproj", "{C262538B-5662-44C1-8C91-9C02F9C1A8A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{0D4A95DD-4D3A-40C3-9D71-A7897A5623AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoggyDaycare.Core", "src\DoggyDaycare.Core\DoggyDaycare.Core.csproj", "{3D4EC0FB-A050-4386-B6A9-7AEDA5267E84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoggyDaycare.Core.Tests", "tests\DoggyDaycare.Core.Tests\DoggyDaycare.Core.Tests.csproj", "{61020A99-F2C3-48B7-9D38-298CACF69B58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +26,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9AB392FC-301B-487D-8ABA-584C47950C49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AB392FC-301B-487D-8ABA-584C47950C49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AB392FC-301B-487D-8ABA-584C47950C49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AB392FC-301B-487D-8ABA-584C47950C49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C262538B-5662-44C1-8C91-9C02F9C1A8A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C262538B-5662-44C1-8C91-9C02F9C1A8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C262538B-5662-44C1-8C91-9C02F9C1A8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C262538B-5662-44C1-8C91-9C02F9C1A8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D4A95DD-4D3A-40C3-9D71-A7897A5623AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4A95DD-4D3A-40C3-9D71-A7897A5623AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4A95DD-4D3A-40C3-9D71-A7897A5623AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4A95DD-4D3A-40C3-9D71-A7897A5623AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D4EC0FB-A050-4386-B6A9-7AEDA5267E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D4EC0FB-A050-4386-B6A9-7AEDA5267E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D4EC0FB-A050-4386-B6A9-7AEDA5267E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D4EC0FB-A050-4386-B6A9-7AEDA5267E84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61020A99-F2C3-48B7-9D38-298CACF69B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61020A99-F2C3-48B7-9D38-298CACF69B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61020A99-F2C3-48B7-9D38-298CACF69B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61020A99-F2C3-48B7-9D38-298CACF69B58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C262538B-5662-44C1-8C91-9C02F9C1A8A7} = {8C5A4950-DFFB-4173-9E46-98019E900C02}
+		{0D4A95DD-4D3A-40C3-9D71-A7897A5623AA} = {8C5A4950-DFFB-4173-9E46-98019E900C02}
+		{3D4EC0FB-A050-4386-B6A9-7AEDA5267E84} = {8C5A4950-DFFB-4173-9E46-98019E900C02}
+		{61020A99-F2C3-48B7-9D38-298CACF69B58} = {D64F28AD-0C14-488D-A22D-9D0177CE6B47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1A8C99D-26C0-44BB-B572-1F798FADEB3D}
