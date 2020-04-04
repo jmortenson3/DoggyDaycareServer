@@ -26,7 +26,15 @@ namespace DoggyDaycare.Core.Customers.Commands
 
         public async Task<string> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            return request.Id;
+            var entity = new Customer
+            {
+                Id = request.Id,
+                Email = request.Email,
+                Name = request.Name
+            };
+
+            var id = _repository.Add(entity);
+            return id;
         }
     }
 } 

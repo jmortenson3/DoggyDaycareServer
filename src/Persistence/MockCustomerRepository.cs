@@ -12,7 +12,7 @@ namespace DoggyDaycare.Infrastructure
         public MockCustomerRepository()
         {
             customers = new List<Customer>();
-            // Default customer 1
+
             var defaultCustomer = new Customer
             {
                 Id = "1",
@@ -20,6 +20,12 @@ namespace DoggyDaycare.Infrastructure
                 Name = "Josiah"
             };
             customers.Add(defaultCustomer);
+        }
+
+        public string Add(Customer customer)
+        {
+            customers.Add(customer);
+            return customer.Id;
         }
 
         public Customer Find(string id)

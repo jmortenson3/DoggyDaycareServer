@@ -8,5 +8,6 @@ namespace DoggyDaycare.Core.Common
     public interface ICustomerRepository
     {
         public Customer Find(string id);
+        public string Add(Customer customer);
     }
 }
