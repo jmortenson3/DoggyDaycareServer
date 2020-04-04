@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DoggyDaycare.Core\DoggyDaycare.Core.csproj" />
+    <ProjectReference Include="..\..\src\Persistence\DoggyDaycare.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
