@@ -2,6 +2,7 @@
 using DoggyDaycare.Core.Customers.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DoggyDaycare.Infrastructure
@@ -32,6 +33,16 @@ namespace DoggyDaycare.Infrastructure
         {
             var customer = customers.Find(customer => customer.Id == id);
             return customer;
+        }
+
+        public void Update(Customer customerChanges)
+        {
+            var customer = customers.FirstOrDefault(cus => cus.Id == customerChanges.Id);
+            if (customer != null)
+            {
+                customer.Email = customerChanges.Email;
+                customer.Name = customerChanges.Name;
+            }
         }
     }
 }

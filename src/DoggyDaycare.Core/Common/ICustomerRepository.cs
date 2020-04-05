@@ -9,5 +9,6 @@ namespace DoggyDaycare.Core.Common
     {
         public Customer Find(string id);
         public string Add(Customer customer);
+        public void Update(Customer customer);
     }
 }
