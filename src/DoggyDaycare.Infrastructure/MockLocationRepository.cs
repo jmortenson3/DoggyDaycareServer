@@ -2,6 +2,7 @@
 using DoggyDaycare.Core.Locations.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DoggyDaycare.Infrastructure
@@ -32,9 +33,16 @@ namespace DoggyDaycare.Infrastructure
             return locations.Find(location => location.Id == id);
         }
 
-        public Location Update(Location entity)
+        public Location Update(Location locationChanges)
         {
-            throw new NotImplementedException();
+            var location = locations.FirstOrDefault(p => p.Id == locationChanges.Id);
+
+            if (location != null)
+            {
+                location.Name = locationChanges.Name;
+            }
+
+            return location;
         }
     }
 }
