@@ -28,23 +28,26 @@ namespace DoggyDaycare.Core.Tests.Customers.Commands
         public async void ShouldCreateCustomer()
         {
             // Arrange
-            var command = new CreateCustomerCommand
-            {
+            var customer = new Customer {
                 Id = "2",
                 Email = "test2@test.com",
                 Name = "Josiah2"
+            };
 
+            var command = new CreateCustomerCommand
+            {
+                Customer = customer
             };
 
             // Act
             await _mediator.Send(command);
-            var customer = _repository.Find(command.Id);
+            var result = _repository.Find(command.Customer.Id);
 
             // Assert
-            Assert.NotNull(customer);
-            Assert.Equal(command.Id, customer.Id);
-            Assert.Equal(command.Email, customer.Email);
-            Assert.Equal(command.Name, customer.Name);
+            Assert.NotNull(result);
+            Assert.Equal(command.Customer.Id, result.Id);
+            Assert.Equal(command.Customer.Email, result.Email);
+            Assert.Equal(command.Customer.Name, result.Name);
 
         }
     }

@@ -11,9 +11,7 @@ namespace DoggyDaycare.Core.Customers.Commands
 {
     public class CreateCustomerCommand : IRequest<string>
     {
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Name { get; set; }
+        public Customer Customer { get; set; }
     }
 
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, string>
@@ -28,9 +26,9 @@ namespace DoggyDaycare.Core.Customers.Commands
         {
             var entity = new Customer
             {
-                Id = request.Id,
-                Email = request.Email,
-                Name = request.Name
+                Id = request.Customer.Id,
+                Email = request.Customer.Email,
+                Name = request.Customer.Name
             };
 
             var id = _repository.Add(entity);
