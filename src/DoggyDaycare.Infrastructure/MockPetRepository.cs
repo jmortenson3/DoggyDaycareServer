@@ -2,6 +2,7 @@
 using DoggyDaycare.Core.Pets.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DoggyDaycare.Infrastructure
@@ -30,6 +31,18 @@ namespace DoggyDaycare.Infrastructure
         public Pet Find(string id)
         {
             return pets.Find(pet => pet.Id == id);
+        }
+
+        public Pet Update(Pet petChanges)
+        {
+            var pet = pets.FirstOrDefault(p => p.Id == petChanges.Id);
+
+            if (pet != null)
+            {
+                pet.Name = petChanges.Name;
+            }
+
+            return pet;
         }
     }
 }

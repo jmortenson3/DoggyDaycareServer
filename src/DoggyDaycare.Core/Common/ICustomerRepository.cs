@@ -5,10 +5,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IRepository<Customer>
     {
-        public Customer Find(string id);
-        public string Add(Customer customer);
-        public void Update(Customer customer);
     }
 }

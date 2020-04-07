@@ -35,14 +35,17 @@ namespace DoggyDaycare.Infrastructure
             return customer;
         }
 
-        public void Update(Customer customerChanges)
+        public Customer Update(Customer customerChanges)
         {
             var customer = customers.FirstOrDefault(cus => cus.Id == customerChanges.Id);
+
             if (customer != null)
             {
                 customer.Email = customerChanges.Email;
                 customer.Name = customerChanges.Name;
             }
+
+            return customer;
         }
     }
 }

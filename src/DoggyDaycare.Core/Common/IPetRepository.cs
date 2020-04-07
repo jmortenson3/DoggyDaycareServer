@@ -5,9 +5,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface IPetRepository
+    public interface IPetRepository : IRepository<Pet>
     {
-        public Pet Find(string id);
-        public string Add(Pet pet);
     }
 }
