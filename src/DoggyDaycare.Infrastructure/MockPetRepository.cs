@@ -21,6 +21,12 @@ namespace DoggyDaycare.Infrastructure
             pets.Add(defaultPet);
         }
 
+        public string Add(Pet pet)
+        {
+            pets.Add(pet);
+            return pet.Id;
+        }
+
         public Pet Find(string id)
         {
             return pets.Find(pet => pet.Id == id);

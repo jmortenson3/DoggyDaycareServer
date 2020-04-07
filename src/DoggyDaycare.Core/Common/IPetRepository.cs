@@ -8,5 +8,6 @@ namespace DoggyDaycare.Core.Common
     public interface IPetRepository
     {
         public Pet Find(string id);
+        public string Add(Pet pet);
     }
 }
