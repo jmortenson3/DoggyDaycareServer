@@ -44,7 +44,23 @@ namespace DoggyDaycare.Core.Tests.Organizations.Queries
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(result.Name, expected.Name);
+            Assert.Equal(expected.Name, result.Name);
+        }
+
+        [Fact]
+        public async void ShouldReturnNullOrganization()
+        {
+            // Arrange
+            var query = new GetOrganizationQuery
+            {
+                Id = "-1"
+            };
+
+            // Act
+            var organization = await _mediator.Send(query);
+
+            // Assert
+            Assert.Null(organization);
         }
     }
 }

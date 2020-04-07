@@ -1,4 +1,5 @@
 ﻿using DoggyDaycare.Core.Common;
+using DoggyDaycare.Core.Pets.Entities;
 using DoggyDaycare.Core.Pets.Queries;
 using DoggyDaycare.Infrastructure;
 using MediatR;
@@ -26,17 +27,22 @@ namespace DoggyDaycare.Core.Tests.Pets.Queries
         public async void ShouldReturnPet()
         {
             // Arrange
+            var expected = new Pet
+            {
+                Id = "1",
+                Name = "Larry"
+            };
             var query = new GetPetQuery
             {
-                Id = "1"
+                Id = expected.Id
             };
 
             // Act
-            var entity = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
             // Assert
-            Assert.Equal(query.Id, entity.Id);
-            Assert.Equal("Larry", entity.Name);
+            Assert.Equal(expected.Id, result.Id);
+            Assert.Equal(expected.Name, result.Name);
         }
     }
 }

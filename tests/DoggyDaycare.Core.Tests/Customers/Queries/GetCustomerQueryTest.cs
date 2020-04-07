@@ -1,4 +1,5 @@
 ﻿using DoggyDaycare.Core.Common;
+using DoggyDaycare.Core.Customers.Entities;
 using DoggyDaycare.Core.Customers.Queries;
 using DoggyDaycare.Infrastructure;
 using MediatR;
@@ -27,18 +28,24 @@ namespace DoggyDaycare.Core.Tests.Customers.Queries
         public async void ShouldReturnCustomer()
         {
             // Arrange
+            var expected = new Customer
+            {
+                Id = "1",
+                Name = "Josiah",
+                Email = "test@test.com"
+            };
             var query = new GetCustomerQuery
             {
-                Id = "1"
+                Id = expected.Id
             };
 
             // Act
             var customer = await _mediator.Send(query);
 
             // Assert
-            Assert.Equal(query.Id, customer.Id);
-            Assert.Equal("Josiah", customer.Name);
-            Assert.Equal("test@test.com", customer.Email);
+            Assert.Equal(expected.Id, customer.Id);
+            Assert.Equal(expected.Name, customer.Name);
+            Assert.Equal(expected.Email, customer.Email);
 
         }
 
