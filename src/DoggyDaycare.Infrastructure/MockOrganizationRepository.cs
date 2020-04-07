@@ -33,9 +33,16 @@ namespace DoggyDaycare.Infrastructure
             return organizations.FirstOrDefault(org => org.Id == id);
         }
 
-        public Organization Update(Organization entity)
+        public Organization Update(Organization organizationChanges)
         {
-            throw new NotImplementedException();
+            var organization = organizations.FirstOrDefault(cus => cus.Id == organizationChanges.Id);
+
+            if (organization != null)
+            {
+                organization.Name = organizationChanges.Name;
+            }
+
+            return organization;
         }
     }
 }
