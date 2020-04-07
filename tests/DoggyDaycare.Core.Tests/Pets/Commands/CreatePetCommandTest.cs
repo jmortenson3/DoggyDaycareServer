@@ -27,7 +27,7 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
         }
 
         [Fact]
-        public void ShouldCreatePet()
+        public async void ShouldCreatePet()
         {
             // Arrange
             var pet = new Pet {
@@ -40,11 +40,12 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
             };
 
             // Act
-            _mediator.Send(command);
+            var resultId = await _mediator.Send(command);
 
             // Assert
             var result = _repository.Find(pet.Id);
             Assert.NotNull(result);
+            Assert.Equal(pet.Id, resultId);
             Assert.Equal(pet.Name, result.Name);
 
         }
