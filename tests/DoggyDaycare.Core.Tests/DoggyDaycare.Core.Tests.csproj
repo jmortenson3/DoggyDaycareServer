@@ -17,8 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\DoggyDaycare.Common\DoggyDaycare.Common.csproj" />
     <ProjectReference Include="..\..\src\DoggyDaycare.Core\DoggyDaycare.Core.csproj" />
-    <ProjectReference Include="..\..\src\Persistence\DoggyDaycare.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\DoggyDaycare.Infrastructure\DoggyDaycare.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
