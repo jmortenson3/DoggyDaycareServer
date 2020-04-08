@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\src\DoggyDaycare.Infrastructure\DoggyDaycare.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Bookings\Queries\" />
+  </ItemGroup>
+
 </Project>
