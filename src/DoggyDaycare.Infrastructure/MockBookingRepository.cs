@@ -2,6 +2,7 @@
 using DoggyDaycare.Core.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DoggyDaycare.Infrastructure
@@ -31,9 +32,16 @@ namespace DoggyDaycare.Infrastructure
             return bookings.Find(b => b.Id == id);
         }
 
-        public Booking Update(Booking entity)
+        public Booking Update(Booking bookingChanges)
         {
-            throw new NotImplementedException();
+            var booking = bookings.FirstOrDefault(b => b.Id == bookingChanges.Id);
+
+            if (booking != null)
+            {
+                // update fields
+            }
+
+            return booking;
         }
     }
 }
