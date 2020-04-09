@@ -32,7 +32,8 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
             var updatedPet = new Pet
             {
                 Id = "1",
-                Name = "Pickles"
+                Name = "Pickles",
+                CustomerId = "1"
             };
             var command = new UpdatePetCommand
             {
@@ -46,6 +47,7 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
             var result = _repository.Find(updatedPet.Id);
             Assert.NotNull(pet);
             Assert.Equal(updatedPet.Name, result.Name);
+            Assert.Equal(updatedPet.CustomerId, result.CustomerId);
         }
     }
 }

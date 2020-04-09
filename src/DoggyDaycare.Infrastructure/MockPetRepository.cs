@@ -15,7 +15,8 @@ namespace DoggyDaycare.Infrastructure
             var defaultPet = new Pet
             {
                 Id = "1",
-                Name = "Larry"
+                Name = "Larry",
+                CustomerId = "1"
             };
 
             pets = new List<Pet>();
@@ -43,6 +44,11 @@ namespace DoggyDaycare.Infrastructure
             }
 
             return pet;
+        }
+
+        public List<Pet> FindAll(Predicate<Pet> match)
+        {
+            return pets.FindAll(match);
         }
     }
 }

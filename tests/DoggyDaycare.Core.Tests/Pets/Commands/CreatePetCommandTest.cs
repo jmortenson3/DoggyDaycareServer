@@ -48,7 +48,7 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
             Assert.NotNull(result);
             Assert.Equal(pet.Id, resultId);
             Assert.Equal(pet.Name, result.Name);
-
+            Assert.Equal(pet.CustomerId, result.CustomerId);
         }
     }
 }

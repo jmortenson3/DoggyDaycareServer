@@ -7,5 +7,6 @@ namespace DoggyDaycare.Core.Common
 {
     public interface IPetRepository : IRepository<Pet>
     {
+        public List<Pet> FindAll(Predicate<Pet> match);
     }
 }

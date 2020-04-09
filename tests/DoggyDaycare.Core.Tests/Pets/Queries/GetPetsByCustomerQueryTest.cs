@@ -11,20 +11,20 @@ using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Pets.Queries
 {
-    public class GetPetQueryTest
+    public class GetPetsByCustomerQueryTest
     {
         private readonly IMediator _mediator;
 
-        public GetPetQueryTest()
+        public GetPetsByCustomerQueryTest()
         {
             var services = new ServiceCollection();
-            services.AddMediatR(typeof(GetPetQuery));
+            services.AddMediatR(typeof(GetPetsByCustomerQuery));
             services.AddScoped<IPetRepository, MockPetRepository>();
             _mediator = services.BuildServiceProvider().GetService<IMediator>();
         }
 
         [Fact]
-        public async void ShouldReturnPet()
+        public async void ShouldReturnPetsForDefaultCustomer()
         {
             // Arrange
             var expected = new Pet
@@ -33,18 +33,21 @@ namespace DoggyDaycare.Core.Tests.Pets.Queries
                 Name = "Larry",
                 CustomerId = "1"
             };
-            var query = new GetPetQuery
+            var query = new GetPetsByCustomerQuery
             {
-                Id = expected.Id
+                CustomerId = expected.CustomerId
             };
 
             // Act
             var result = await _mediator.Send(query);
 
             // Assert
-            Assert.Equal(expected.Id, result.Id);
-            Assert.Equal(expected.Name, result.Name);
-            Assert.Equal(expected.CustomerId, result.CustomerId);
+            Assert.True(result.Count > 0);
+            var resultPet = result.Find(pet => pet.Id == expected.Id);
+            Assert.NotNull(resultPet);
+            Assert.Equal(expected.Id, resultPet.Id);
+            Assert.Equal(expected.Name, resultPet.Name);
+            Assert.Equal(expected.CustomerId, resultPet.CustomerId);
         }
     }
 }
