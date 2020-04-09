@@ -32,7 +32,8 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
             // Arrange
             var pet = new Pet {
                 Id = "2",
-                Name = "Stevie"
+                Name = "Stevie",
+                CustomerId = "1"
             };
             var command = new CreatePetCommand
             {

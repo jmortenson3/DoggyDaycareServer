@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Bookings.Entities
 {
-    public class KennelBookingDetails
+    public class KennelBookingDetails : BookingDetails
     {
         public string KennelType { get; set; }
     }

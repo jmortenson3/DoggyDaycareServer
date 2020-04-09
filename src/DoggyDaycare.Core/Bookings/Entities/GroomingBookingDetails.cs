@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Bookings.Entities
 {
-    public class GroomingBookingDetails
+    public class GroomingBookingDetails : BookingDetails
     {
         public bool DoNailClipping { get; set; }
         public bool DoHaircut { get; set; }
