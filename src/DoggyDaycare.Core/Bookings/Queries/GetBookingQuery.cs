@@ -25,7 +25,7 @@ namespace DoggyDaycare.Core.Bookings.Queries
 
         public async Task<Booking> Handle(GetBookingQuery request, CancellationToken cancellationToken)
         {
-            return _repository.Find(request.Id);
+            return await _repository.FindAsync(request.Id);
         }
     }
 }

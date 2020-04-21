@@ -2,26 +2,19 @@ using DoggyDaycare.Core.Customers.Entities;
 using DoggyDaycare.Core.Customers.Commands;
 using System;
 using Xunit;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using DoggyDaycare.Infrastructure;
 using DoggyDaycare.Core.Common;
+using Moq;
+using System.Threading;
 
 namespace DoggyDaycare.Core.Tests.Customers.Commands
 {
     public class CreateCustomerCommandTest
     {
-        private readonly IMediator _mediator;
-        private readonly ICustomerRepository _repository;
+        private readonly Mock<ICustomerRepository> _repository;
 
         public CreateCustomerCommandTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(CreateCustomerCommand));
-            services.AddSingleton<ICustomerRepository, MockCustomerRepository>();
-            var serviceProvider = services.BuildServiceProvider();
-            _mediator = serviceProvider.GetService<IMediator>();
-            _repository = serviceProvider.GetService<ICustomerRepository>();
+            _repository = new Mock<ICustomerRepository>();
         }
 
         [Fact]
@@ -40,14 +33,11 @@ namespace DoggyDaycare.Core.Tests.Customers.Commands
             };
 
             // Act
-            await _mediator.Send(command);
-            var result = _repository.Find(command.Customer.Id);
+            var handler = new CreateCustomerCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(command.Customer.Id, result.Id);
-            Assert.Equal(command.Customer.Email, result.Email);
-            Assert.Equal(command.Customer.Name, result.Name);
 
         }
     }

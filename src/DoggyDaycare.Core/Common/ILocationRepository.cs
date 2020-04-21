@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface ILocationRepository : IRepository<Location>
+    public interface ILocationRepository : IAsyncRepository<Location>
     {
     }
 }

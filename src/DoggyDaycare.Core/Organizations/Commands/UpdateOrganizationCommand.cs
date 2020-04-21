@@ -25,7 +25,7 @@ namespace DoggyDaycare.Core.Organizations.Commands
 
         public async Task<Organization> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
         {
-            return _repository.Update(request.Organization);
+            return await _repository.UpdateAsync(request.Organization);
         }
     }
 }

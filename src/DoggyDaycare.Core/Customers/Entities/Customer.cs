@@ -5,13 +5,8 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Customers.Entities
 {
-    public class Customer : IEntity
+    public class Customer : BaseEntity
     {
-        public string Id { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedUtc { get; set; }
-        public string LastModifiedBy { get; set; }
-        public DateTime? LastModifiedUtc { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
     }

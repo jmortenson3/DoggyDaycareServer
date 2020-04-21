@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Customers.Commands
 {
-    public class UpdateCustomerCommand : IRequest
+    public class UpdateCustomerCommand : IRequest<Customer>
     {
-        public Customer customerChanges { get; set; }
+        public Customer Customer { get; set; }
 
     }
 
-    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand>
+    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Customer>
     {
         private readonly ICustomerRepository _repository;
 
@@ -24,11 +24,9 @@ namespace DoggyDaycare.Core.Customers.Commands
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<Customer> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = request.customerChanges;
-            _repository.Update(customer);
-            return Unit.Value;
+            return await _repository.UpdateAsync(request.Customer);
 
         }
     }

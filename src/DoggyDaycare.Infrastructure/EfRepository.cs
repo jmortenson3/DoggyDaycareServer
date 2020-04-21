@@ -1,0 +1,38 @@
+﻿using DoggyDaycare.Core.Common;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DoggyDaycare.Infrastructure
+{
+    public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
+    {
+        protected readonly DoggyDaycareContext _dbContext;
+
+        public EfRepository(DoggyDaycareContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<T> AddAsync(T entity)
+        {
+            await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<T> FindAsync(string id)
+        {
+            return await _dbContext.Set<T>().FindAsync(id);
+        }
+
+        public async Task<T> UpdateAsync(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
+    }
+}

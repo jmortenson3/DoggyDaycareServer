@@ -25,7 +25,7 @@ namespace DoggyDaycare.Core.Customers.Queries
 
         public async Task<Customer> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
         {
-            var customer = _repository.Find(request.Id);
+            var customer = await _repository.FindAsync(request.Id);
             return customer;
         }
     }

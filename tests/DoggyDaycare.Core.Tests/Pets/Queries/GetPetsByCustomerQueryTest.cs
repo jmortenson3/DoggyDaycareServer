@@ -1,26 +1,22 @@
 ﻿using DoggyDaycare.Core.Common;
 using DoggyDaycare.Core.Pets.Entities;
 using DoggyDaycare.Core.Pets.Queries;
-using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Pets.Queries
 {
     public class GetPetsByCustomerQueryTest
     {
-        private readonly IMediator _mediator;
+        private readonly Mock<IPetRepository> _repository;
 
         public GetPetsByCustomerQueryTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(GetPetsByCustomerQuery));
-            services.AddScoped<IPetRepository, MockPetRepository>();
-            _mediator = services.BuildServiceProvider().GetService<IMediator>();
+            _repository = new Mock<IPetRepository>();
         }
 
         [Fact]
@@ -39,7 +35,8 @@ namespace DoggyDaycare.Core.Tests.Pets.Queries
             };
 
             // Act
-            var result = await _mediator.Send(query);
+            var handler = new GetPetsByCustomerQueryHandler(_repository.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
             Assert.True(result.Count > 0);

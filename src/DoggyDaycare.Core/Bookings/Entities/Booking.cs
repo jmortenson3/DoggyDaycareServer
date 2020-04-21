@@ -5,13 +5,8 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Bookings.Entities
 {
-    public abstract class Booking : IEntity
+    public abstract class Booking : BaseEntity
     {
-        public string Id { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedUtc { get; set; }
-        public string LastModifiedBy { get; set; }
-        public DateTime? LastModifiedUtc { get; set; }
         public string LocationId { get; set; }
         public string OrganizationId { get; set; }
         public string CustomerId { get; set; }

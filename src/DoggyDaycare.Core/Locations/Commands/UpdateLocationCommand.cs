@@ -25,7 +25,7 @@ namespace DoggyDaycare.Core.Locations.Commands
 
         public async Task<Location> Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
         {
-            return _repository.Update(request.Location);
+            return await _repository.UpdateAsync(request.Location);
         }
     }
 }

@@ -1,28 +1,22 @@
 ﻿using DoggyDaycare.Core.Common;
 using DoggyDaycare.Core.Pets.Commands;
 using DoggyDaycare.Core.Pets.Entities;
-using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Pets.Commands
 {
     public class UpdatePetCommandTest
     {
-        private readonly IMediator _mediator;
-        private readonly IPetRepository _repository;
+        private readonly Mock<IPetRepository> _repository;
+
         public UpdatePetCommandTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(UpdatePetCommand));
-            services.AddScoped<IPetRepository, MockPetRepository>();
-            var servicesProvider = services.BuildServiceProvider();
-            _mediator = servicesProvider.GetService<IMediator>();
-            _repository = servicesProvider.GetService<IPetRepository>();
+            _repository = new Mock<IPetRepository>();
         }
 
         [Fact]
@@ -41,13 +35,11 @@ namespace DoggyDaycare.Core.Tests.Pets.Commands
             };
 
             // Act
-            var pet = await _mediator.Send(command);
+            var handler = new UpdatePetCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            var result = _repository.Find(updatedPet.Id);
-            Assert.NotNull(pet);
-            Assert.Equal(updatedPet.Name, result.Name);
-            Assert.Equal(updatedPet.CustomerId, result.CustomerId);
+            Assert.NotNull(result);
         }
     }
 }

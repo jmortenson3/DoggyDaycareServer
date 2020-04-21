@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface IPetRepository : IRepository<Pet>
+    public interface IPetRepository : IAsyncRepository<Pet>
     {
-        public List<Pet> FindAll(Predicate<Pet> match);
+        public Task<List<Pet>> FindAllAsync(Predicate<Pet> match);
     }
 }

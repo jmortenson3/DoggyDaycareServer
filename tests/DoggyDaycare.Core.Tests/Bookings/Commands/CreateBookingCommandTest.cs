@@ -1,29 +1,28 @@
 ﻿using DoggyDaycare.Core.Bookings.Commands;
 using DoggyDaycare.Core.Bookings.Entities;
 using DoggyDaycare.Core.Common;
-using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Bookings.Commands
 {
     public class CreateBookingCommandTest
     {
-        private readonly IMediator _mediator;
-        private readonly IBookingRepository _repository;
+        private readonly Mock<IBookingRepository> _repository;
 
         public CreateBookingCommandTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(CreateBookingCommand));
-            services.AddSingleton<IBookingRepository, MockBookingRepository>();
-            var serviceProvider = services.BuildServiceProvider();
-            _mediator = serviceProvider.GetService<IMediator>();
-            _repository = serviceProvider.GetService<IBookingRepository>();
+            var booking = new GroomingBooking
+            {
+                Id = "2"
+            };
+
+            _repository = new Mock<IBookingRepository>();
+            _repository.Setup(x => x.AddAsync(It.IsAny<Booking>())).ReturnsAsync(booking);
         }
 
         [Fact]
@@ -41,12 +40,11 @@ namespace DoggyDaycare.Core.Tests.Bookings.Commands
             };
 
             // Act
-            await _mediator.Send(command);
-            var result = _repository.Find(command.Booking.Id);
+            var handler = new CreateBookingCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(command.Booking.Id, result.Id);
         }
     }
 }

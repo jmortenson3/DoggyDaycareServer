@@ -35,20 +35,17 @@ namespace DoggyDaycare.API.Controllers
             {
                 Id = id
             };
-
-            var result = await Mediator.Send(query);
-            return result;
+            return await Mediator.Send(query);
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Post(Organization organization)
+        public async Task<ActionResult<Organization>> Post(Organization organization)
         {
             var command = new CreateOrganizationCommand
             {
                 Organization = organization
             };
-            var result = await Mediator.Send(command);
-            return result;
+            return await Mediator.Send(command);
         }
     }
 }

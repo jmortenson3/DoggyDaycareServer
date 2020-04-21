@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Bookings.Commands
 {
-    public class CreateBookingCommand : IRequest<string>
+    public class CreateBookingCommand : IRequest<Booking>
     {
         public Booking Booking { get; set; }
     }
 
-    public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, string>
+    public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, Booking>
     {
         private readonly IBookingRepository _repository;
 
@@ -23,10 +23,9 @@ namespace DoggyDaycare.Core.Bookings.Commands
             _repository = repository;
         }
 
-        public async Task<string> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
+        public async Task<Booking> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
-            var id = _repository.Add(request.Booking);
-            return id;
+            return await _repository.AddAsync(request.Booking);
         }
     }
 }

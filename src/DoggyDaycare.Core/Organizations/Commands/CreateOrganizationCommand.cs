@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Organizations.Commands
 {
-    public class CreateOrganizationCommand : IRequest<string>
+    public class CreateOrganizationCommand : IRequest<Organization>
     {
         public Organization Organization { get; set; }
     }
 
-    public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, string>
+    public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Organization>
     {
         private readonly IOrganizationRepository _repository;
 
@@ -23,10 +23,9 @@ namespace DoggyDaycare.Core.Organizations.Commands
             _repository = repository;
         }
 
-        public async Task<string> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
+        public async Task<Organization> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
         {
-            var id = _repository.Add(request.Organization);
-            return id;
+            return await _repository.AddAsync(request.Organization);
         }
     }
 

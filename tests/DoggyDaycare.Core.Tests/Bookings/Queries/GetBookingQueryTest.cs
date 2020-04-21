@@ -1,26 +1,22 @@
 ﻿using DoggyDaycare.Core.Bookings.Entities;
 using DoggyDaycare.Core.Bookings.Queries;
 using DoggyDaycare.Core.Common;
-using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Bookings.Queries
 {
     public class GetBookingQueryTest
     {
-        private readonly IMediator _mediator;
+        private readonly Mock<IBookingRepository> _repository;
 
         public GetBookingQueryTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(GetBookingQuery));
-            services.AddScoped<IBookingRepository, MockBookingRepository>();
-            _mediator = services.BuildServiceProvider().GetService<IMediator>();
+            _repository = new Mock<IBookingRepository>();
         }
 
         [Fact]
@@ -37,9 +33,11 @@ namespace DoggyDaycare.Core.Tests.Bookings.Queries
             };
 
             // Act
-            var booking = await _mediator.Send(query);
+            var handler = new GetBookingQueryHandler(_repository.Object);
+            var booking = await handler.Handle(query, CancellationToken.None);
 
             // Assert
+            Assert.NotNull(booking);
             Assert.Equal(expected.Id, booking.Id);
 
         }
@@ -54,7 +52,8 @@ namespace DoggyDaycare.Core.Tests.Bookings.Queries
             };
 
             // Act
-            var booking = await _mediator.Send(query);
+            var handler = new GetBookingQueryHandler(_repository.Object);
+            var booking = await handler.Handle(query, CancellationToken.None);
 
             // Assert
             Assert.Null(booking);

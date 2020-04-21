@@ -1,29 +1,22 @@
 ﻿using DoggyDaycare.Core.Common;
 using DoggyDaycare.Core.Locations.Commands;
 using DoggyDaycare.Core.Locations.Entities;
-using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Locations.Commands
 {
     public class UpdateLocationCommandTest
     {
-        private readonly IMediator _mediator;
-        private readonly ILocationRepository _repository;
+        private readonly Mock<ILocationRepository> _repository;
 
         public UpdateLocationCommandTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(UpdateLocationCommand));
-            services.AddScoped<ILocationRepository, MockLocationRepository>();
-            var servicesProvider = services.BuildServiceProvider();
-            _mediator = servicesProvider.GetService<IMediator>();
-            _repository = servicesProvider.GetService<ILocationRepository>();
+            _repository = new Mock<ILocationRepository>();
         }
 
         [Fact]
@@ -42,11 +35,11 @@ namespace DoggyDaycare.Core.Tests.Locations.Commands
             };
 
             // Act
-            var result = await _mediator.Send(command);
+            var handler = new UpdateLocationCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(result.Name, updatedLocation.Name);
         }
     }
 }

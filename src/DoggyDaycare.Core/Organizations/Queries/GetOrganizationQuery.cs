@@ -25,7 +25,7 @@ namespace DoggyDaycare.Core.Organizations.Queries
 
         public async Task<Organization> Handle(GetOrganizationQuery request, CancellationToken cancellationToken)
         {
-            var organization = _repostiory.Find(request.Id);
+            var organization = await _repostiory.FindAsync(request.Id);
             return organization;
         }
     }

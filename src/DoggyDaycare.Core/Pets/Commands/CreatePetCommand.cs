@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Pets.Commands
 {
-    public class CreatePetCommand : IRequest<string>
+    public class CreatePetCommand : IRequest<Pet>
     {
         public Pet Pet { get; set; }
     }
 
-    public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, string>
+    public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, Pet>
     {
 
         private readonly IPetRepository _repository;
@@ -24,11 +24,9 @@ namespace DoggyDaycare.Core.Pets.Commands
             _repository = repository;
         }
 
-        public async Task<string> Handle(CreatePetCommand request, CancellationToken cancellationToken)
+        public async Task<Pet> Handle(CreatePetCommand request, CancellationToken cancellationToken)
         {
-            _repository.Add(request.Pet);
-
-            return request.Pet.Id;
+            return await _repository.AddAsync(request.Pet);
         }
     }
 }

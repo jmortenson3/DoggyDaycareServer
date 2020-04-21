@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface IEntity
+    public abstract class BaseEntity
     {
         public string Id { get; set; }
         public string CreatedBy { get; set; }

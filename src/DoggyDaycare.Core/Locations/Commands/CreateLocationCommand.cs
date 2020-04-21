@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Locations.Commands
 {
-    public class CreateLocationCommand : IRequest<string>
+    public class CreateLocationCommand : IRequest<Location>
     {
         public Location Location { get; set; }
     }
 
-    public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, string>
+    public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, Location>
     {
         private readonly ILocationRepository _repository;
 
@@ -23,10 +23,9 @@ namespace DoggyDaycare.Core.Locations.Commands
             _repository = repository;
         }
 
-        public async Task<string> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
+        public async Task<Location> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
         {
-            var id = _repository.Add(request.Location);
-            return id;
+            return await _repository.AddAsync(request.Location);
         }
     }
 

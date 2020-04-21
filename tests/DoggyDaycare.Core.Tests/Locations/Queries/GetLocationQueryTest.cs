@@ -2,25 +2,22 @@
 using DoggyDaycare.Core.Locations.Entities;
 using DoggyDaycare.Core.Locations.Queries;
 using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Locations.Queries
 {
     public class GetLocationQueryTest
     {
-        private readonly IMediator _mediator;
+        private readonly Mock<ILocationRepository> _repository;
 
         public GetLocationQueryTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(GetLocationQuery));
-            services.AddScoped<ILocationRepository, MockLocationRepository>();
-            _mediator = services.BuildServiceProvider().GetService<IMediator>();
+            _repository = new Mock<ILocationRepository>();
         }
 
         [Fact]
@@ -38,11 +35,12 @@ namespace DoggyDaycare.Core.Tests.Locations.Queries
             };
 
             // Act
-            var location = await _mediator.Send(query);
+            var handler = new GetLocationQueryHandler(_repository.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Equal(expected.Id, location.Id);
-            Assert.Equal(expected.Name, location.Name);
+            Assert.Equal(expected.Id, result.Id);
+            Assert.Equal(expected.Name, result.Name);
 
         }
 
@@ -56,10 +54,11 @@ namespace DoggyDaycare.Core.Tests.Locations.Queries
             };
 
             // Act
-            var location = await _mediator.Send(query);
+            var handler = new GetLocationQueryHandler(_repository.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Null(location);
+            Assert.Null(result);
         }
     }
 }

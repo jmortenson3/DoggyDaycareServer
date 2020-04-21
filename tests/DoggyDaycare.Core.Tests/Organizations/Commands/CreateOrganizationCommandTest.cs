@@ -1,29 +1,22 @@
 ﻿using DoggyDaycare.Core.Common;
 using DoggyDaycare.Core.Organizations.Commands;
 using DoggyDaycare.Core.Organizations.Entities;
-using DoggyDaycare.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace DoggyDaycare.Core.Tests.Organizations.Commands
 {
     public class CreateOrganizationCommandTest
     {
-        private readonly IMediator _mediator;
-        private readonly IOrganizationRepository _repository;
+        private readonly Mock<IOrganizationRepository> _repository;
 
         public CreateOrganizationCommandTest()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(CreateOrganizationCommand));
-            services.AddSingleton<IOrganizationRepository, MockOrganizationRepository>();
-            var servicesProvider = services.BuildServiceProvider();
-            _mediator = servicesProvider.GetService<IMediator>();
-            _repository = servicesProvider.GetService<IOrganizationRepository>();
+            _repository = new Mock<IOrganizationRepository>();
         }
 
         [Fact]
@@ -41,13 +34,11 @@ namespace DoggyDaycare.Core.Tests.Organizations.Commands
             };
 
             // Act
-            var resultId = await _mediator.Send(command);
+            var handler = new CreateOrganizationCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            var result = _repository.Find(organization.Id);
             Assert.NotNull(result);
-            Assert.Equal(organization.Id, resultId);
-            Assert.Equal(organization.Name, result.Name);
         }
     }
 }

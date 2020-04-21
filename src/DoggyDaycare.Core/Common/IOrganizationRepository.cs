@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface IOrganizationRepository : IRepository<Organization>
+    public interface IOrganizationRepository : IAsyncRepository<Organization>
     {
     }
 }

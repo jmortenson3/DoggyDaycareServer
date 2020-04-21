@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DoggyDaycare.Core;
+using DoggyDaycare.Core.Common;
 using DoggyDaycare.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,9 +31,17 @@ namespace DoggyDaycare.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
+
             services.AddInfrastructure();
+
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
+            services.AddDbContext<DoggyDaycareContext>(c => c.UseInMemoryDatabase("DoggyDaycare"));
+
             services.AddControllers();
+
             services.AddHttpContextAccessor();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(

@@ -25,7 +25,7 @@ namespace DoggyDaycare.Core.Pets.Queries
 
         public async Task<Pet> Handle(GetPetQuery request, CancellationToken cancellationToken)
         {
-            return _repository.Find(request.Id);
+            return await _repository.FindAsync(request.Id);
         }
     }
 }

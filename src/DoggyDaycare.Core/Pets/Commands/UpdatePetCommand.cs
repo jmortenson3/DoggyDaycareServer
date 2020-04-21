@@ -24,7 +24,7 @@ namespace DoggyDaycare.Core.Pets.Commands
 
         public async Task<Pet> Handle(UpdatePetCommand request, CancellationToken cancellationToken)
         {
-            var pet = _repository.Update(request.Pet);
+            var pet = await _repository.UpdateAsync(request.Pet);
             return pet;
         }
     }

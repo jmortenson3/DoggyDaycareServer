@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DoggyDaycare.Core.Common
 {
-    public interface IBookingRepository : IRepository<Booking>
+    public interface IBookingRepository : IAsyncRepository<Booking>
     {
     }
 }

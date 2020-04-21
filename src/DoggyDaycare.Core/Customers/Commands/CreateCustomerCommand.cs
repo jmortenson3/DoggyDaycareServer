@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.Core.Customers.Commands
 {
-    public class CreateCustomerCommand : IRequest<string>
+    public class CreateCustomerCommand : IRequest<Customer>
     {
         public Customer Customer { get; set; }
     }
 
-    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, string>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Customer>
     {
         private readonly ICustomerRepository _repository;
         public CreateCustomerCommandHandler(ICustomerRepository repository)
@@ -22,17 +22,9 @@ namespace DoggyDaycare.Core.Customers.Commands
             _repository = repository;
         }
 
-        public async Task<string> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<Customer> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Customer
-            {
-                Id = request.Customer.Id,
-                Email = request.Customer.Email,
-                Name = request.Customer.Name
-            };
-
-            var id = _repository.Add(entity);
-            return id;
+            return await _repository.AddAsync(request.Customer);
         }
     }
 } 
