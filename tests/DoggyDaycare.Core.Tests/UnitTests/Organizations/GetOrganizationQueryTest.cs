@@ -11,7 +11,7 @@ namespace DoggyDaycare.Core.Tests.Organizations
 {
     public class GetOrganizationQueryTest
     {
-        private readonly Mock<IOrganizationRepository> _repository;
+        private readonly Mock<IAsyncRepository<Organization>> _repository;
 
         public GetOrganizationQueryTest()
         {
@@ -22,7 +22,7 @@ namespace DoggyDaycare.Core.Tests.Organizations
                 Name = "DoggyDaycare"
             };
 
-            _repository = new Mock<IOrganizationRepository>();
+            _repository = new Mock<IAsyncRepository<Organization>>();
             _repository.Setup(x => x.FindAsync(It.IsAny<string>())).ReturnsAsync(organization);
         }
 

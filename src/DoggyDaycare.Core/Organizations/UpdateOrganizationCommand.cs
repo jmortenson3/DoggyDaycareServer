@@ -15,9 +15,9 @@ namespace DoggyDaycare.Core.Organizations
 
     public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, Organization>
     {
-        private readonly IOrganizationRepository _repository;
+        private readonly IAsyncRepository<Organization> _repository;
 
-        public UpdateOrganizationCommandHandler(IOrganizationRepository repository)
+        public UpdateOrganizationCommandHandler(IAsyncRepository<Organization> repository)
         {
             _repository = repository;
         }

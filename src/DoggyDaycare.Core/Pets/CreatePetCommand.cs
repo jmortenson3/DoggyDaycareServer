@@ -16,9 +16,9 @@ namespace DoggyDaycare.Core.Pets
     public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, Pet>
     {
 
-        private readonly IPetRepository _repository;
+        private readonly IAsyncRepository<Pet> _repository;
 
-        public CreatePetCommandHandler(IPetRepository repository)
+        public CreatePetCommandHandler(IAsyncRepository<Pet> repository)
         {
             _repository = repository;
         }

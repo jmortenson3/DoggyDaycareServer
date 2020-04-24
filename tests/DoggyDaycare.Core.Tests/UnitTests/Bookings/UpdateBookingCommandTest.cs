@@ -1,5 +1,5 @@
-﻿using DoggyDaycare.Core.Bookings.Commands;
-using DoggyDaycare.Core.Bookings.Entities;
+﻿using DoggyDaycare.Core.Bookings;
+using DoggyDaycare.Core.Bookings.Commands;
 using DoggyDaycare.Core.Common;
 using Moq;
 using System;
@@ -12,11 +12,11 @@ namespace DoggyDaycare.Core.Tests.Bookings
 {
     public class UpdateBookingCommandTest
     {
-        private readonly Mock<IBookingRepository> _repository;
+        private readonly Mock<IAsyncRepository<Booking>> _repository;
 
         public UpdateBookingCommandTest()
         {
-            _repository = new Mock<IBookingRepository>();
+            _repository = new Mock<IAsyncRepository<Booking>>();
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Booking>())).ReturnsAsync(new KennelBooking { Id = "1" });
         }
 

@@ -23,6 +23,11 @@ namespace DoggyDaycare.Infrastructure
             return entity;
         }
 
+        public Task<List<T>> FindAllAsync(Predicate<T> match)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<T> FindAsync(string id)
         {
             return await _dbContext.Set<T>().FindAsync(id);

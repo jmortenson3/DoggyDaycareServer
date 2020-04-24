@@ -11,11 +11,11 @@ namespace DoggyDaycare.Core.Tests.Pets
 {
     public class UpdatePetCommandTest
     {
-        private readonly Mock<IPetRepository> _repository;
+        private readonly Mock<IAsyncRepository<Pet>> _repository;
 
         public UpdatePetCommandTest()
         {
-            _repository = new Mock<IPetRepository>();
+            _repository = new Mock<IAsyncRepository<Pet>>();
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Pet>()))
                 .ReturnsAsync(new Pet { Id = "1", Name = "Pickles", CustomerId = "1" });
         }

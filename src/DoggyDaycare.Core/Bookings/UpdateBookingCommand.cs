@@ -1,5 +1,4 @@
-﻿using DoggyDaycare.Core.Bookings.Entities;
-using DoggyDaycare.Core.Common;
+﻿using DoggyDaycare.Core.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -16,9 +15,9 @@ namespace DoggyDaycare.Core.Bookings.Commands
 
     public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingCommand, Booking>
     {
-        private readonly IBookingRepository _repository;
+        private readonly IAsyncRepository<Booking> _repository;
 
-        public UpdateBookingCommandHandler(IBookingRepository repository)
+        public UpdateBookingCommandHandler(IAsyncRepository<Booking> repository)
         {
             _repository = repository;
 

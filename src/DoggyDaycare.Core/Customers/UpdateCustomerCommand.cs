@@ -16,9 +16,9 @@ namespace DoggyDaycare.Core.Customers
 
     public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Customer>
     {
-        private readonly ICustomerRepository _repository;
+        private readonly IAsyncRepository<Customer> _repository;
 
-        public UpdateCustomerCommandHandler(ICustomerRepository repository)
+        public UpdateCustomerCommandHandler(IAsyncRepository<Customer> repository)
         {
             _repository = repository;
         }

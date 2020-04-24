@@ -11,11 +11,11 @@ namespace DoggyDaycare.Core.Tests.Customers
 {
     public class UpdateCustomerCommandTest
     {
-        private readonly Mock<ICustomerRepository> _repository;
+        private readonly Mock<IAsyncRepository<Customer>> _repository;
 
         public UpdateCustomerCommandTest()
         {
-            _repository = new Mock<ICustomerRepository>();
+            _repository = new Mock<IAsyncRepository<Customer>>();
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Customer>())).ReturnsAsync(new Customer { Id = "1", Email = "newtest@test.com" } );
 
         }

@@ -11,11 +11,11 @@ namespace DoggyDaycare.Core.Tests.Organizations
 {
     public class UpdateOrganizationCommandTest
     {
-        private readonly Mock<IOrganizationRepository> _repository;
+        private readonly Mock<IAsyncRepository<Organization>> _repository;
 
         public UpdateOrganizationCommandTest()
         {
-            _repository = new Mock<IOrganizationRepository>();
+            _repository = new Mock<IAsyncRepository<Organization>>();
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Organization>())).ReturnsAsync(new Organization { Id = "1", Name = "A new name" });
         }
 

@@ -27,5 +27,11 @@ namespace DoggyDaycare.Core.Common
         /// <returns></returns>
         Task<T> UpdateAsync(T entity);
 
+        /// <summary>
+        /// Returns all T based on condition of predicate match.
+        /// </summary>
+        /// <param name="match"></param>
+        /// <returns>A list of matching entities.</returns>
+        Task<List<T>> FindAllAsync(Predicate<T> match);
     }
 }

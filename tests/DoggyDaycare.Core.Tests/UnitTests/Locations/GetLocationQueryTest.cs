@@ -12,11 +12,11 @@ namespace DoggyDaycare.Core.Tests.Locations
 {
     public class GetLocationQueryTest
     {
-        private readonly Mock<ILocationRepository> _repository;
+        private readonly Mock<IAsyncRepository<Location>> _repository;
 
         public GetLocationQueryTest()
         {
-            _repository = new Mock<ILocationRepository>();
+            _repository = new Mock<IAsyncRepository<Location>>();
             _repository.Setup(x => x.FindAsync(It.Is<string>(val => val == "1")))
                 .ReturnsAsync(new Location { Id = "1", Name = "South Store" });
         }

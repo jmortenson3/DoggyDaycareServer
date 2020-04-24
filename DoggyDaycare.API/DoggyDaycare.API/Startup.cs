@@ -38,6 +38,8 @@ namespace DoggyDaycare.API
 
             services.AddDbContext<DoggyDaycareContext>(c => c.UseInMemoryDatabase("DoggyDaycare"));
 
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
             services.AddControllers();
 
             services.AddHttpContextAccessor();

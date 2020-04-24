@@ -15,9 +15,9 @@ namespace DoggyDaycare.Core.Locations
 
     public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, Location>
     {
-        private readonly ILocationRepository _repository;
+        private readonly IAsyncRepository<Location> _repository;
 
-        public CreateLocationCommandHandler(ILocationRepository repository)
+        public CreateLocationCommandHandler(IAsyncRepository<Location> repository)
         {
             _repository = repository;
         }

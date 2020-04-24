@@ -1,4 +1,4 @@
-﻿using DoggyDaycare.Core.Bookings.Entities;
+﻿using DoggyDaycare.Core.Bookings;
 using DoggyDaycare.Core.Bookings.Queries;
 using DoggyDaycare.Core.Common;
 using Moq;
@@ -12,11 +12,11 @@ namespace DoggyDaycare.Core.Tests.Bookings
 {
     public class GetBookingQueryTest
     {
-        private readonly Mock<IBookingRepository> _repository;
+        private readonly Mock<IAsyncRepository<Booking>> _repository;
 
         public GetBookingQueryTest()
         {
-            _repository = new Mock<IBookingRepository>();
+            _repository = new Mock<IAsyncRepository<Booking>>();
             _repository.Setup(x => x.FindAsync(It.Is<string>(val => val == "1"))).ReturnsAsync(new KennelBooking { Id = "1" });
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoggyDaycare.Core.Bookings.Entities
+namespace DoggyDaycare.Core.Bookings
 {
     public class KennelBookingDetails : BookingDetails
     {

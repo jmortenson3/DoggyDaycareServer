@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DoggyDaycare.Core.Bookings.Entities;
+using DoggyDaycare.Core.Bookings;
 using DoggyDaycare.Core.Customers;
 using DoggyDaycare.Core.Locations;
 using DoggyDaycare.Core.Organizations;

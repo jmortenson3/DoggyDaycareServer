@@ -15,9 +15,9 @@ namespace DoggyDaycare.Core.Organizations
 
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>
     {
-        private readonly IOrganizationRepository _repostiory;
+        private readonly IAsyncRepository<Organization> _repostiory;
 
-        public GetOrganizationQueryHandler(IOrganizationRepository repository)
+        public GetOrganizationQueryHandler(IAsyncRepository<Organization> repository)
         {
             _repostiory = repository;
         }

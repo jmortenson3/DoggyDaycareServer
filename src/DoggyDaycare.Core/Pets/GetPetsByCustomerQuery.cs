@@ -15,9 +15,9 @@ namespace DoggyDaycare.Core.Pets
 
     public class GetPetsByCustomerQueryHandler : IRequestHandler<GetPetsByCustomerQuery, List<Pet>>
     {
-        private readonly IPetRepository _repository;
+        private readonly IAsyncRepository<Pet> _repository;
 
-        public GetPetsByCustomerQueryHandler(IPetRepository repository)
+        public GetPetsByCustomerQueryHandler(IAsyncRepository<Pet> repository)
         {
             _repository = repository;
         }
