@@ -1,4 +1,4 @@
-﻿using DoggyDaycare.Core.Customers.Entities;
+﻿using DoggyDaycare.Core.Customers;
 using System;
 using System.Collections.Generic;
 using System.Text;

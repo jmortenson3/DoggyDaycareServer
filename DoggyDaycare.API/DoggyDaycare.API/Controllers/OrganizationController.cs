@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DoggyDaycare.Core.Organizations.Commands;
-using DoggyDaycare.Core.Organizations.Entities;
-using DoggyDaycare.Core.Organizations.Queries;
+using DoggyDaycare.Core.Organizations;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

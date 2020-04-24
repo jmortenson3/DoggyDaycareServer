@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using DoggyDaycare.Core.Bookings.Entities;
-using DoggyDaycare.Core.Customers.Entities;
-using DoggyDaycare.Core.Locations.Entities;
-using DoggyDaycare.Core.Organizations.Entities;
-using DoggyDaycare.Core.Pets.Entities;
+using DoggyDaycare.Core.Customers;
+using DoggyDaycare.Core.Locations;
+using DoggyDaycare.Core.Organizations;
+using DoggyDaycare.Core.Pets;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoggyDaycare.Infrastructure

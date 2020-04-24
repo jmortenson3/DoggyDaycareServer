@@ -1,4 +1,4 @@
-﻿using DoggyDaycare.Core.Locations.Entities;
+﻿using DoggyDaycare.Core.Locations;
 using System;
 using System.Collections.Generic;
 using System.Text;
