@@ -30,13 +30,10 @@ namespace DoggyDaycare.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
+            services.AddCore();
 
-            services.AddInfrastructure();
-
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
-
-            services.AddDbContext<DoggyDaycareContext>(c => c.UseInMemoryDatabase("DoggyDaycare"));
+            services.AddDbContext<DoggyDaycareContext>(options => 
+                options.UseInMemoryDatabase("DoggyDaycare"));
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
