@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DoggyDaycare.Core.Bookings.Queries
+namespace DoggyDaycare.Core.Bookings
 {
     public class GetBookingQuery : IRequest<Booking>
     {

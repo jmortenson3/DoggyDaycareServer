@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DoggyDaycare.Core.Bookings.Commands
+namespace DoggyDaycare.Core.Bookings
 {
     public class CreateBookingCommand : IRequest<Booking>
     {

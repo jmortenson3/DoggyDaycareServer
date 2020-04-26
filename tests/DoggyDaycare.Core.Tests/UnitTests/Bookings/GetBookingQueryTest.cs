@@ -1,5 +1,4 @@
 ﻿using DoggyDaycare.Core.Bookings;
-using DoggyDaycare.Core.Bookings.Queries;
 using DoggyDaycare.Core.Common;
 using Moq;
 using System;
