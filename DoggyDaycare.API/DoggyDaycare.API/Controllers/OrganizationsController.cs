@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DoggyDaycare.Core.Organizations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoggyDaycare.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class OrganizationsController : BaseController
     {

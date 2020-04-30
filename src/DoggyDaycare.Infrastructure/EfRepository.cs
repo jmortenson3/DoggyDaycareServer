@@ -1,4 +1,5 @@
 ﻿using DoggyDaycare.Core.Common;
+using DoggyDaycare.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace DoggyDaycare.Infrastructure
 {
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
-        protected readonly DoggyDaycareContext _dbContext;
+        protected readonly ApplicationContext _dbContext;
 
-        public EfRepository(DoggyDaycareContext dbContext)
+        public EfRepository(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }

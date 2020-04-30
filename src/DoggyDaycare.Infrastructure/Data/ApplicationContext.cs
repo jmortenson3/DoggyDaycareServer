@@ -9,11 +9,11 @@ using DoggyDaycare.Core.Organizations;
 using DoggyDaycare.Core.Pets;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoggyDaycare.Infrastructure
+namespace DoggyDaycare.Infrastructure.Data
 {
-    public class DoggyDaycareContext : DbContext
+    public class ApplicationContext : DbContext
     {
-        public DoggyDaycareContext(DbContextOptions<DoggyDaycareContext> options) : base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
         }
 
