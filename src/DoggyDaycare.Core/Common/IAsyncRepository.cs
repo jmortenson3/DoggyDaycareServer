@@ -32,6 +32,6 @@ namespace DoggyDaycare.Core.Common
         /// </summary>
         /// <param name="match"></param>
         /// <returns>A list of matching entities.</returns>
-        Task<List<T>> FindAllAsync(Predicate<T> match);
+        Task<List<T>> FindAllAsync(Func<T, bool> filter = null);
     }
 }

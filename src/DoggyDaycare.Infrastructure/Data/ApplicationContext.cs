@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using DoggyDaycare.Core.Bookings;
-using DoggyDaycare.Core.Customers;
 using DoggyDaycare.Core.Locations;
 using DoggyDaycare.Core.Organizations;
 using DoggyDaycare.Core.Pets;
+using DoggyDaycare.Core.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoggyDaycare.Infrastructure.Data
@@ -19,7 +19,7 @@ namespace DoggyDaycare.Infrastructure.Data
 
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 

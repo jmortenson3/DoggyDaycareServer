@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoggyDaycare.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class LocationsController : BaseController
     {

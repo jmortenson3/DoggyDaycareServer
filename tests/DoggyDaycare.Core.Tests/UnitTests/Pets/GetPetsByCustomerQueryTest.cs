@@ -18,7 +18,7 @@ namespace DoggyDaycare.Core.Tests.Pets
         {
             _repository = new Mock<IAsyncRepository<Pet>>();
             // How to do this?
-            _repository.Setup(x => x.FindAllAsync(It.IsAny<Predicate<Pet>>()))
+            _repository.Setup(x => x.FindAllAsync(It.IsAny<Func<Pet, bool>>()))
                 .ReturnsAsync(new List<Pet> { new Pet { Id = "1", Name = "Larry", CustomerId = "1" } });
         }
 

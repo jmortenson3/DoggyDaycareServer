@@ -3,6 +3,7 @@ using DoggyDaycare.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +25,10 @@ namespace DoggyDaycare.Infrastructure
             return entity;
         }
 
-        public Task<List<T>> FindAllAsync(Predicate<T> match)
+        public async Task<List<T>> FindAllAsync(Func<T, bool> filter = null)
         {
-            throw new NotImplementedException();
+            var entities = await _dbContext.Set<T>().ToListAsync();
+            return entities.Where(filter).ToList();
         }
 
         public async Task<T> FindAsync(string id)

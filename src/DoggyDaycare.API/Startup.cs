@@ -24,7 +24,7 @@ namespace DoggyDaycare.API
 {
     public class Startup
     {
-        private IWebHostEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
@@ -104,6 +104,7 @@ namespace DoggyDaycare.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DoggyDaycare API V1");
             });
+
         }
     }
 }
