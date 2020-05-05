@@ -1,9 +1,21 @@
-﻿using DoggyDaycare.Core.Users;
+﻿using AutoMapper;
+using DoggyDaycare.API.Exceptions;
+using DoggyDaycare.Core.Users;
+using DoggyDaycare.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DoggyDaycare.API.Services
@@ -11,17 +23,79 @@ namespace DoggyDaycare.API.Services
     public class UserService : IUserService
     {
         private readonly IMediator _mediator;
-        public UserService(IMediator mediator)
+        private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public UserService(
+            IMediator mediator, 
+            IConfiguration config, 
+            IMapper mapper, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _mediator = mediator;
+            _config = config;
+            _mapper = mapper;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public User Authenticate(string email, string password)
+        public async Task<ApplicationUser> Authenticate(string email, string password, bool rememberMe)
         {
-            var query = new GetUserByEmailQuery { Email = email };
-            var users = _mediator.Send(query);
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new AppException("Password cannot be empty or whitespace.");
+            }
 
-            return null;
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new AppException("Email cannot be empty or whitespace.");
+            }
+
+            var applicationUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Email.ToUpper() == email.ToUpper());
+
+            var result = await _signInManager.PasswordSignInAsync(applicationUser, 
+                password, rememberMe, lockoutOnFailure: false);
+
+            return applicationUser;
+        }
+
+
+        public async Task<ApplicationUser> Register(User user, string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new AppException("Password cannot be empty or whitespace.");
+            }
+
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                throw new AppException("Email cannot be empty or whitespace.");
+            }
+
+            var applicationUser = _mapper.Map<ApplicationUser>(user);
+
+            var result = await _userManager.CreateAsync(applicationUser, password);
+
+            if (result.Succeeded)
+            {
+                return applicationUser;
+            }
+
+            string errors = "";
+            foreach (var error in result.Errors)
+            {
+                errors += $"   ${error.Description}";
+            }
+
+            throw new AppException($"Error(s) with registering user.  ${errors}");
+        }
+
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

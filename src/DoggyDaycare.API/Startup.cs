@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
+using DoggyDaycare.API.Services;
 using DoggyDaycare.Core;
 using DoggyDaycare.Core.Common;
 using DoggyDaycare.Infrastructure;
@@ -66,9 +68,13 @@ namespace DoggyDaycare.API
                 });
             }
 
+            services.AddScoped<IUserService, UserService>();
+
             services.AddControllers();
 
             services.AddHttpContextAccessor();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {

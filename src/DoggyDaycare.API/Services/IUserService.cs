@@ -1,4 +1,5 @@
 ﻿using DoggyDaycare.Core.Users;
+using DoggyDaycare.Infrastructure.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace DoggyDaycare.API.Services
 {
     public interface IUserService
     {
-        User Authenticate(string email, string password);
+        Task<ApplicationUser> Authenticate(string email, string password, bool rememberMe);
+        Task<ApplicationUser> Register(User user, string password);
+        Task SignOut();
     }
 }

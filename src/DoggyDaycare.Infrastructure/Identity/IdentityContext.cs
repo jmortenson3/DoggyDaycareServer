@@ -15,6 +15,11 @@ namespace DoggyDaycare.Infrastructure.Identity
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>(b =>
+            {
+                b.HasKey(u => u.Email);
+            });
         }
     }
 }
