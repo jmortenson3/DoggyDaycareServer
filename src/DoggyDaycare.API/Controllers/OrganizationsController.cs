@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoggyDaycare.API.Controllers
 {
     [Route("[controller]")]
-    //[Authorize]
     [ApiController]
+    [Authorize]
     public class OrganizationsController : BaseController
     {
 

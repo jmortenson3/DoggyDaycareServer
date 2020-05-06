@@ -19,7 +19,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             _repository = new Mock<IAsyncRepository<Pet>>();
             // How to do this?
             _repository.Setup(x => x.FindAllAsync(It.IsAny<Func<Pet, bool>>()))
-                .ReturnsAsync(new List<Pet> { new Pet { Id = "1", Name = "Larry", CustomerId = "1" } });
+                .ReturnsAsync(new List<Pet> { new Pet { Id = "1", Name = "Larry", OwnerId = "1" } });
         }
 
         [Fact]
@@ -30,11 +30,11 @@ namespace DoggyDaycare.Core.Tests.Pets
             {
                 Id = "1",
                 Name = "Larry",
-                CustomerId = "1"
+                OwnerId = "1"
             };
             var query = new GetPetsByCustomerQuery
             {
-                CustomerId = expected.CustomerId
+                CustomerId = expected.OwnerId
             };
 
             // Act
@@ -47,7 +47,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             Assert.NotNull(resultPet);
             Assert.Equal(expected.Id, resultPet.Id);
             Assert.Equal(expected.Name, resultPet.Name);
-            Assert.Equal(expected.CustomerId, resultPet.CustomerId);
+            Assert.Equal(expected.OwnerId, resultPet.OwnerId);
         }
     }
 }

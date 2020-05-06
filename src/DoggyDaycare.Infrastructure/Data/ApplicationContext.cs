@@ -6,7 +6,6 @@ using DoggyDaycare.Core.Bookings;
 using DoggyDaycare.Core.Locations;
 using DoggyDaycare.Core.Organizations;
 using DoggyDaycare.Core.Pets;
-using DoggyDaycare.Core.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoggyDaycare.Infrastructure.Data
@@ -19,7 +18,6 @@ namespace DoggyDaycare.Infrastructure.Data
 
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 

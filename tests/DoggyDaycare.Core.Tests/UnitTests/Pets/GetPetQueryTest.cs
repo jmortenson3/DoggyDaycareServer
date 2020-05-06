@@ -17,7 +17,7 @@ namespace DoggyDaycare.Core.Tests.Pets
         {
             _repository = new Mock<IAsyncRepository<Pet>>();
             _repository.Setup(x => x.FindAsync(It.Is<string>(val => val == "1")))
-                .ReturnsAsync(new Pet { Id = "1", Name = "Larry", CustomerId = "1" });
+                .ReturnsAsync(new Pet { Id = "1", Name = "Larry", OwnerId = "1" });
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             {
                 Id = "1",
                 Name = "Larry",
-                CustomerId = "1"
+                OwnerId = "1"
             };
             var query = new GetPetQuery
             {
@@ -42,7 +42,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             // Assert
             Assert.Equal(expected.Id, result.Id);
             Assert.Equal(expected.Name, result.Name);
-            Assert.Equal(expected.CustomerId, result.CustomerId);
+            Assert.Equal(expected.OwnerId, result.OwnerId);
         }
     }
 }

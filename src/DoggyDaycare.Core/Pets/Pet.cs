@@ -7,7 +7,7 @@ namespace DoggyDaycare.Core.Pets
 {
     public class Pet : BaseEntity
     {
-        public string CustomerId { get; set; }
+        public string OwnerId { get; set; }
         public string Name { get; set; }
     }
 }

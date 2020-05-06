@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DoggyDaycare.API.Exceptions;
-using DoggyDaycare.Core.Users;
 using DoggyDaycare.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -22,22 +21,16 @@ namespace DoggyDaycare.API.Services
 {
     public class UserService : IUserService
     {
-        private readonly IMediator _mediator;
         private readonly IConfiguration _config;
-        private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserService(
-            IMediator mediator, 
             IConfiguration config, 
-            IMapper mapper, 
-            UserManager<ApplicationUser> userManager,
+            UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager)
         {
-            _mediator = mediator;
             _config = config;
-            _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -56,6 +49,11 @@ namespace DoggyDaycare.API.Services
 
             var applicationUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Email.ToUpper() == email.ToUpper());
 
+            if (applicationUser == null)
+            {
+                throw new AppException($"Cannot find user with email {email}");
+            }
+
             var result = await _signInManager.PasswordSignInAsync(applicationUser, 
                 password, rememberMe, lockoutOnFailure: false);
 
@@ -63,7 +61,7 @@ namespace DoggyDaycare.API.Services
         }
 
 
-        public async Task<ApplicationUser> Register(User user, string password)
+        public async Task<ApplicationUser> Register(ApplicationUser user, string password)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
@@ -75,22 +73,20 @@ namespace DoggyDaycare.API.Services
                 throw new AppException("Email cannot be empty or whitespace.");
             }
 
-            var applicationUser = _mapper.Map<ApplicationUser>(user);
-
-            var result = await _userManager.CreateAsync(applicationUser, password);
+            var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
-                return applicationUser;
+                return user;
             }
 
             string errors = "";
             foreach (var error in result.Errors)
             {
-                errors += $"   ${error.Description}";
+                errors += $"   {error.Description}";
             }
 
-            throw new AppException($"Error(s) with registering user.  ${errors}");
+            throw new AppException($"Error(s) with registering user.  {errors}");
         }
 
         public async Task SignOut()

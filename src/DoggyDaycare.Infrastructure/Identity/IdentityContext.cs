@@ -18,7 +18,11 @@ namespace DoggyDaycare.Infrastructure.Identity
 
             builder.Entity<ApplicationUser>(b =>
             {
-                b.HasKey(u => u.Email);
+                b.HasKey(u => u.Id);
+
+                b.HasIndex(u => u.NormalizedEmail).HasName("EmailIndex").IsUnique();
+
+                b.ToTable("DoggyDaycareUsers");
             });
         }
     }

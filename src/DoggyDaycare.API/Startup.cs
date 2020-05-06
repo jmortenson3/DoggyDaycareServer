@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using AutoMapper;
+using DoggyDaycare.API.Exceptions;
 using DoggyDaycare.API.Services;
 using DoggyDaycare.Core;
 using DoggyDaycare.Core.Common;
@@ -55,20 +58,50 @@ namespace DoggyDaycare.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => Configuration.Bind("JwtSettings", options));
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "authCookie";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                options.SlidingExpiration = true;
+                options.Events.OnRedirectToLogin = (context) =>
+                {
+                    context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                    context.Response.Headers.Add("X-Authenticated", "false");
+                    return Task.CompletedTask;
+                };
+
+            });
+
             if (_env.IsDevelopment())
             {
                 // Lax password rules for dev
                 services.Configure<IdentityOptions>(options =>
                 {
-                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredLength = 2;
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
+                    options.User.RequireUniqueEmail = true;
+                });
+            }
+            else
+            {
+                services.Configure<IdentityOptions>(options =>
+                {
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.User.RequireUniqueEmail = true;
                 });
             }
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+            });
 
             services.AddControllers();
 
@@ -89,8 +122,10 @@ namespace DoggyDaycare.API
         {
             if (env.IsDevelopment())
             {
+                // This causes stacktrace to show in response
                 app.UseDeveloperExceptionPage();
             }
+
 
             app.UseHttpsRedirection();
 
@@ -104,6 +139,8 @@ namespace DoggyDaycare.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseSwagger();
             app.UseSwaggerUI(c => 

@@ -9,6 +9,6 @@ namespace DoggyDaycare.Core.Bookings
     {
         public string LocationId { get; set; }
         public string OrganizationId { get; set; }
-        public string CustomerId { get; set; }
+        public string OwnerId { get; set; }
     }
 }
