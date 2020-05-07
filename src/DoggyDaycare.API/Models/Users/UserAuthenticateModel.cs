@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DoggyDaycare.API.Models.Users
 {
-    public class AuthenticateModel
+    public class UserAuthenticateModel
     {
         [Required]
         [EmailAddress]

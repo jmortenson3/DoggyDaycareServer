@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DoggyDaycare.API.Models.Users
 {
-    public class RegisterModel
+    public class UserRegisterModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -20,7 +20,7 @@ namespace DoggyDaycare.API.Models.Users
         {
             public Mapping()
             {
-                CreateMap<RegisterModel, ApplicationUser>()
+                CreateMap<UserRegisterModel, ApplicationUser>()
                     .ForMember(dest =>
                         dest.UserName,
                         opt => opt.MapFrom(src => src.Email)

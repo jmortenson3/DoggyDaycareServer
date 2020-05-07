@@ -10,7 +10,7 @@ namespace DoggyDaycare.Core.Pets
 {
     public class GetPetsByCustomerQuery : IRequest<List<Pet>>
     {
-        public string CustomerId { get; set; }
+        public string OwnerId { get; set; }
     }
 
     public class GetPetsByCustomerQueryHandler : IRequestHandler<GetPetsByCustomerQuery, List<Pet>>
@@ -24,7 +24,7 @@ namespace DoggyDaycare.Core.Pets
 
         public async Task<List<Pet>> Handle(GetPetsByCustomerQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.FindAllAsync(p => p.OwnerId == request.CustomerId);
+            return await _repository.FindAllAsync(p => p.OwnerId == request.OwnerId);
         }
     }
 }

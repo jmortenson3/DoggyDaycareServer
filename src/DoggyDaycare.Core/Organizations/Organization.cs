@@ -7,7 +7,7 @@ namespace DoggyDaycare.Core.Organizations
 {
     public class Organization : BaseEntity
     {
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; }
         public string Name { get; set; }
     }
 }

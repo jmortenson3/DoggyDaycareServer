@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DoggyDaycare.API.Models.Users;
@@ -8,6 +8,7 @@ using DoggyDaycare.API.Services;
 using DoggyDaycare.Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DoggyDaycare.API.Controllers
 {
@@ -24,12 +25,11 @@ namespace DoggyDaycare.API.Controllers
             _mapper = mapper;
         }
 
-
         [HttpPost]
         [Route("signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ApplicationUser>> Register(RegisterModel body)
+        public async Task<ActionResult<ApplicationUser>> Register(UserRegisterModel body)
         {
             var applicationUser = _mapper.Map<ApplicationUser>(body);
             await _userService.Register(applicationUser, body.Password);
@@ -40,10 +40,18 @@ namespace DoggyDaycare.API.Controllers
         [Route("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ApplicationUser>> Authenticate(AuthenticateModel body)
+        public async Task<ActionResult<ApplicationUser>> Authenticate(UserAuthenticateModel body)
         {
             var user = await _userService.Authenticate(body.Email, body.Password, body.RememberMe);
             return user;
+        }
+
+        [HttpPost]
+        [Route("whoami")]
+        public async Task<ActionResult<string>> WhoAmI()
+        {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            return JsonConvert.SerializeObject(user);
         }
     }
 }

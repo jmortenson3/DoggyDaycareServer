@@ -1,8 +1,7 @@
-﻿using DoggyDaycare.API.Models.Users;
-using DoggyDaycare.Infrastructure.Identity;
+﻿using DoggyDaycare.Infrastructure.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DoggyDaycare.API.Services
@@ -12,5 +11,6 @@ namespace DoggyDaycare.API.Services
         Task<ApplicationUser> Authenticate(string email, string password, bool rememberMe);
         Task<ApplicationUser> Register(ApplicationUser user, string password);
         Task SignOut();
+        Task <ApplicationUser> GetCurrentUser(ClaimsPrincipal claim);
     }
 }

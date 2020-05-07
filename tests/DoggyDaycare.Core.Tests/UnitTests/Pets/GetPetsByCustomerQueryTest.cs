@@ -34,7 +34,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             };
             var query = new GetPetsByCustomerQuery
             {
-                CustomerId = expected.OwnerId
+                OwnerId = expected.OwnerId
             };
 
             // Act

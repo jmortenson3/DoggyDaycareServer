@@ -1,19 +1,12 @@
-﻿using AutoMapper;
-using DoggyDaycare.API.Exceptions;
+﻿using DoggyDaycare.API.Exceptions;
 using DoggyDaycare.Infrastructure.Identity;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -92,6 +85,11 @@ namespace DoggyDaycare.API.Services
         public async Task SignOut()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal claim)
+        {
+            return await _userManager.GetUserAsync(claim);
         }
     }
 }
