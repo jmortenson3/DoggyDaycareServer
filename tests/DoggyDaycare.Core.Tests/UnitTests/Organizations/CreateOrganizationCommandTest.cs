@@ -17,7 +17,7 @@ namespace DoggyDaycare.Core.Tests.Organizations
         {
             _repository = new Mock<IAsyncRepository<Organization>>();
             _repository.Setup(x => x.AddAsync(It.IsAny<Organization>()))
-                .ReturnsAsync(new Organization { Id = "2", Name = "St. Larry's" });
+                .ReturnsAsync(new Organization { Id = 2, Name = "St. Larry's" });
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Organizations
             // Arrange
             var organization = new Organization
             {
-                Id = "2",
+                Id = 2,
                 Name = "St. Larry's"
             };
             var command = new CreateOrganizationCommand

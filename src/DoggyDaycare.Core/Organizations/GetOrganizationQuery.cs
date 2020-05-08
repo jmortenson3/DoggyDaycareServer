@@ -10,7 +10,7 @@ namespace DoggyDaycare.Core.Organizations
 {
     public class GetOrganizationQuery : IRequest<Organization>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>

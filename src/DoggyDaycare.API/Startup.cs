@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using DoggyDaycare.API.Exceptions;
-using DoggyDaycare.API.Services;
+using DoggyDaycare.API.Users;
 using DoggyDaycare.Core;
 using DoggyDaycare.Core.Common;
 using DoggyDaycare.Infrastructure;

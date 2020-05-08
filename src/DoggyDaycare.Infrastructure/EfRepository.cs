@@ -31,7 +31,7 @@ namespace DoggyDaycare.Infrastructure
             return entities.Where(filter).ToList();
         }
 
-        public async Task<T> FindAsync(string id)
+        public async Task<T> FindAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

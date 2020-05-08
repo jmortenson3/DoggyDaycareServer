@@ -24,6 +24,7 @@ namespace DoggyDaycare.Core.Organizations
 
         public async Task<Organization> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
         {
+            request.Organization.CreatedUtc = DateTime.Now;
             return await _repository.AddAsync(request.Organization);
         }
     }

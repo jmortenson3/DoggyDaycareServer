@@ -16,7 +16,8 @@ namespace DoggyDaycare.Core.Tests.Locations
         public CreateLocationCommandTest()
         {
             _repository = new Mock<IAsyncRepository<Location>>();
-            _repository.Setup(x => x.AddAsync(It.IsAny<Location>())).ReturnsAsync(new Location { Id = "1", Name = "South Store" });
+            _repository.Setup(x => x.AddAsync(It.IsAny<Location>()))
+                .ReturnsAsync(new Location { Id = 1, Name = "South Store" });
         }
 
         [Fact]
@@ -25,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Locations
             // Arrange
             var location = new Location
             {
-                Id = "1",
+                Id = 1,
                 Name = "South Store"
             };
             var command = new CreateLocationCommand

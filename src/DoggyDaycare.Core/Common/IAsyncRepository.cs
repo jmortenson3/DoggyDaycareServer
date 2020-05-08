@@ -18,7 +18,7 @@ namespace DoggyDaycare.Core.Common
         /// </summary>
         /// <param name="id"></param>
         /// <returns>T entity</returns>
-        Task<T> FindAsync(string id);
+        Task<T> FindAsync(int id);
 
         /// <summary>
         /// Updates (replaces) the entity with the matching entity.Id.

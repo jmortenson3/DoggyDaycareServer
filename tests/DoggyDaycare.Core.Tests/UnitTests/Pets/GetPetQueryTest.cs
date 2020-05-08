@@ -16,8 +16,8 @@ namespace DoggyDaycare.Core.Tests.Pets
         public GetPetQueryTest()
         {
             _repository = new Mock<IAsyncRepository<Pet>>();
-            _repository.Setup(x => x.FindAsync(It.Is<string>(val => val == "1")))
-                .ReturnsAsync(new Pet { Id = "1", Name = "Larry", OwnerId = "1" });
+            _repository.Setup(x => x.FindAsync(It.Is<int>(val => val == 1)))
+                .ReturnsAsync(new Pet { Id = 1, Name = "Larry", OwnerId = "1" });
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             // Arrange
             var expected = new Pet
             {
-                Id = "1",
+                Id = 1,
                 Name = "Larry",
                 OwnerId = "1"
             };

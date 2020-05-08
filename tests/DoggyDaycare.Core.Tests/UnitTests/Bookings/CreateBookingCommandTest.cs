@@ -17,7 +17,7 @@ namespace DoggyDaycare.Core.Tests.Bookings
         {
             var booking = new GroomingBooking
             {
-                Id = "2"
+                Id = 2
             };
 
             _repository = new Mock<IAsyncRepository<Booking>>();
@@ -30,7 +30,7 @@ namespace DoggyDaycare.Core.Tests.Bookings
             // Arrange
             var booking = new GroomingBooking
             {
-                Id = "2"
+                Id = 2
             };
 
             var command = new CreateBookingCommand

@@ -18,12 +18,12 @@ namespace DoggyDaycare.Core.Tests.Organizations
 
             var organization = new Organization
             {
-                Id = "1",
+                Id = 1,
                 Name = "DoggyDaycare"
             };
 
             _repository = new Mock<IAsyncRepository<Organization>>();
-            _repository.Setup(x => x.FindAsync(It.IsAny<string>())).ReturnsAsync(organization);
+            _repository.Setup(x => x.FindAsync(It.IsAny<int>())).ReturnsAsync(organization);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace DoggyDaycare.Core.Tests.Organizations
             // Arrange
             var query = new GetOrganizationQuery
             {
-                Id = "1"
+                Id = 1
             };
 
             // Act

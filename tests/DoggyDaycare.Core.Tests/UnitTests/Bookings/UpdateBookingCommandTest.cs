@@ -16,7 +16,8 @@ namespace DoggyDaycare.Core.Tests.Bookings
         public UpdateBookingCommandTest()
         {
             _repository = new Mock<IAsyncRepository<Booking>>();
-            _repository.Setup(x => x.UpdateAsync(It.IsAny<Booking>())).ReturnsAsync(new KennelBooking { Id = "1" });
+            _repository.Setup(x => x.UpdateAsync(It.IsAny<Booking>()))
+                .ReturnsAsync(new KennelBooking { Id = 1 });
         }
 
         [Fact]
@@ -25,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Bookings
             // Arrange
             var booking = new KennelBooking
             {
-                Id = "1"
+                Id = 1
             };
 
             var command = new UpdateBookingCommand

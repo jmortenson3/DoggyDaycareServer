@@ -17,7 +17,7 @@ namespace DoggyDaycare.Core.Tests.Pets
         {
             _repository = new Mock<IAsyncRepository<Pet>>();
             _repository.Setup(x => x.AddAsync(It.IsAny<Pet>()))
-                .ReturnsAsync(new Pet { Id = "2", Name = "Stevie", OwnerId = "1" });
+                .ReturnsAsync(new Pet { Id = 2, Name = "Stevie", OwnerId = "1" });
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Pets
             // Arrange
             var pet = new Pet
             {
-                Id = "2",
+                Id = 2,
                 Name = "Stevie",
                 OwnerId = "1"
             };

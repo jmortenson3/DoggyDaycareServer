@@ -10,7 +10,7 @@ namespace DoggyDaycare.Core.Pets
 {
     public class GetPetQuery : IRequest<Pet>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 
     public class GetPetQueryHandler : IRequestHandler<GetPetQuery, Pet>

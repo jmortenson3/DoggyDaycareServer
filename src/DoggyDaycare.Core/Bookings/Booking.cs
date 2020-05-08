@@ -7,8 +7,8 @@ namespace DoggyDaycare.Core.Bookings
 {
     public class Booking : BaseEntity
     {
-        public string LocationId { get; set; }
-        public string OrganizationId { get; set; }
+        public int LocationId { get; set; }
+        public int OrganizationId { get; set; }
         public string OwnerId { get; set; }
     }
 }

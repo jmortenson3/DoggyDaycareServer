@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DoggyDaycare.API.Models;
-using DoggyDaycare.API.Services;
+using DoggyDaycare.API.Common;
+using DoggyDaycare.API.Users;
 using DoggyDaycare.Core.Organizations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DoggyDaycare.API.Controllers
+namespace DoggyDaycare.API.Organizations
 {
     [Route("[controller]")]
     [ApiController]
@@ -22,7 +22,7 @@ namespace DoggyDaycare.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Organization>> GetById(string id)
+        public async Task<ActionResult<Organization>> GetById(int id)
         {
             return await Mediator.Send(new GetOrganizationQuery { Id = id });
         }

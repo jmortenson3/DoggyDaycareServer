@@ -10,7 +10,7 @@ namespace DoggyDaycare.Core.Bookings
 {
     public class GetBookingQuery : IRequest<Booking>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 
     public class GetBookingQueryHandler : IRequestHandler<GetBookingQuery, Booking>

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DoggyDaycare.API.Common;
 using DoggyDaycare.Core.Locations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DoggyDaycare.API.Controllers
+namespace DoggyDaycare.API.Locations
 {
     [Route("[controller]")]
     [ApiController]
@@ -14,7 +15,7 @@ namespace DoggyDaycare.API.Controllers
     {
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetById(string id)
+        public async Task<ActionResult<Location>> GetById(int id)
         {
             return await Mediator.Send(new GetLocationQuery { Id = id });
         }

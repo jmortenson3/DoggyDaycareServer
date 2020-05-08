@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoggyDaycare.API.Services
+namespace DoggyDaycare.API.Users
 {
     public class UserService : IUserService
     {
@@ -19,8 +19,8 @@ namespace DoggyDaycare.API.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserService(
-            IConfiguration config, 
-            UserManager<ApplicationUser> userManager, 
+            IConfiguration config,
+            UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
             _config = config;
@@ -47,7 +47,7 @@ namespace DoggyDaycare.API.Services
                 throw new AppException($"Cannot find user with email {email}");
             }
 
-            var result = await _signInManager.PasswordSignInAsync(applicationUser, 
+            var result = await _signInManager.PasswordSignInAsync(applicationUser,
                 password, rememberMe, lockoutOnFailure: false);
 
             return applicationUser;

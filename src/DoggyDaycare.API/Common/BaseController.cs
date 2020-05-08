@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DoggyDaycare.API.Controllers
+namespace DoggyDaycare.API.Common
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -16,7 +16,8 @@ namespace DoggyDaycare.Core.Tests.Bookings
         public GetBookingQueryTest()
         {
             _repository = new Mock<IAsyncRepository<Booking>>();
-            _repository.Setup(x => x.FindAsync(It.Is<string>(val => val == "1"))).ReturnsAsync(new KennelBooking { Id = "1" });
+            _repository.Setup(x => x.FindAsync(It.Is<int>(val => val == 1)))
+                .ReturnsAsync(new KennelBooking { Id = 1 });
         }
 
         [Fact]
@@ -25,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Bookings
             // Arrange
             var query = new GetBookingQuery
             {
-                Id = "1"
+                Id = 1
             };
 
             // Act
@@ -43,7 +44,7 @@ namespace DoggyDaycare.Core.Tests.Bookings
             // Arrange
             var query = new GetBookingQuery
             {
-                Id = "-1"
+                Id = -1
             };
 
             // Act

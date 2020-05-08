@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DoggyDaycare.API.Models.Users
+namespace DoggyDaycare.API.Users
 {
     public class UserAuthenticateModel
     {

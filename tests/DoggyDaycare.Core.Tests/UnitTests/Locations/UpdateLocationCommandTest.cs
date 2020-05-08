@@ -17,7 +17,7 @@ namespace DoggyDaycare.Core.Tests.Locations
         {
             _repository = new Mock<IAsyncRepository<Location>>();
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Location>()))
-                .ReturnsAsync(new Location { Id = "1", Name = "A new name" });
+                .ReturnsAsync(new Location { Id = 1, Name = "A new name" });
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace DoggyDaycare.Core.Tests.Locations
             // Arrange
             var updatedLocation = new Location
             {
-                Id = "1",
+                Id = 1,
                 Name = "A new name"
             };
 

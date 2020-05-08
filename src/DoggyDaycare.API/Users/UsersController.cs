@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using DoggyDaycare.API.Models.Users;
-using DoggyDaycare.API.Services;
 using DoggyDaycare.Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace DoggyDaycare.API.Controllers
+namespace DoggyDaycare.API.Users
 {
     [Route("[controller]")]
     [ApiController]

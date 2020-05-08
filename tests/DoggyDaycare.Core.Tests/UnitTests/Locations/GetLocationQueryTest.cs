@@ -17,8 +17,8 @@ namespace DoggyDaycare.Core.Tests.Locations
         public GetLocationQueryTest()
         {
             _repository = new Mock<IAsyncRepository<Location>>();
-            _repository.Setup(x => x.FindAsync(It.Is<string>(val => val == "1")))
-                .ReturnsAsync(new Location { Id = "1", Name = "South Store" });
+            _repository.Setup(x => x.FindAsync(It.Is<int>(val => val == 1)))
+                .ReturnsAsync(new Location { Id = 1, Name = "South Store" });
         }
 
         [Fact]
@@ -27,12 +27,12 @@ namespace DoggyDaycare.Core.Tests.Locations
             // Arrange
             var expected = new Location
             {
-                Id = "1",
+                Id = 1,
                 Name = "South Store"
             };
             var query = new GetLocationQuery
             {
-                Id = "1"
+                Id = 1
             };
 
             // Act
@@ -51,7 +51,7 @@ namespace DoggyDaycare.Core.Tests.Locations
             // Arrange
             var query = new GetLocationQuery
             {
-                Id = "-1"
+                Id = -1
             };
 
             // Act
