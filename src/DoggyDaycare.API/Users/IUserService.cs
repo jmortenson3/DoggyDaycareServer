@@ -12,5 +12,6 @@ namespace DoggyDaycare.API.Users
         Task<ApplicationUser> Register(ApplicationUser user, string password);
         Task SignOut();
         Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal claim);
+        Task<ApplicationUser> GetUserByEmail(string email);
     }
 }

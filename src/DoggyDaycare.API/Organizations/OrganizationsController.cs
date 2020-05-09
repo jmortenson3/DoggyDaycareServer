@@ -16,6 +16,7 @@ namespace DoggyDaycare.API.Organizations
     public class OrganizationsController : BaseController
     {
         private readonly IUserService _userService;
+
         public OrganizationsController(IUserService userService)
         {
             _userService = userService;
@@ -33,10 +34,9 @@ namespace DoggyDaycare.API.Organizations
             var user = await _userService.GetCurrentUser(HttpContext.User);
             var organization = new Organization
             {
-                // set ID to a GUID
                 Name = body.Name,
                 CreatedBy = user.Id,
-                OwnerId = "1" //user.Id
+                OwnerId = user.Id
             };
             return await Mediator.Send(
                 new CreateOrganizationCommand { Organization = organization });

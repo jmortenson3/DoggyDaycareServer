@@ -11,7 +11,7 @@ namespace DoggyDaycare.Infrastructure.Identity
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, 
             RoleManager<IdentityRole> roleManager)
         {
-            var defaultUser = new ApplicationUser { UserName = "test" };
+            var defaultUser = new ApplicationUser { Email = "admin@test.com" };
             await userManager.CreateAsync(defaultUser, "test123");
 
             await roleManager.CreateAsync(new IdentityRole("admin"));

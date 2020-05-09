@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DoggyDaycare.API.Common;
+using DoggyDaycare.API.Users;
 using DoggyDaycare.Core.Bookings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,13 @@ namespace DoggyDaycare.API.Bookings
     [ApiController]
     public class BookingsController : BaseController
     {
+        private readonly IUserService _userService;
+
+        public BookingsController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Booking>> GetById(int id)
         {

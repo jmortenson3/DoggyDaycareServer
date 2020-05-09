@@ -19,11 +19,9 @@ namespace DoggyDaycare.API.Users
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserService(
-            IConfiguration config,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
-            _config = config;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -40,7 +38,7 @@ namespace DoggyDaycare.API.Users
                 throw new AppException("Email cannot be empty or whitespace.");
             }
 
-            var applicationUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Email.ToUpper() == email.ToUpper());
+            var applicationUser = await GetUserByEmail(email);
 
             if (applicationUser == null)
             {
@@ -90,6 +88,11 @@ namespace DoggyDaycare.API.Users
         public async Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal claim)
         {
             return await _userManager.GetUserAsync(claim);
+        }
+
+        public async Task<ApplicationUser> GetUserByEmail(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
         }
     }
 }

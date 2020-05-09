@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 
 namespace DoggyDaycare.API.Users
 {
-    [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -24,7 +23,7 @@ namespace DoggyDaycare.API.Users
         }
 
         [HttpPost]
-        [Route("signup")]
+        [Route("/users/signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ApplicationUser>> Register(UserRegisterModel body)
@@ -35,7 +34,7 @@ namespace DoggyDaycare.API.Users
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("/users/login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ApplicationUser>> Authenticate(UserAuthenticateModel body)
@@ -45,8 +44,8 @@ namespace DoggyDaycare.API.Users
         }
 
         [HttpPost]
-        [Route("whoami")]
-        public async Task<ActionResult<string>> WhoAmI()
+        [Route("/users/me")]
+        public async Task<ActionResult<string>> Me()
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             return JsonConvert.SerializeObject(user);

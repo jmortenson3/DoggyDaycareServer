@@ -11,7 +11,6 @@ using DoggyDaycare.Core.Common;
 using DoggyDaycare.Infrastructure;
 using DoggyDaycare.Infrastructure.Data;
 using DoggyDaycare.Infrastructure.Identity;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
