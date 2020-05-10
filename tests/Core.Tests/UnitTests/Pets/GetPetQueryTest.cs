@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace Core.Tests.Pets
+namespace Core.Tests.UnitTests.Pets
 {
     public class GetPetQueryTest
     {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace Core.Tests.Locations
+namespace Core.Tests.UnitTests.Locations
 {
     public class GetLocationQueryTest
     {

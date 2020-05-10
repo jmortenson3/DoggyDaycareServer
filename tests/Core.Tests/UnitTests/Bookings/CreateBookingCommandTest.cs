@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace Core.Tests.Bookings
+namespace Core.Tests.UnitTests.Bookings
 {
     public class CreateBookingCommandTest
     {
@@ -25,7 +25,7 @@ namespace Core.Tests.Bookings
         }
 
         [Fact]
-        public async void ShouldCreateGroomingBooking()
+        public async void ShouldReturnBooking()
         {
             // Arrange
             var booking = new Booking
@@ -44,6 +44,28 @@ namespace Core.Tests.Bookings
 
             // Assert
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallAddAsyncOnce()
+        {
+            // Arrange
+            var booking = new Booking
+            {
+                Id = 2
+            };
+
+            var command = new CreateBookingCommand
+            {
+                Booking = booking
+            };
+
+            // Act
+            var handler = new CreateBookingCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.AddAsync(booking), Times.Once);
         }
     }
 }

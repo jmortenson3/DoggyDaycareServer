@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace Core.Tests.Bookings
+namespace Core.Tests.UnitTests.Bookings
 {
     public class UpdateBookingCommandTest
     {
@@ -17,14 +17,14 @@ namespace Core.Tests.Bookings
         {
             _repository = new Mock<IAsyncRepository<Booking>>();
             _repository.Setup(x => x.UpdateAsync(It.IsAny<Booking>()))
-                .ReturnsAsync(new KennelBooking { Id = 1 });
+                .ReturnsAsync(new Booking { Id = 1 });
         }
 
         [Fact]
         public async void ShouldUpdateBooking()
         {
             // Arrange
-            var booking = new KennelBooking
+            var booking = new Booking
             {
                 Id = 1
             };

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace Core.Tests.Organizations
+namespace Core.Tests.UnitTests.Organizations
 {
     public class CreateOrganizationCommandTest
     {

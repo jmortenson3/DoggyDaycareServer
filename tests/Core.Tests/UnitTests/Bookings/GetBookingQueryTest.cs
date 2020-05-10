@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace Core.Tests.Bookings
+namespace Core.Tests.UnitTests.Bookings
 {
     public class GetBookingQueryTest
     {
@@ -17,7 +17,7 @@ namespace Core.Tests.Bookings
         {
             _repository = new Mock<IAsyncRepository<Booking>>();
             _repository.Setup(x => x.FindAsync(It.Is<int>(val => val == 1)))
-                .ReturnsAsync(new KennelBooking { Id = 1 });
+                .ReturnsAsync(new Booking { Id = 1 });
         }
 
         [Fact]
