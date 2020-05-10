@@ -1,0 +1,98 @@
+﻿using API.Exceptions;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace API.Users
+{
+    public class UserService : IUserService
+    {
+        private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public UserService(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        public async Task<ApplicationUser> Authenticate(string email, string password, bool rememberMe)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new AppException("Password cannot be empty or whitespace.");
+            }
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new AppException("Email cannot be empty or whitespace.");
+            }
+
+            var applicationUser = await GetUserByEmail(email);
+
+            if (applicationUser == null)
+            {
+                throw new AppException($"Cannot find user with email {email}");
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(applicationUser,
+                password, rememberMe, lockoutOnFailure: false);
+
+            return applicationUser;
+        }
+
+
+        public async Task<ApplicationUser> Register(ApplicationUser user, string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new AppException("Password cannot be empty or whitespace.");
+            }
+
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                throw new AppException("Email cannot be empty or whitespace.");
+            }
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                return user;
+            }
+
+            string errors = "";
+            foreach (var error in result.Errors)
+            {
+                errors += $"   {error.Description}";
+            }
+
+            throw new AppException($"Error(s) with registering user.  {errors}");
+        }
+
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        public async Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal claim)
+        {
+            return await _userManager.GetUserAsync(claim);
+        }
+
+        public async Task<ApplicationUser> GetUserByEmail(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+    }
+}
