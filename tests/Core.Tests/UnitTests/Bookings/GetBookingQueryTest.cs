@@ -21,7 +21,7 @@ namespace Core.Tests.UnitTests.Bookings
         }
 
         [Fact]
-        public async void ShouldReturnLocation()
+        public async void ShouldReturnBooking()
         {
             // Arrange
             var query = new GetBookingQuery
@@ -39,7 +39,7 @@ namespace Core.Tests.UnitTests.Bookings
         }
 
         [Fact]
-        public async void ShouldReturnNullLocation()
+        public async void ShouldReturnNullBooking()
         {
             // Arrange
             var query = new GetBookingQuery

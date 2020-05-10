@@ -38,7 +38,6 @@ namespace Core.Tests.UnitTests.Bookings
             var handler = new UpdateBookingCommandHandler(_repository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
-
             // Assert
             Assert.NotNull(result);
         }
