@@ -28,10 +28,16 @@ namespace API.Pets
         }
 
         [HttpPost]
-        public async Task<ActionResult<Pet>> Post(Pet body)
+        public async Task<ActionResult<Pet>> Post(CreatePetModel body)
         {
-            var pet = body;
-            pet.CreatedBy = (await _userService.GetCurrentUser(HttpContext.User)).Id;
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+
+            var pet = new Pet {
+                Name = body.Name,
+                OwnerId = user.Id,
+                CreatedBy = user.Id
+            };
+
             return await Mediator.Send(new CreatePetCommand { Pet = pet });
         }
     }

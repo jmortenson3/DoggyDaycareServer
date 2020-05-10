@@ -7,10 +7,10 @@ using API.Users;
 using Core.Locations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace API.Locations
 {
-    [Route("[controller]")]
     [ApiController]
     public class LocationsController : BaseController
     {
@@ -21,22 +21,26 @@ namespace API.Locations
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("/locations/{id}")]
         public async Task<ActionResult<Location>> GetById(int id)
         {
             return await Mediator.Send(new GetLocationQuery { Id = id });
         }
 
         [HttpPost]
+        [Route("/locations")]
         public async Task<ActionResult<Location>> Post(CreateLocationModel body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
+
             var location = new Location
             {
                 OrganizationId = body.OrganizationId,
                 Name = body.Name,
                 CreatedBy = user.Id
             };
+
             return await Mediator.Send(new CreateLocationCommand { Location = location });
         }
 

@@ -15,7 +15,7 @@ namespace Core.Tests.Bookings
 
         public CreateBookingCommandTest()
         {
-            var booking = new GroomingBooking
+            var booking = new Booking
             {
                 Id = 2
             };
@@ -28,7 +28,7 @@ namespace Core.Tests.Bookings
         public async void ShouldCreateGroomingBooking()
         {
             // Arrange
-            var booking = new GroomingBooking
+            var booking = new Booking
             {
                 Id = 2
             };

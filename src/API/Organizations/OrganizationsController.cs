@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Organizations
 {
-    [Route("[controller]")]
     [ApiController]
     [Authorize]
     public class OrganizationsController : BaseController
@@ -22,22 +21,26 @@ namespace API.Organizations
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("/organizations/{id}")]
         public async Task<ActionResult<Organization>> GetById(int id)
         {
             return await Mediator.Send(new GetOrganizationQuery { Id = id });
         }
 
         [HttpPost]
+        [Route("/organizations")]
         public async Task<ActionResult<Organization>> Post(CreateOrganizationModel body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
+            
             var organization = new Organization
             {
                 Name = body.Name,
                 CreatedBy = user.Id,
                 OwnerId = user.Id
             };
+
             return await Mediator.Send(
                 new CreateOrganizationCommand { Organization = organization });
         }

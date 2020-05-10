@@ -30,6 +30,8 @@ namespace API.Bookings
         [HttpPost]
         public async Task<ActionResult<Booking>> Post(Booking booking)
         {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+
             return await Mediator.Send(new CreateBookingCommand { Booking = booking });
         }
     }
