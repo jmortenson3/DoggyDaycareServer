@@ -17,7 +17,6 @@ namespace Core.Tests.UnitTests.Pets
         public GetPetsByCustomerQueryTest()
         {
             _repository = new Mock<IAsyncRepository<Pet>>();
-            // How to do this?
             _repository.Setup(x => x.FindAllAsync(It.IsAny<Func<Pet, bool>>()))
                 .ReturnsAsync(new List<Pet> { new Pet { Id = 1, Name = "Larry", OwnerId = "1" } });
         }

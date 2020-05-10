@@ -21,25 +21,33 @@ namespace Core.Tests.UnitTests.Bookings
         }
 
         [Fact]
-        public async void ShouldUpdateBooking()
+        public async void ShouldReturnBooking()
         {
             // Arrange
-            var booking = new Booking
-            {
-                Id = 1
-            };
-
-            var command = new UpdateBookingCommand
-            {
-                Booking = booking
-            };
+            var booking = new Booking { Id = 1 };
+            var command = new UpdateBookingCommand { Booking = booking };
+            var handler = new UpdateBookingCommandHandler(_repository.Object);
 
             // Act
-            var handler = new UpdateBookingCommandHandler(_repository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallUpdateAsyncOnce()
+        {
+            // Arrange
+            var booking = new Booking { Id = 1 };
+            var command = new UpdateBookingCommand { Booking = booking };
+            var handler = new UpdateBookingCommandHandler(_repository.Object);
+
+            // Act
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.UpdateAsync(booking), Times.Once);
         }
     }
 }
