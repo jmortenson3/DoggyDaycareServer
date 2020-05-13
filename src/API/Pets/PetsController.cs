@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Pets
 {
-    [Route("[controller]")]
     [ApiController]
     public class PetsController : BaseController
     {
@@ -21,13 +20,15 @@ namespace API.Pets
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("/pets/{id}")]
         public async Task<ActionResult<Pet>> GetById(int id)
         {
             return await Mediator.Send(new GetPetQuery(id));
         }
 
         [HttpPost]
+        [Route("/pets")]
         public async Task<ActionResult<Pet>> Post(CreatePetCommand body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
