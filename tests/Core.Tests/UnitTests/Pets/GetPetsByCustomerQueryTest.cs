@@ -22,31 +22,31 @@ namespace Core.Tests.UnitTests.Pets
         }
 
         [Fact]
-        public async void ShouldReturnPetsForDefaultCustomer()
+        public async void ShouldReturnPets()
         {
             // Arrange
-            var expected = new Pet
-            {
-                Id = 1,
-                Name = "Larry",
-                OwnerId = "1"
-            };
-            var query = new GetPetsByCustomerQuery
-            {
-                OwnerId = expected.OwnerId
-            };
+            var query = new GetPetsByCustomerQuery("1");
 
             // Act
             var handler = new GetPetsByCustomerQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.True(result.Count > 0);
-            var resultPet = result.Find(pet => pet.Id == expected.Id);
-            Assert.NotNull(resultPet);
-            Assert.Equal(expected.Id, resultPet.Id);
-            Assert.Equal(expected.Name, resultPet.Name);
-            Assert.Equal(expected.OwnerId, resultPet.OwnerId);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallFindAllAsyncOnce()
+        {
+            // Arrange
+            var query = new GetPetsByCustomerQuery("1");
+
+            // Act
+            var handler = new GetPetsByCustomerQueryHandler(_repository.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.FindAllAsync(It.IsAny<Func<Pet, bool>>()), Times.Once);
         }
     }
 }
