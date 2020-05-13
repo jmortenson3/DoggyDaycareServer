@@ -24,41 +24,30 @@ namespace Core.Tests.UnitTests.Locations
         public async void ShouldReturnLocation()
         {
             // Arrange
-            var expected = new Location
-            {
-                Id = 1,
-                Name = "South Store"
-            };
-            var query = new GetLocationQuery
-            {
-                Id = 1
-            };
+            var query = new GetLocationQuery(1);
 
             // Act
             var handler = new GetLocationQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Equal(expected.Id, result.Id);
-            Assert.Equal(expected.Name, result.Name);
+            Assert.NotNull(result);
 
         }
 
         [Fact]
-        public async void ShouldReturnNullLocation()
+        public async void ShouldCallFindAsyncOnce()
         {
             // Arrange
-            var query = new GetLocationQuery
-            {
-                Id = -1
-            };
+            var query = new GetLocationQuery(1);
 
             // Act
             var handler = new GetLocationQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Null(result);
+            _repository.Verify(x => x.FindAsync(1), Times.Once);
+
         }
     }
 }

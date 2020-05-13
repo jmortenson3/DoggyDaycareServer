@@ -25,25 +25,17 @@ namespace API.Locations
         [Route("/locations/{id}")]
         public async Task<ActionResult<Location>> GetById(int id)
         {
-            return await Mediator.Send(new GetLocationQuery { Id = id });
+            return await Mediator.Send(new GetLocationQuery(id));
         }
 
         [HttpPost]
         [Route("/locations")]
-        public async Task<ActionResult<Location>> Post(CreateLocationModel body)
+        public async Task<ActionResult<Location>> Post(CreateLocationCommand body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
-
-            var location = new Location
-            {
-                OrganizationId = body.OrganizationId,
-                Name = body.Name,
-                CreatedBy = user.Id
-            };
-
-            return await Mediator.Send(new CreateLocationCommand { Location = location });
+            body.CreatedBy = user.Id;
+            return await Mediator.Send(body);
         }
-
 
     }
 }

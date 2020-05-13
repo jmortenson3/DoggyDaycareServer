@@ -25,24 +25,16 @@ namespace API.Organizations
         [Route("/organizations/{id}")]
         public async Task<ActionResult<Organization>> GetById(int id)
         {
-            return await Mediator.Send(new GetOrganizationQuery { Id = id });
+            return await Mediator.Send(new GetOrganizationQuery(id));
         }
 
         [HttpPost]
         [Route("/organizations")]
-        public async Task<ActionResult<Organization>> Post(CreateOrganizationModel body)
+        public async Task<ActionResult<Organization>> Post(CreateOrganizationCommand body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
-            
-            var organization = new Organization
-            {
-                Name = body.Name,
-                CreatedBy = user.Id,
-                OwnerId = user.Id
-            };
-
-            return await Mediator.Send(
-                new CreateOrganizationCommand { Organization = organization });
+            body.CreatedBy = user.Id;
+            return await Mediator.Send(body);
         }
     }
 }

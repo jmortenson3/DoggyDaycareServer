@@ -21,18 +21,10 @@ namespace Core.Tests.UnitTests.Organizations
         }
 
         [Fact]
-        public async void ShouldCreateOrganization()
+        public async void ShouldReturnOrganization()
         {
             // Arrange
-            var organization = new Organization
-            {
-                Id = 2,
-                Name = "St. Larry's"
-            };
-            var command = new CreateOrganizationCommand
-            {
-                Organization = organization
-            };
+            var command = new CreateOrganizationCommand(null, name: "St. Larry's", null);
 
             // Act
             var handler = new CreateOrganizationCommandHandler(_repository.Object);
@@ -40,6 +32,20 @@ namespace Core.Tests.UnitTests.Organizations
 
             // Assert
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallAddAsyncOnce()
+        {
+            // Arrange
+            var command = new CreateOrganizationCommand(null, name: "St. Larry's", null);
+
+            // Act
+            var handler = new CreateOrganizationCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.AddAsync(It.IsAny<Organization>()), Times.Once);
         }
     }
 }

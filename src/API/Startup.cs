@@ -69,7 +69,6 @@ namespace API
                     context.Response.Headers.Add("X-Authenticated", "false");
                     return Task.CompletedTask;
                 };
-
             });
 
             if (_env.IsDevelopment())

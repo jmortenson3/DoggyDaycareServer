@@ -10,7 +10,16 @@ namespace Core.Locations
 {
     public class GetLocationQuery : IRequest<Location>
     {
-        public int Id { get; set; }
+        public GetLocationQuery()
+        {
+        }
+
+        public GetLocationQuery(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; private set; }
     }
 
     public class GetLocationQueryHandler : IRequestHandler<GetLocationQuery, Location>

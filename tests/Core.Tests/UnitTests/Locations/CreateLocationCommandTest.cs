@@ -21,18 +21,10 @@ namespace Core.Tests.UnitTests.Locations
         }
 
         [Fact]
-        public async void ShouldCreateLocation()
+        public async void ShouldReturnLocation()
         {
             // Arrange
-            var location = new Location
-            {
-                Id = 1,
-                Name = "South Store"
-            };
-            var command = new CreateLocationCommand
-            {
-                Location = location
-            };
+            var command = new CreateLocationCommand(1, "South Store", DateTime.Now);
 
             // Act
             var handler = new CreateLocationCommandHandler(_repository.Object);
@@ -40,6 +32,20 @@ namespace Core.Tests.UnitTests.Locations
 
             // Assert
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallAddAsyncOnce()
+        {
+            // Arrange
+            var command = new CreateLocationCommand(1, "South Store", DateTime.Now);
+
+            // Act
+            var handler = new CreateLocationCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.AddAsync(It.IsAny<Location>()), Times.Once);
         }
     }
 }

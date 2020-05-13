@@ -27,13 +27,10 @@ namespace Core.Tests.UnitTests.Organizations
         }
 
         [Fact]
-        public async void ShouldGetOrganization()
+        public async void ShouldReturnOrganization()
         {
             // Arrange
-            var query = new GetOrganizationQuery
-            {
-                Id = 1
-            };
+            var query = new GetOrganizationQuery(1);
 
             // Act
             var handler = new GetOrganizationQueryHandler(_repository.Object);
@@ -41,6 +38,20 @@ namespace Core.Tests.UnitTests.Organizations
 
             // Assert
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallFindAsyncOnce()
+        {
+            // Arrange
+            var query = new GetOrganizationQuery(1);
+
+            // Act
+            var handler = new GetOrganizationQueryHandler(_repository.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.FindAsync(1), Times.Once);
         }
     }
 }

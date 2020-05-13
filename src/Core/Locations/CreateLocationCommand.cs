@@ -10,7 +10,21 @@ namespace Core.Locations
 {
     public class CreateLocationCommand : IRequest<Location>
     {
-        public Location Location { get; set; }
+        public CreateLocationCommand()
+        {
+        }
+
+        public CreateLocationCommand(int organizationId, string name, DateTime createdUtc)
+        {
+            OrganizationId = organizationId;
+            Name = name;
+            CreatedUtc = createdUtc;
+        }
+
+        public int OrganizationId { get; private set; }
+        public string Name { get; private set; }
+        public DateTime CreatedUtc { get; private set; }
+        public string CreatedBy { get; set; }
     }
 
     public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, Location>
@@ -24,7 +38,15 @@ namespace Core.Locations
 
         public async Task<Location> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.AddAsync(request.Location);
+            var location = new Location
+            {
+                OrganizationId = request.OrganizationId,
+                Name = request.Name,
+                CreatedBy = request.CreatedBy,
+                CreatedUtc = request.CreatedUtc
+            };
+
+            return await _repository.AddAsync(location);
         }
     }
 

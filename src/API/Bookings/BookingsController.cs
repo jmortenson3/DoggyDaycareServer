@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Bookings
 {
-    [Route("[controller]")]
     [ApiController]
     public class BookingsController : BaseController
     {
@@ -21,13 +20,15 @@ namespace API.Bookings
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("/bookings/{id}")]
         public async Task<ActionResult<Booking>> GetById(int id)
         {
             return await Mediator.Send(new GetBookingQuery { Id = id });
         }
 
         [HttpPost]
+        [Route("/bookings")]
         public async Task<ActionResult<Booking>> Post(Booking booking)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
