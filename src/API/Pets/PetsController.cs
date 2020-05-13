@@ -24,21 +24,15 @@ namespace API.Pets
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetById(int id)
         {
-            return await Mediator.Send(new GetPetQuery { Id = id });
+            return await Mediator.Send(new GetPetQuery(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Pet>> Post(CreatePetModel body)
+        public async Task<ActionResult<Pet>> Post(CreatePetCommand body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
-
-            var pet = new Pet {
-                Name = body.Name,
-                OwnerId = user.Id,
-                CreatedBy = user.Id
-            };
-
-            return await Mediator.Send(new CreatePetCommand { Pet = pet });
+            body.CreatedBy = user.Id;
+            return await Mediator.Send(body);
         }
     }
 }

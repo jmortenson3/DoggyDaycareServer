@@ -10,7 +10,21 @@ namespace Core.Pets
 {
     public class CreatePetCommand : IRequest<Pet>
     {
-        public Pet Pet { get; set; }
+        public CreatePetCommand()
+        {
+        }
+
+        public CreatePetCommand(string ownerId, string name, DateTime createdUtc)
+        {
+            OwnerId = ownerId;
+            Name = name;
+            CreatedUtc = createdUtc;
+        }
+
+        public string OwnerId { get; private set; }
+        public string Name { get; private set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedUtc { get; private set; }
     }
 
     public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, Pet>
@@ -25,7 +39,15 @@ namespace Core.Pets
 
         public async Task<Pet> Handle(CreatePetCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.AddAsync(request.Pet);
+            var pet = new Pet
+            {
+                OwnerId = request.OwnerId,
+                Name = request.Name,
+                CreatedBy = request.CreatedBy,
+                CreatedUtc = request.CreatedUtc
+            };
+
+            return await _repository.AddAsync(pet);
         }
     }
 }

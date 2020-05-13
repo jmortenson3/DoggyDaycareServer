@@ -24,25 +24,28 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldReturnPet()
         {
             // Arrange
-            var expected = new Pet
-            {
-                Id = 1,
-                Name = "Larry",
-                OwnerId = "1"
-            };
-            var query = new GetPetQuery
-            {
-                Id = expected.Id
-            };
+            var query = new GetPetQuery(1);
 
             // Act
             var handler = new GetPetQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Equal(expected.Id, result.Id);
-            Assert.Equal(expected.Name, result.Name);
-            Assert.Equal(expected.OwnerId, result.OwnerId);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallFindAsyncOnce()
+        {
+            // Arrange
+            var query = new GetPetQuery(1);
+
+            // Act
+            var handler = new GetPetQueryHandler(_repository.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.FindAsync(1), Times.Once);
         }
     }
 }

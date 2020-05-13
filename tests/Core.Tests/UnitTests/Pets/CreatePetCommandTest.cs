@@ -21,7 +21,7 @@ namespace Core.Tests.UnitTests.Pets
         }
 
         [Fact]
-        public async void ShouldCreatePet()
+        public async void ShouldReturnPet()
         {
             // Arrange
             var pet = new Pet
@@ -30,10 +30,7 @@ namespace Core.Tests.UnitTests.Pets
                 Name = "Stevie",
                 OwnerId = "1"
             };
-            var command = new CreatePetCommand
-            {
-                Pet = pet
-            };
+            var command = new CreatePetCommand("123", "Stevie", DateTime.Now);
 
             // Act
             var handler = new CreatePetCommandHandler(_repository.Object);
@@ -41,6 +38,26 @@ namespace Core.Tests.UnitTests.Pets
 
             // Assert
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void ShouldCallAddAsyncOnce()
+        {
+            // Arrange
+            var pet = new Pet
+            {
+                Id = 2,
+                Name = "Stevie",
+                OwnerId = "1"
+            };
+            var command = new CreatePetCommand("123", "Stevie", DateTime.Now);
+
+            // Act
+            var handler = new CreatePetCommandHandler(_repository.Object);
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            _repository.Verify(x => x.AddAsync(It.IsAny<Pet>()), Times.Once);
         }
     }
 }
