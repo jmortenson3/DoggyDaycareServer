@@ -8,7 +8,8 @@ namespace Core.Bookings
     public class BookingDetails : BaseEntity
     {
         public int BookingId { get; set; }
-        public BookingDetailType BookingDetailType { get; set; }
+        //public BookingDetailType BookingDetailType { get; set; }
+        public string BookingDetailType { get; set; }
         public DateTime DropOffDateTime { get; set; }
         public DateTime PickUpDateTime { get; set; }
         public string Notes { get; set; }
