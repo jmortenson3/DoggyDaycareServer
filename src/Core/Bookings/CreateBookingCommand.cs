@@ -10,7 +10,11 @@ namespace Core.Bookings
 {
     public class CreateBookingCommand : IRequest<Booking>
     {
-        public Booking Booking { get; set; }
+        public int LocationId { get; set; }
+        public int OrganizationId { get; set; }
+        public string OwnerId { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedUtc { get; set; }
     }
 
     public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, Booking>
@@ -24,7 +28,15 @@ namespace Core.Bookings
 
         public async Task<Booking> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.AddAsync(request.Booking);
+            var booking = new Booking
+            {
+                OwnerId = request.OwnerId,
+                OrganizationId = request.OrganizationId,
+                LocationId = request.LocationId,
+                CreatedBy = request.CreatedBy,
+                CreatedUtc = request.CreatedUtc
+            };
+            return await _repository.AddAsync(booking);
         }
     }
 }

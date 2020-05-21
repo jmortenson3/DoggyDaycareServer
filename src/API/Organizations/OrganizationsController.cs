@@ -7,6 +7,7 @@ using Core.Organizations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace API.Organizations
 {
@@ -15,10 +16,12 @@ namespace API.Organizations
     public class OrganizationsController : BaseController
     {
         private readonly IUserService _userService;
+        private readonly ILogger<OrganizationsController> _logger;
 
-        public OrganizationsController(IUserService userService)
+        public OrganizationsController(IUserService userService, ILogger<OrganizationsController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpGet]

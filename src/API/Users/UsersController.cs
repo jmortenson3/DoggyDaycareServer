@@ -23,7 +23,7 @@ namespace API.Users
         }
 
         [HttpPost]
-        [Route("/users/signup")]
+        [Route("/auth/signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ApplicationUser>> Register(UserRegisterModel body)
@@ -34,7 +34,7 @@ namespace API.Users
         }
 
         [HttpPost]
-        [Route("/users/login")]
+        [Route("/auth/login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ApplicationUser>> Authenticate(UserAuthenticateModel body)

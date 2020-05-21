@@ -29,11 +29,12 @@ namespace API.Bookings
 
         [HttpPost]
         [Route("/bookings")]
-        public async Task<ActionResult<Booking>> Post(Booking booking)
+        public async Task<ActionResult<Booking>> Post(CreateBookingCommand body)
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
-
-            return await Mediator.Send(new CreateBookingCommand { Booking = booking });
+            body.CreatedBy = user.Id;
+            body.CreatedUtc = DateTime.Now;
+            return await Mediator.Send(body);
         }
     }
 }

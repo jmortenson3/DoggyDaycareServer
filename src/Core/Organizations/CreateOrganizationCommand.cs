@@ -2,6 +2,7 @@
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,8 +21,10 @@ namespace Core.Organizations
             Name = name;
             CreatedBy = createdBy;
         }
-        
+
+        [Required]
         public string OwnerId { get; private set; }
+        [Required]
         public string Name { get; private set; }
         public DateTime CreatedUtc { get; private set; }
         public string CreatedBy { get; set; }
