@@ -23,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace API
 {
@@ -42,6 +43,19 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCore();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    name: "AllowSpecificOrigins",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000");
+                        builder.AllowAnyMethod();
+                        builder.AllowAnyHeader();
+                    }
+                    ); 
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
@@ -124,7 +138,6 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -132,6 +145,8 @@ namespace API
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseCors("AllowSpecificOrigins");
 
             app.UseEndpoints(endpoints =>
             {
