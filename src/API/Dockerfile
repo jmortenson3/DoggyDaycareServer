@@ -4,14 +4,16 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-ENV ASPNETCORE_URLS=http://*:5000
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["API/API/API.csproj", "API/API/"]
-RUN dotnet restore "API/API/API.csproj"
+COPY ["API/API.csproj", "API/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["Core/Core.csproj", "Core/"]
+COPY ["Application/Application.csproj", "Application/"]
+RUN dotnet restore "API/API.csproj"
 COPY . .
-WORKDIR "/src/API/API"
+WORKDIR "/src/API"
 RUN dotnet build "API.csproj" -c Release -o /app/build
 
 FROM build AS publish
