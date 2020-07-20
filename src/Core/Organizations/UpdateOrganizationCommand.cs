@@ -15,16 +15,16 @@ namespace Core.Organizations
 
     public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, Organization>
     {
-        private readonly IAsyncRepository<Organization> _repository;
+        private readonly IOrganizationRepository _organizationRepository;
 
-        public UpdateOrganizationCommandHandler(IAsyncRepository<Organization> repository)
+        public UpdateOrganizationCommandHandler(IOrganizationRepository organizationRepository)
         {
-            _repository = repository;
+            _organizationRepository = organizationRepository;
         }
 
         public async Task<Organization> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.UpdateAsync(request.Organization);
+            return await _organizationRepository.Update(request.Organization);
         }
     }
 }

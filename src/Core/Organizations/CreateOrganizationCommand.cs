@@ -32,11 +32,11 @@ namespace Core.Organizations
 
     public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Organization>
     {
-        private readonly IAsyncRepository<Organization> _repository;
+        private readonly IOrganizationRepository _organizationRepository;
 
-        public CreateOrganizationCommandHandler(IAsyncRepository<Organization> repository)
+        public CreateOrganizationCommandHandler(IOrganizationRepository organizationRepository)
         {
-            _repository = repository;
+            _organizationRepository = organizationRepository;
         }
 
         public async Task<Organization> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ namespace Core.Organizations
                 CreatedUtc = request.CreatedUtc,
                 CreatedBy = request.CreatedBy
             };
-            return await _repository.AddAsync(organization);
+            return await _organizationRepository.Add(organization);
         }
     }
 

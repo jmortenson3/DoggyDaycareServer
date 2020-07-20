@@ -29,12 +29,11 @@ namespace Core.Pets
 
     public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, Pet>
     {
+        private readonly IPetRepository _petRepository;
 
-        private readonly IAsyncRepository<Pet> _repository;
-
-        public CreatePetCommandHandler(IAsyncRepository<Pet> repository)
+        public CreatePetCommandHandler(IPetRepository petRepository)
         {
-            _repository = repository;
+            _petRepository = petRepository;
         }
 
         public async Task<Pet> Handle(CreatePetCommand request, CancellationToken cancellationToken)
@@ -47,7 +46,7 @@ namespace Core.Pets
                 CreatedUtc = request.CreatedUtc
             };
 
-            return await _repository.AddAsync(pet);
+            return await _petRepository.Add(pet);
         }
     }
 }

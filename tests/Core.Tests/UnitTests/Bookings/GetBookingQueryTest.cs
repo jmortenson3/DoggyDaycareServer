@@ -11,12 +11,12 @@ namespace Core.Tests.UnitTests.Bookings
 {
     public class GetBookingQueryTest
     {
-        private readonly Mock<IAsyncRepository<Booking>> _repository;
+        private readonly Mock<IBookingRepository> _repository;
 
         public GetBookingQueryTest()
         {
-            _repository = new Mock<IAsyncRepository<Booking>>();
-            _repository.Setup(x => x.FindAsync(It.Is<int>(val => val == 1)))
+            _repository = new Mock<IBookingRepository>();
+            _repository.Setup(x => x.FindById(It.Is<int>(val => val == 1)))
                 .ReturnsAsync(new Booking { Id = 1 });
         }
 

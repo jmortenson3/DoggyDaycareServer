@@ -24,16 +24,16 @@ namespace Core.Locations
 
     public class GetLocationQueryHandler : IRequestHandler<GetLocationQuery, Location>
     {
-        private readonly IAsyncRepository<Location> _repository;
+        private readonly ILocationRepository _locationRepository;
 
-        public GetLocationQueryHandler(IAsyncRepository<Location> repository)
+        public GetLocationQueryHandler(ILocationRepository locationRepository)
         {
-            _repository = repository;
+            _locationRepository = locationRepository;
         }
 
         public async Task<Location> Handle(GetLocationQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.FindAsync(request.Id);
+            return await _locationRepository.FindById(request.Id);
         }
     }
 }

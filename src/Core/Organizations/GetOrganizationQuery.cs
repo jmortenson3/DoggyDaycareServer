@@ -24,17 +24,16 @@ namespace Core.Organizations
 
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>
     {
-        private readonly IAsyncRepository<Organization> _repostiory;
+        private readonly IOrganizationRepository _organizationRepository;
 
-        public GetOrganizationQueryHandler(IAsyncRepository<Organization> repository)
+        public GetOrganizationQueryHandler(IOrganizationRepository organizationRepository)
         {
-            _repostiory = repository;
+            _organizationRepository = organizationRepository;
         }
 
         public async Task<Organization> Handle(GetOrganizationQuery request, CancellationToken cancellationToken)
         {
-            var organization = await _repostiory.FindAsync(request.Id);
-            return organization;
+            return await _organizationRepository.FindById(request.Id);
         }
     }
 }

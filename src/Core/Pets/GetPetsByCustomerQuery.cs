@@ -24,16 +24,16 @@ namespace Core.Pets
 
     public class GetPetsByCustomerQueryHandler : IRequestHandler<GetPetsByCustomerQuery, List<Pet>>
     {
-        private readonly IAsyncRepository<Pet> _repository;
+        private readonly IPetRepository _petRepository;
 
-        public GetPetsByCustomerQueryHandler(IAsyncRepository<Pet> repository)
+        public GetPetsByCustomerQueryHandler(IPetRepository petRepository)
         {
-            _repository = repository;
+            _petRepository = petRepository;
         }
 
         public async Task<List<Pet>> Handle(GetPetsByCustomerQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.FindAllAsync(p => p.OwnerId == request.OwnerId);
+            return await _petRepository.Find(p => p.OwnerId == request.OwnerId);
         }
     }
 }

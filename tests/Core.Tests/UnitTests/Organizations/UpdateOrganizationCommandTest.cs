@@ -11,12 +11,12 @@ namespace Core.Tests.UnitTests.Organizations
 {
     public class UpdateOrganizationCommandTest
     {
-        private readonly Mock<IAsyncRepository<Organization>> _repository;
+        private readonly Mock<IOrganizationRepository> _repository;
 
         public UpdateOrganizationCommandTest()
         {
-            _repository = new Mock<IAsyncRepository<Organization>>();
-            _repository.Setup(x => x.UpdateAsync(It.IsAny<Organization>()))
+            _repository = new Mock<IOrganizationRepository>();
+            _repository.Setup(x => x.Update(It.IsAny<Organization>()))
                 .ReturnsAsync(new Organization { Id = 1, Name = "A new name" });
         }
 

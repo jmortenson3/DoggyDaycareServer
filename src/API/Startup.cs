@@ -7,23 +7,21 @@ using AutoMapper;
 using API.Exceptions;
 using API.Users;
 using Core;
-using Core.Common;
-using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Cors.Infrastructure;
+using Core.Pets;
+using Core.Organizations;
+using Core.Locations;
+using Core.Bookings;
 
 namespace API
 {
@@ -66,7 +64,13 @@ namespace API
             services.AddDbContext<IdentityContext>(options =>
                 options.UseInMemoryDatabase("Identity"));
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IPetRepository, PetRepository>();
+
+            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+
+            services.AddScoped<ILocationRepository, LocationRepository>();
+
+            services.AddScoped<IBookingRepository, BookingRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => Configuration.Bind("JwtSettings", options));

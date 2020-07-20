@@ -12,12 +12,12 @@ namespace Core.Tests.UnitTests.Pets
 {
     public class GetPetsByCustomerQueryTest
     {
-        private readonly Mock<IAsyncRepository<Pet>> _repository;
+        private readonly Mock<IPetRepository> _repository;
 
         public GetPetsByCustomerQueryTest()
         {
-            _repository = new Mock<IAsyncRepository<Pet>>();
-            _repository.Setup(x => x.FindAllAsync(It.IsAny<Func<Pet, bool>>()))
+            _repository = new Mock<IPetRepository>();
+            _repository.Setup(x => x.Find(It.IsAny<Func<Pet, bool>>()))
                 .ReturnsAsync(new List<Pet> { new Pet { Id = 1, Name = "Larry", OwnerId = "1" } });
         }
 
@@ -46,7 +46,7 @@ namespace Core.Tests.UnitTests.Pets
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.FindAllAsync(It.IsAny<Func<Pet, bool>>()), Times.Once);
+            _repository.Verify(x => x.Find(It.IsAny<Func<Pet, bool>>()), Times.Once);
         }
     }
 }

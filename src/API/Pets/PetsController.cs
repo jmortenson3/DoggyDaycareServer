@@ -27,6 +27,13 @@ namespace API.Pets
             return await Mediator.Send(new GetPetQuery(id));
         }
 
+        [HttpGet]
+        [Route("/pets")]
+        public async Task<ActionResult<List<Pet>>> Get([FromQuery] string userId)
+        {
+            return await Mediator.Send(new GetPetsByCustomerQuery(userId));
+        }
+
         [HttpPost]
         [Route("/pets")]
         public async Task<ActionResult<Pet>> Post(CreatePetCommand body)

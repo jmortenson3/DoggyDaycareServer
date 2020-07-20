@@ -19,9 +19,9 @@ namespace Core.Bookings
 
     public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, Booking>
     {
-        private readonly IAsyncRepository<Booking> _repository;
+        private readonly IBookingRepository _repository;
 
-        public CreateBookingCommandHandler(IAsyncRepository<Booking> repository)
+        public CreateBookingCommandHandler(IBookingRepository repository)
         {
             _repository = repository;
         }
@@ -36,7 +36,7 @@ namespace Core.Bookings
                 CreatedBy = request.CreatedBy,
                 CreatedUtc = request.CreatedUtc
             };
-            return await _repository.AddAsync(booking);
+            return await _repository.Add(booking);
         }
     }
 }

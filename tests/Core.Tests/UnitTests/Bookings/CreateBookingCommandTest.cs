@@ -11,7 +11,7 @@ namespace Core.Tests.UnitTests.Bookings
 {
     public class CreateBookingCommandTest
     {
-        private readonly Mock<IAsyncRepository<Booking>> _repository;
+        private readonly Mock<IBookingRepository> _repository;
 
         public CreateBookingCommandTest()
         {
@@ -20,23 +20,20 @@ namespace Core.Tests.UnitTests.Bookings
                 Id = 2
             };
 
-            _repository = new Mock<IAsyncRepository<Booking>>();
-            _repository.Setup(x => x.AddAsync(It.IsAny<Booking>())).ReturnsAsync(booking);
+            _repository = new Mock<IBookingRepository>();
+            _repository.Setup(x => x.Add(It.IsAny<Booking>())).ReturnsAsync(booking);
         }
 
         [Fact]
         public async void ShouldReturnBooking()
         {
             // Arrange
-            var booking = new Booking
-            {
-                Id = 2
-            };
-
             var command = new CreateBookingCommand
             {
-                Booking = booking
+                OrganizationId = 1,
+                LocationId = 1
             };
+
 
             // Act
             var handler = new CreateBookingCommandHandler(_repository.Object);
@@ -50,14 +47,10 @@ namespace Core.Tests.UnitTests.Bookings
         public async void ShouldCallAddAsyncOnce()
         {
             // Arrange
-            var booking = new Booking
-            {
-                Id = 2
-            };
-
             var command = new CreateBookingCommand
             {
-                Booking = booking
+                OrganizationId = 1,
+                LocationId = 1
             };
 
             // Act
@@ -65,7 +58,7 @@ namespace Core.Tests.UnitTests.Bookings
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.AddAsync(booking), Times.Once);
+            _repository.Verify(x => x.Add(It.IsAny<Booking>()), Times.Once);
         }
     }
 }

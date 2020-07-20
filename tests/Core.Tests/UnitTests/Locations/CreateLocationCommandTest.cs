@@ -11,12 +11,12 @@ namespace Core.Tests.UnitTests.Locations
 {
     public class CreateLocationCommandTest
     {
-        private readonly Mock<IAsyncRepository<Location>> _repository;
+        private readonly Mock<ILocationRepository> _repository;
 
         public CreateLocationCommandTest()
         {
-            _repository = new Mock<IAsyncRepository<Location>>();
-            _repository.Setup(x => x.AddAsync(It.IsAny<Location>()))
+            _repository = new Mock<ILocationRepository>();
+            _repository.Setup(x => x.Add(It.IsAny<Location>()))
                 .ReturnsAsync(new Location { Id = 1, Name = "South Store" });
         }
 
@@ -45,7 +45,7 @@ namespace Core.Tests.UnitTests.Locations
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.AddAsync(It.IsAny<Location>()), Times.Once);
+            _repository.Verify(x => x.Add(It.IsAny<Location>()), Times.Once);
         }
     }
 }

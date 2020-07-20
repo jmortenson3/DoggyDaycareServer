@@ -11,12 +11,12 @@ namespace Core.Tests.UnitTests.Organizations
 {
     public class CreateOrganizationCommandTest
     {
-        private readonly Mock<IAsyncRepository<Organization>> _repository;
+        private readonly Mock<IOrganizationRepository> _repository;
 
         public CreateOrganizationCommandTest()
         {
-            _repository = new Mock<IAsyncRepository<Organization>>();
-            _repository.Setup(x => x.AddAsync(It.IsAny<Organization>()))
+            _repository = new Mock<IOrganizationRepository>();
+            _repository.Setup(x => x.Add(It.IsAny<Organization>()))
                 .ReturnsAsync(new Organization { Id = 2, Name = "St. Larry's" });
         }
 
@@ -45,7 +45,7 @@ namespace Core.Tests.UnitTests.Organizations
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.AddAsync(It.IsAny<Organization>()), Times.Once);
+            _repository.Verify(x => x.Add(It.IsAny<Organization>()), Times.Once);
         }
     }
 }

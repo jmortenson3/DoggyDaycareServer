@@ -15,19 +15,17 @@ namespace Core.Bookings
 
     public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingCommand, Booking>
     {
-        private readonly IAsyncRepository<Booking> _repository;
+        private readonly IBookingRepository _repository;
 
-        public UpdateBookingCommandHandler(IAsyncRepository<Booking> repository)
+        public UpdateBookingCommandHandler(IBookingRepository repository)
         {
             _repository = repository;
-
         }
 
         public async Task<Booking> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repository.UpdateAsync(request.Booking);
+            var entity = await _repository.Update(request.Booking);
             return entity;
-
         }
     }
 }

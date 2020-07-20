@@ -15,16 +15,16 @@ namespace Core.Locations
 
     public class UpdateLocationCommandHandler : IRequestHandler<UpdateLocationCommand, Location>
     {
-        private readonly IAsyncRepository<Location> _repository;
+        private readonly ILocationRepository _locationRepository;
 
-        public UpdateLocationCommandHandler(IAsyncRepository<Location> repository)
+        public UpdateLocationCommandHandler(ILocationRepository locationRepository)
         {
-            _repository = repository;
+            _locationRepository = locationRepository;
         }
 
         public async Task<Location> Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.UpdateAsync(request.Location);
+            return await _locationRepository.Update(request.Location);
         }
     }
 }

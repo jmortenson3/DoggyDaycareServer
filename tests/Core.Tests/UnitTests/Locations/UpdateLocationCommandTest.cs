@@ -11,12 +11,12 @@ namespace Core.Tests.UnitTests.Locations
 {
     public class UpdateLocationCommandTest
     {
-        private readonly Mock<IAsyncRepository<Location>> _repository;
+        private readonly Mock<ILocationRepository> _repository;
 
         public UpdateLocationCommandTest()
         {
-            _repository = new Mock<IAsyncRepository<Location>>();
-            _repository.Setup(x => x.UpdateAsync(It.IsAny<Location>()))
+            _repository = new Mock<ILocationRepository>();
+            _repository.Setup(x => x.Update(It.IsAny<Location>()))
                 .ReturnsAsync(new Location { Id = 1, Name = "A new name" });
         }
 

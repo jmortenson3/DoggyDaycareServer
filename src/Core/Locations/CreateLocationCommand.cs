@@ -29,11 +29,11 @@ namespace Core.Locations
 
     public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, Location>
     {
-        private readonly IAsyncRepository<Location> _repository;
+        private readonly ILocationRepository _locationRepository;
 
-        public CreateLocationCommandHandler(IAsyncRepository<Location> repository)
+        public CreateLocationCommandHandler(ILocationRepository locationRepository)
         {
-            _repository = repository;
+            _locationRepository = locationRepository;
         }
 
         public async Task<Location> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ namespace Core.Locations
                 CreatedUtc = request.CreatedUtc
             };
 
-            return await _repository.AddAsync(location);
+            return await _locationRepository.Add(location);
         }
     }
 

@@ -28,6 +28,13 @@ namespace API.Locations
             return await Mediator.Send(new GetLocationQuery(id));
         }
 
+        [HttpGet]
+        [Route("/locations")]
+        public async Task<ActionResult<List<Location>>> Get([FromQuery(Name = "organization_id")] int organizationId)
+        {
+            return await Mediator.Send(new GetLocationByOrganizationQuery(organizationId));
+        }
+
         [HttpPost]
         [Route("/locations")]
         public async Task<ActionResult<Location>> Post(CreateLocationCommand body)

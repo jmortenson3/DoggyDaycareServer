@@ -11,12 +11,12 @@ namespace Core.Tests.UnitTests.Pets
 {
     public class UpdatePetCommandTest
     {
-        private readonly Mock<IAsyncRepository<Pet>> _repository;
+        private readonly Mock<IPetRepository> _repository;
 
         public UpdatePetCommandTest()
         {
-            _repository = new Mock<IAsyncRepository<Pet>>();
-            _repository.Setup(x => x.UpdateAsync(It.IsAny<Pet>()))
+            _repository = new Mock<IPetRepository>();
+            _repository.Setup(x => x.Update(It.IsAny<Pet>()))
                 .ReturnsAsync(new Pet { Id = 1, Name = "Pickles", OwnerId = "1" });
         }
 

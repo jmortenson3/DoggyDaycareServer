@@ -15,17 +15,16 @@ namespace Core.Pets
 
     public class UpdatePetCommandHandler : IRequestHandler<UpdatePetCommand, Pet>
     {
-        private readonly IAsyncRepository<Pet> _repository;
+        private readonly IPetRepository _petRepository;
 
-        public UpdatePetCommandHandler(IAsyncRepository<Pet> repository)
+        public UpdatePetCommandHandler(IPetRepository petRepository)
         {
-            _repository = repository;
+            _petRepository = petRepository;
         }
 
         public async Task<Pet> Handle(UpdatePetCommand request, CancellationToken cancellationToken)
         {
-            var pet = await _repository.UpdateAsync(request.Pet);
-            return pet;
+            return await _petRepository.Update(request.Pet);
         }
     }
 }
