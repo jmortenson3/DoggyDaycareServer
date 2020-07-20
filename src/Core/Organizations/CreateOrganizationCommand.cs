@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,22 +12,13 @@ namespace Core.Organizations
 {
     public class CreateOrganizationCommand : IRequest<Organization>
     {
-        public CreateOrganizationCommand()
-        {
-        }
-
-        public CreateOrganizationCommand(string ownerId, string name, string createdBy)
-        {
-            OwnerId = ownerId;
-            Name = name;
-            CreatedBy = createdBy;
-        }
-
+        [JsonIgnore]
+        public string OwnerId { get; set; }
         [Required]
-        public string OwnerId { get; private set; }
-        [Required]
-        public string Name { get; private set; }
-        public DateTime CreatedUtc { get; private set; }
+        public string Name { get; set; }
+        [JsonIgnore]
+        public DateTime CreatedUtc { get; set; }
+        [JsonIgnore]
         public string CreatedBy { get; set; }
     }
 

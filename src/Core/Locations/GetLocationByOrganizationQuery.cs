@@ -11,16 +11,7 @@ namespace Core.Locations
 {
     public class GetLocationByOrganizationQuery : IRequest<List<Location>>
     {
-        public GetLocationByOrganizationQuery()
-        {
-        }
-
-        public GetLocationByOrganizationQuery(int organizationId)
-        {
-            OrganizationId = organizationId;
-        }
-
-        public int OrganizationId { get; private set; }
+        public int OrganizationId { get; set; }
     }
 
     public class GetLocationByOrganizationQueryHandler : IRequestHandler<GetLocationByOrganizationQuery, List<Location>>

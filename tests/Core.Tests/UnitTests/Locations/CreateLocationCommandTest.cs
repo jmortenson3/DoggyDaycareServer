@@ -24,7 +24,7 @@ namespace Core.Tests.UnitTests.Locations
         public async void ShouldReturnLocation()
         {
             // Arrange
-            var command = new CreateLocationCommand(1, "South Store", DateTime.Now);
+            var command = new CreateLocationCommand { OrganizationId = 1, Name = "South Store", CreatedUtc = DateTime.Now };
 
             // Act
             var handler = new CreateLocationCommandHandler(_repository.Object);
@@ -38,7 +38,7 @@ namespace Core.Tests.UnitTests.Locations
         public async void ShouldCallAddAsyncOnce()
         {
             // Arrange
-            var command = new CreateLocationCommand(1, "South Store", DateTime.Now);
+            var command = new CreateLocationCommand { OrganizationId = 1, Name = "South Store", CreatedUtc = DateTime.Now };
 
             // Act
             var handler = new CreateLocationCommandHandler(_repository.Object);

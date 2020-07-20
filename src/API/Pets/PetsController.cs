@@ -24,14 +24,14 @@ namespace API.Pets
         [Route("/pets/{id}")]
         public async Task<ActionResult<Pet>> GetById(int id)
         {
-            return await Mediator.Send(new GetPetQuery(id));
+            return await Mediator.Send(new GetPetQuery { Id = id });
         }
 
         [HttpGet]
         [Route("/pets")]
         public async Task<ActionResult<List<Pet>>> Get([FromQuery] string userId)
         {
-            return await Mediator.Send(new GetPetsByCustomerQuery(userId));
+            return await Mediator.Send(new GetPetsByCustomerQuery { OwnerId = userId });
         }
 
         [HttpPost]

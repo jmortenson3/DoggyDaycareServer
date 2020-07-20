@@ -10,16 +10,7 @@ namespace Core.Organizations
 {
     public class GetOrganizationQuery : IRequest<Organization>
     {
-        public GetOrganizationQuery()
-        {
-        }
-
-        public GetOrganizationQuery(int id)
-        {
-            Id = id;
-        }
-
-        public int Id { get; private set; }
+        public int Id { get; set; }
     }
 
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>

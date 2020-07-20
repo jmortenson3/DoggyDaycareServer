@@ -6,6 +6,7 @@ using AutoMapper;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace API.Users
@@ -30,6 +31,7 @@ namespace API.Users
         {
             var applicationUser = _mapper.Map<ApplicationUser>(body);
             await _userService.Register(applicationUser, body.Password);
+            await _userService.Authenticate(body.Email, body.Password, body.RememberMe);
             return applicationUser;
         }
 
@@ -43,12 +45,12 @@ namespace API.Users
             return user;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("/users/me")]
-        public async Task<ActionResult<string>> Me()
+        public async Task<ActionResult<ApplicationUser>> GetMe()
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
-            return JsonConvert.SerializeObject(user);
+            return user;
         }
     }
 }

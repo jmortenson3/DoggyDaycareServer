@@ -3,6 +3,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +14,9 @@ namespace Core.Bookings
         public int LocationId { get; set; }
         public int OrganizationId { get; set; }
         public string OwnerId { get; set; }
+        [JsonIgnore]
         public string CreatedBy { get; set; }
+        [JsonIgnore]
         public DateTime CreatedUtc { get; set; }
     }
 

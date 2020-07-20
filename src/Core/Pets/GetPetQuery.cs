@@ -10,16 +10,7 @@ namespace Core.Pets
 {
     public class GetPetQuery : IRequest<Pet>
     {
-        public GetPetQuery()
-        {
-        }
-
-        public GetPetQuery(int id)
-        {
-            Id = id;
-        }
-
-        public int Id { get; private set; }
+        public int Id { get; set; }
     }
 
     public class GetPetQueryHandler : IRequestHandler<GetPetQuery, Pet>

@@ -10,16 +10,7 @@ namespace Core.Pets
 {
     public class GetPetsByCustomerQuery : IRequest<List<Pet>>
     {
-        public GetPetsByCustomerQuery()
-        {
-        }
-
-        public GetPetsByCustomerQuery(string ownerId)
-        {
-            OwnerId = ownerId;
-        }
-
-        public string OwnerId { get; private set; }
+        public string OwnerId { get; set; }
     }
 
     public class GetPetsByCustomerQueryHandler : IRequestHandler<GetPetsByCustomerQuery, List<Pet>>

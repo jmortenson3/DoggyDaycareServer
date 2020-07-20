@@ -24,7 +24,7 @@ namespace Core.Tests.UnitTests.Locations
         public async void ShouldReturnLocation()
         {
             // Arrange
-            var query = new GetLocationQuery(1);
+            var query = new GetLocationQuery { Id = 1 };
 
             // Act
             var handler = new GetLocationQueryHandler(_repository.Object);
@@ -39,7 +39,7 @@ namespace Core.Tests.UnitTests.Locations
         public async void ShouldCallFindAsyncOnce()
         {
             // Arrange
-            var query = new GetLocationQuery(1);
+            var query = new GetLocationQuery { Id = 1 };
 
             // Act
             var handler = new GetLocationQueryHandler(_repository.Object);

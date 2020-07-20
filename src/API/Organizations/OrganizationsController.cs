@@ -28,7 +28,7 @@ namespace API.Organizations
         [Route("/organizations/{id}")]
         public async Task<ActionResult<Organization>> GetById(int id)
         {
-            return await Mediator.Send(new GetOrganizationQuery(id));
+            return await Mediator.Send(new GetOrganizationQuery { Id = id });
         }
 
         [HttpPost]
@@ -37,6 +37,8 @@ namespace API.Organizations
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.CreatedBy = user.Id;
+            body.OwnerId = user.Id;
+            body.CreatedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
     }

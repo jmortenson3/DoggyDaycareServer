@@ -1,8 +1,11 @@
 ﻿using Core.Common;
+using Core.Organizations;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,20 +13,13 @@ namespace Core.Locations
 {
     public class CreateLocationCommand : IRequest<Location>
     {
-        public CreateLocationCommand()
-        {
-        }
-
-        public CreateLocationCommand(int organizationId, string name, DateTime createdUtc)
-        {
-            OrganizationId = organizationId;
-            Name = name;
-            CreatedUtc = createdUtc;
-        }
-
-        public int OrganizationId { get; private set; }
-        public string Name { get; private set; }
-        public DateTime CreatedUtc { get; private set; }
+        [Required]
+        public int OrganizationId { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [JsonIgnore]
+        public DateTime CreatedUtc { get; set; }
+        [JsonIgnore]
         public string CreatedBy { get; set; }
     }
 

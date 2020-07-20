@@ -2,7 +2,9 @@
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,21 +12,14 @@ namespace Core.Pets
 {
     public class CreatePetCommand : IRequest<Pet>
     {
-        public CreatePetCommand()
-        {
-        }
-
-        public CreatePetCommand(string ownerId, string name, DateTime createdUtc)
-        {
-            OwnerId = ownerId;
-            Name = name;
-            CreatedUtc = createdUtc;
-        }
-
-        public string OwnerId { get; private set; }
-        public string Name { get; private set; }
+        [Required]
+        public string OwnerId { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [JsonIgnore]
         public string CreatedBy { get; set; }
-        public DateTime CreatedUtc { get; private set; }
+        [JsonIgnore]
+        public DateTime CreatedUtc { get; set; }
     }
 
     public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, Pet>

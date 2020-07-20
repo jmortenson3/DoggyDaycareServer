@@ -87,6 +87,7 @@ namespace API.Users
 
         public async Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal claim)
         {
+
             return await _userManager.GetUserAsync(claim);
         }
 

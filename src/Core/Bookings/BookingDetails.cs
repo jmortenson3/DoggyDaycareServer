@@ -10,6 +10,7 @@ namespace Core.Bookings
     {
         public DateTime DropOffDateTime { get; set; }
         public DateTime PickUpDateTime { get; set; }
+        public int PetId { get; set; }
         public Pet Pet { get; set; }
         public GroomingDetails GroomingDetails { get; set; }
         public BoardingDetails BoardingDetails { get; set; }

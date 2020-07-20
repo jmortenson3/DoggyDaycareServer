@@ -30,7 +30,7 @@ namespace Core.Tests.UnitTests.Organizations
         public async void ShouldReturnOrganization()
         {
             // Arrange
-            var query = new GetOrganizationQuery(1);
+            var query = new GetOrganizationQuery { Id = 1 };
 
             // Act
             var handler = new GetOrganizationQueryHandler(_repository.Object);
@@ -44,7 +44,7 @@ namespace Core.Tests.UnitTests.Organizations
         public async void ShouldCallFindAsyncOnce()
         {
             // Arrange
-            var query = new GetOrganizationQuery(1);
+            var query = new GetOrganizationQuery { Id = 1 };
 
             // Act
             var handler = new GetOrganizationQueryHandler(_repository.Object);

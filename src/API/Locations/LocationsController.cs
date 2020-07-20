@@ -25,14 +25,14 @@ namespace API.Locations
         [Route("/locations/{id}")]
         public async Task<ActionResult<Location>> GetById(int id)
         {
-            return await Mediator.Send(new GetLocationQuery(id));
+            return await Mediator.Send(new GetLocationQuery { Id = id });
         }
 
         [HttpGet]
         [Route("/locations")]
         public async Task<ActionResult<List<Location>>> Get([FromQuery(Name = "organization_id")] int organizationId)
         {
-            return await Mediator.Send(new GetLocationByOrganizationQuery(organizationId));
+            return await Mediator.Send(new GetLocationByOrganizationQuery { OrganizationId = organizationId });
         }
 
         [HttpPost]
@@ -41,6 +41,7 @@ namespace API.Locations
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.CreatedBy = user.Id;
+            body.CreatedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
 

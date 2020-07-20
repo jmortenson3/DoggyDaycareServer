@@ -24,7 +24,12 @@ namespace Core.Tests.UnitTests.Organizations
         public async void ShouldReturnOrganization()
         {
             // Arrange
-            var command = new CreateOrganizationCommand(null, name: "St. Larry's", null);
+            var command = new CreateOrganizationCommand
+            {
+                OwnerId = "1",
+                Name = "St. Larry's",
+                CreatedUtc = DateTime.UtcNow
+            };
 
             // Act
             var handler = new CreateOrganizationCommandHandler(_repository.Object);
@@ -38,7 +43,12 @@ namespace Core.Tests.UnitTests.Organizations
         public async void ShouldCallAddAsyncOnce()
         {
             // Arrange
-            var command = new CreateOrganizationCommand(null, name: "St. Larry's", null);
+            var command = new CreateOrganizationCommand
+            {
+                OwnerId = "1",
+                Name = "St. Larry's",
+                CreatedUtc = DateTime.UtcNow
+            };
 
             // Act
             var handler = new CreateOrganizationCommandHandler(_repository.Object);

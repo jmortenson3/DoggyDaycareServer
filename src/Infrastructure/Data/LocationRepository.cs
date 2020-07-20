@@ -19,9 +19,14 @@ namespace Infrastructure.Data
 
         public async Task<Location> Add(Location location)
         {
-            var entity = _context.Locations.Add(location);
+            var organization = await _context.Organizations.FindAsync(location.OrganizationId);
+            if (organization.Locations == null)
+            {
+                organization.Locations = new List<Location>();
+            }
+            organization.Locations.Add(location);
             await _context.SaveChangesAsync();
-            return entity.Entity;
+            return location;
         }
 
         public async Task<List<Location>> Find(Func<Location, bool> filter = null)

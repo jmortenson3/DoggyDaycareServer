@@ -24,7 +24,12 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldReturnPet()
         {
             // Arrange
-            var command = new CreatePetCommand("123", "Stevie", DateTime.Now);
+            var command = new CreatePetCommand
+            {
+                OwnerId = "123",
+                Name = "Stevie",
+                CreatedUtc = DateTime.Now
+            };
 
             // Act
             var handler = new CreatePetCommandHandler(_repository.Object);
@@ -38,13 +43,12 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldCallAddAsyncOnce()
         {
             // Arrange
-            var pet = new Pet
+            var command = new CreatePetCommand
             {
-                Id = 2,
+                OwnerId = "123",
                 Name = "Stevie",
-                OwnerId = "1"
+                CreatedUtc = DateTime.Now
             };
-            var command = new CreatePetCommand("123", "Stevie", DateTime.Now);
 
             // Act
             var handler = new CreatePetCommandHandler(_repository.Object);

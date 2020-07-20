@@ -24,7 +24,7 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldReturnPet()
         {
             // Arrange
-            var query = new GetPetQuery(1);
+            var query = new GetPetQuery { Id = 1 };
 
             // Act
             var handler = new GetPetQueryHandler(_repository.Object);
@@ -38,7 +38,7 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldCallFindAsyncOnce()
         {
             // Arrange
-            var query = new GetPetQuery(1);
+            var query = new GetPetQuery { Id = 1 };
 
             // Act
             var handler = new GetPetQueryHandler(_repository.Object);
