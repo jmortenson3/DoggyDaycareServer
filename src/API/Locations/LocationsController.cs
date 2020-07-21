@@ -45,5 +45,16 @@ namespace API.Locations
             return await Mediator.Send(body);
         }
 
+        [HttpPut]
+        [Route("/locations/{id}")]
+        public async Task<ActionResult<Location>> Put(int id, UpdateLocationCommand body)
+        {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            body.Location.Id = id;
+            body.Location.LastModifiedBy = user.Id;
+            body.Location.LastModifiedUtc = DateTime.UtcNow;
+            return await Mediator.Send(body);
+        }
+
     }
 }

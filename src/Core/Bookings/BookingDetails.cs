@@ -3,6 +3,7 @@ using Core.Pets;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Core.Bookings
 {
@@ -10,6 +11,9 @@ namespace Core.Bookings
     {
         public DateTime DropOffDateTime { get; set; }
         public DateTime PickUpDateTime { get; set; }
+        public int BookingId { get; set; }
+        [JsonIgnore]
+        public Booking Booking { get; set; }
         public int PetId { get; set; }
         public Pet Pet { get; set; }
         public GroomingDetails GroomingDetails { get; set; }

@@ -41,5 +41,16 @@ namespace API.Organizations
             body.CreatedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
+
+        [HttpPut]
+        [Route("/organizations/{id}")]
+        public async Task<ActionResult<Organization>> Put(int id, UpdateOrganizationCommand body)
+        {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            body.Organization.Id = id;
+            body.Organization.LastModifiedBy = user.Id;
+            body.Organization.LastModifiedUtc = DateTime.UtcNow;
+            return await Mediator.Send(body);
+        }
     }
 }

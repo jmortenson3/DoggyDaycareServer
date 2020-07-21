@@ -18,6 +18,7 @@ namespace Core.Bookings
         public string CreatedBy { get; set; }
         [JsonIgnore]
         public DateTime CreatedUtc { get; set; }
+        public List<BookingDetails> BookingDetails { get; set; }
     }
 
     public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, Booking>
@@ -31,13 +32,21 @@ namespace Core.Bookings
 
         public async Task<Booking> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
+            var bookingDetails = new List<BookingDetails>();
+
+            foreach (var bookingDetail in request.BookingDetails)
+            {
+                bookingDetails.Add(bookingDetail);
+            }
+
             var booking = new Booking
             {
                 OwnerId = request.OwnerId,
                 OrganizationId = request.OrganizationId,
                 LocationId = request.LocationId,
                 CreatedBy = request.CreatedBy,
-                CreatedUtc = request.CreatedUtc
+                CreatedUtc = request.CreatedUtc,
+                BookingDetails = bookingDetails
             };
             return await _repository.Add(booking);
         }

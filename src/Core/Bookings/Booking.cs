@@ -10,6 +10,6 @@ namespace Core.Bookings
         public int LocationId { get; set; }
         public int OrganizationId { get; set; }
         public string OwnerId { get; set; }
-        public List<BookingDetails> BookingDetails { get; set; }
+        public List<BookingDetails> BookingDetails { get; set; } = new List<BookingDetails>();
     }
 }

@@ -36,5 +36,16 @@ namespace API.Bookings
             body.CreatedUtc = DateTime.Now;
             return await Mediator.Send(body);
         }
+
+        [HttpPut]
+        [Route("/bookings/{id}")]
+        public async Task<ActionResult<Booking>> Put(int id, UpdateBookingCommand body)
+        {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            body.Booking.Id = id;
+            body.Booking.LastModifiedBy = user.Id;
+            body.Booking.LastModifiedUtc = DateTime.UtcNow;
+            return await Mediator.Send(body);
+        }
     }
 }

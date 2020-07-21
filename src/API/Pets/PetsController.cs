@@ -42,5 +42,16 @@ namespace API.Pets
             body.CreatedBy = user.Id;
             return await Mediator.Send(body);
         }
+
+        [HttpPut]
+        [Route("/pets/{id}")]
+        public async Task<ActionResult<Pet>> Put(int id, UpdatePetCommand body)
+        {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            body.Pet.Id = id;
+            body.Pet.LastModifiedBy = user.Id;
+            body.Pet.LastModifiedUtc = DateTime.UtcNow;
+            return await Mediator.Send(body);
+        }
     }
 }
