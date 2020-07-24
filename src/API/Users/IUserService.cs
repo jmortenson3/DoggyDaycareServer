@@ -1,4 +1,5 @@
-﻿using Infrastructure.Identity;
+﻿using Common.Users;
+using Infrastructure.Identity;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -8,8 +9,8 @@ namespace API.Users
 {
     public interface IUserService
     {
-        Task<ApplicationUser> Authenticate(string email, string password, bool rememberMe);
-        Task<ApplicationUser> Register(ApplicationUser user, string password);
+        Task<ApplicationUser> Login(UserLoginModel model);
+        Task<ApplicationUser> Register(UserRegisterModel model);
         Task SignOut();
         Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal claim);
         Task<ApplicationUser> GetUserByEmail(string email);

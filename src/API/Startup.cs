@@ -48,9 +48,10 @@ namespace API
                     name: "AllowSpecificOrigins",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000");
+                        builder.WithOrigins(new string[] { "https://localhost:3001", "http://localhost:3000" });
                         builder.AllowAnyMethod();
                         builder.AllowAnyHeader();
+                        builder.AllowCredentials();
                     }
                     ); 
             });
@@ -144,13 +145,13 @@ namespace API
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowSpecificOrigins");
+
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseCors("AllowSpecificOrigins");
 
             app.UseEndpoints(endpoints =>
             {

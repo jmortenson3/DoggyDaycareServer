@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Core.Organizations
 {
-    public class GetOrganizationQuery : IRequest<Organization>
+    public class GetOrganizationByIdQuery : IRequest<Organization>
     {
         public int Id { get; set; }
     }
 
-    public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>
+    public class GetOrganizationByIdQueryHandler : IRequestHandler<GetOrganizationByIdQuery, Organization>
     {
         private readonly IOrganizationRepository _organizationRepository;
 
-        public GetOrganizationQueryHandler(IOrganizationRepository organizationRepository)
+        public GetOrganizationByIdQueryHandler(IOrganizationRepository organizationRepository)
         {
             _organizationRepository = organizationRepository;
         }
 
-        public async Task<Organization> Handle(GetOrganizationQuery request, CancellationToken cancellationToken)
+        public async Task<Organization> Handle(GetOrganizationByIdQuery request, CancellationToken cancellationToken)
         {
             return await _organizationRepository.FindById(request.Id);
         }

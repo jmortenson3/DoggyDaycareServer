@@ -30,8 +30,18 @@ namespace Core.Tests.UnitTests.Bookings
             // Arrange
             var command = new CreateBookingCommand
             {
+                OwnerId = "1",
                 OrganizationId = 1,
-                LocationId = 1
+                LocationId = 1,
+                CreatedBy = "1",
+                CreatedUtc = DateTime.UtcNow,
+                BookingDetails = new List<BookingDetails>
+                {
+                    new BookingDetails
+                    {
+                        Id = 1,
+                    }
+                }
             };
 
 
@@ -49,10 +59,19 @@ namespace Core.Tests.UnitTests.Bookings
             // Arrange
             var command = new CreateBookingCommand
             {
+                OwnerId = "1",
                 OrganizationId = 1,
-                LocationId = 1
+                LocationId = 1,
+                CreatedBy = "1",
+                CreatedUtc = DateTime.UtcNow,
+                BookingDetails = new List<BookingDetails>
+                {
+                    new BookingDetails
+                    {
+                        Id = 1,
+                    }
+                }
             };
-
             // Act
             var handler = new CreateBookingCommandHandler(_repository.Object);
             var result = await handler.Handle(command, CancellationToken.None);

@@ -1,5 +1,6 @@
 ﻿using API.Exceptions;
 using API.Users;
+using Common.Users;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -60,18 +61,17 @@ namespace API.Tests.UnitTests.Users
         public async Task Register_ShouldReturnUser()
         {
             // Arrange
-            var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
-            var password = "test123";
+            var model = new UserRegisterModel{ Email = "stevie@test.com", Password = "test123", RememberMe = true };
             _mockUserManager
-                .Setup(x => x.CreateAsync(applicationUser, password))
+                .Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), model.Password))
                 .ReturnsAsync(new MockIdentityResult(Succeeded: true));
 
             // Act
-            var user = await _sut.Register(applicationUser, password);
+            var user = await _sut.Register(model);
 
             // Assert
             Assert.NotNull(user);
-            Assert.Equal(applicationUser.Email, user.Email);
+            Assert.Equal(model.Email, user.Email);
         }
 
         [Fact]
@@ -79,16 +79,16 @@ namespace API.Tests.UnitTests.Users
         {
             // Arrange
             var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
-            var password = "test123";
+            var model = new UserRegisterModel { Email = "stevie@test.com", Password = "test123", RememberMe = true };
             _mockUserManager
-                .Setup(x => x.CreateAsync(applicationUser, password))
+                .Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), model.Password))
                 .ReturnsAsync(new MockIdentityResult(Succeeded: true));
 
             // Act
-            var user = await _sut.Register(applicationUser, password);
+            var user = await _sut.Register(model);
 
             // Assert
-            _mockUserManager.Verify(x => x.CreateAsync(applicationUser, password), Times.Once);
+            _mockUserManager.Verify(x => x.CreateAsync(It.IsAny<ApplicationUser>(), model.Password), Times.Once);
             Assert.Equal(applicationUser.Email, user.Email);
         }
 
@@ -96,11 +96,9 @@ namespace API.Tests.UnitTests.Users
         public async Task Register_ShouldThrowAppException_WhenNullEmail()
         {
             // Arrange
-            var applicationUser = new ApplicationUser { Email = null };
-            var password = "test123";
-
+            var model = new UserRegisterModel { Email = null, Password = "test123", RememberMe = true };
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(applicationUser, password));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(model));
 
             // Assert
             Assert.Equal("Email cannot be empty or whitespace.", ex.Message);
@@ -110,11 +108,10 @@ namespace API.Tests.UnitTests.Users
         public async Task Register_ShouldThrowAppException_WhenEmptyEmail()
         {
             // Arrange
-            var applicationUser = new ApplicationUser { Email = "" };
-            var password = "test123";
+            var model = new UserRegisterModel { Email = "", Password = "test123", RememberMe = true };
 
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(applicationUser, password));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(model));
 
             // Assert
             Assert.Equal("Email cannot be empty or whitespace.", ex.Message);
@@ -124,11 +121,10 @@ namespace API.Tests.UnitTests.Users
         public async Task Register_ShouldThrowAppException_WhenNullPassword()
         {
             // Arrange
-            var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
-            string password = null;
+            var model = new UserRegisterModel { Email = "stevie@test.com", Password = null, RememberMe = true };
 
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(applicationUser, password));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(model));
 
             // Assert
             Assert.Equal("Password cannot be empty or whitespace.", ex.Message);
@@ -140,10 +136,10 @@ namespace API.Tests.UnitTests.Users
         {
             // Arrange
             var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
-            var password = "";
+            var model = new UserRegisterModel { Email = "stevie@test.com", Password = "", RememberMe = true };
 
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(applicationUser, password));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Register(model));
 
             // Assert
             Assert.Equal("Password cannot be empty or whitespace.", ex.Message);
@@ -151,76 +147,69 @@ namespace API.Tests.UnitTests.Users
         }
 
         [Fact]
-        public async Task Authenticate_ShouldReturnUser()
+        public async Task Login_ShouldReturnUser()
         {
             // Arrange
-            var email = "stevie@test.com";
-            var password = "test123";
-            var rememberMe = false;
+            var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
+            var model = new UserLoginModel { Email = "stevie@test.com", Password = "test123", RememberMe = true };
 
-            _mockUserManager.Setup(x => x.FindByEmailAsync(email))
-                .ReturnsAsync(new ApplicationUser { Email = email });
+            _mockUserManager.Setup(x => x.FindByEmailAsync(model.Email))
+                .ReturnsAsync(applicationUser);
 
             _mockSignInManager
-                .Setup(x => x.PasswordSignInAsync(new ApplicationUser { Email = email }, password, rememberMe, false))
+                .Setup(x => x.PasswordSignInAsync(applicationUser, model.Password, model.RememberMe, false))
                 .ReturnsAsync(new MockSignInResult());
 
             // Act
-            var user = await _sut.Authenticate(email, password, rememberMe);
+            var user = await _sut.Login(model);
 
             // Assert
             Assert.NotNull(user);
-            Assert.Equal(email, user.Email);
+            Assert.Equal(model.Email, user.Email);
         }
 
         [Fact]
         public async Task Authenticate_ShouldCallPasswordSignInAsyncOnce()
         {
             // Arrange
-            var email = "stevie@test.com";
-            var password = "test123";
-            var rememberMe = false;
+            var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
+            var model = new UserLoginModel { Email = "stevie@test.com", Password = "test123", RememberMe = true };
 
-            var applicationUser = new ApplicationUser { Email = email };
-
-            _mockUserManager.Setup(x => x.FindByEmailAsync(email))
+            _mockUserManager.Setup(x => x.FindByEmailAsync(model.Email))
                 .ReturnsAsync(applicationUser);
 
             // Act
-            var user = await _sut.Authenticate(email, password, rememberMe);
+            var user = await _sut.Login(model);
 
             // Assert
-            _mockSignInManager.Verify(x => x.PasswordSignInAsync(applicationUser, password, rememberMe, false), Times.Once);
+            _mockSignInManager.Verify(x => x.PasswordSignInAsync(It.IsAny<ApplicationUser>(), model.Password, model.RememberMe, false), Times.Once);
         }
 
         [Fact]
         public async Task Authenticate_ShouldThrowException_WhenUserDoesNotExist()
         {
             // Arrange
-            var email = "stevie_doesnt_exist@test.com";
-            var password = "test123";
-            var rememberMe = false;
+            var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
+            var model = new UserLoginModel { Email = "stevie@test.com", Password = "test123", RememberMe = true };
 
-            _mockUserManager.Setup(x => x.FindByEmailAsync(email))
+            _mockUserManager.Setup(x => x.FindByEmailAsync(model.Email))
                 .ReturnsAsync(() => null);
 
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Authenticate(email, password, rememberMe));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Login(model));
 
             // Assert
-            Assert.Equal($"Cannot find user with email {email}", ex.Message);
+            Assert.Equal($"Cannot find user with email {model.Email}", ex.Message);
         }
 
         [Fact]
         public async Task Authenticate_ShouldThrowAppException_WhenNullEmail()
         {
             // Arrange
-            string email = null;
-            var password = "test123";
-            var rememberMe = false;
+            var model = new UserLoginModel { Email = null, Password = "test123", RememberMe = true };
 
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Authenticate(email, password, rememberMe));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Login(model));
 
             // Assert
             Assert.Equal("Email cannot be empty or whitespace.", ex.Message);
@@ -230,12 +219,10 @@ namespace API.Tests.UnitTests.Users
         public async Task Authenticate_ShouldThrowAppException_WhenEmptyEmail()
         {
             // Arrange
-            var email = "";
-            var password = "test123";
-            var rememberMe = false;
+            var model = new UserLoginModel { Email = "", Password = "test123", RememberMe = true };
 
             // Act
-            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Authenticate(email, password, rememberMe));
+            var ex = await Assert.ThrowsAsync<AppException>(async () => await _sut.Login(model));
 
             // Assert
             Assert.Equal("Email cannot be empty or whitespace.", ex.Message);
@@ -245,13 +232,11 @@ namespace API.Tests.UnitTests.Users
         public async Task Authenticate_ShouldThrowAppException_WhenNullPassword()
         {
             // Arrange
-            var email = "stevie@test.com";
-            string password = null;
-            var rememberMe = false;
+            var model = new UserLoginModel { Email = "stevie@test.com", Password = null, RememberMe = true };
 
             // Act
             var ex = await Assert.ThrowsAsync<AppException>(async () =>
-                    await _sut.Authenticate(email, password, rememberMe));
+                    await _sut.Login(model));
 
             // Assert
             Assert.Equal("Password cannot be empty or whitespace.", ex.Message);
@@ -262,13 +247,11 @@ namespace API.Tests.UnitTests.Users
         public async Task Authenticate_ShouldThrowAppException_WhenEmptyPassword()
         {
             // Arrange
-            var email = "stevie@test.com";
-            var password = "";
-            var rememberMe = false;
+            var model = new UserLoginModel { Email = "stevie@test.com", Password = "", RememberMe = true };
 
             // Act
             var ex = await Assert.ThrowsAsync<AppException>(async () =>
-                    await _sut.Authenticate(email, password, rememberMe));
+                    await _sut.Login(model));
 
             // Assert
             Assert.Equal("Password cannot be empty or whitespace.", ex.Message);

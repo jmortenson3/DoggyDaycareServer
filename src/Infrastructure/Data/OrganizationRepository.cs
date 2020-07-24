@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +25,14 @@ namespace Infrastructure.Data
             return entity.Entity;
         }
 
-        public async Task<List<Organization>> Find(Func<Organization, bool> filter = null)
+        public async Task<List<Organization>> FindAll(Expression<Func<Organization, bool>> filter)
         {
-            return await _context.Organizations.Where(filter).AsQueryable().ToListAsync();
+            return await _context.Organizations.Where(filter).ToListAsync();
+        }
+
+        public async Task<List<Organization>> FindAll()
+        {
+            return await _context.Organizations.ToListAsync();
         }
 
         public async Task<Organization> FindById(int id)

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,9 +30,9 @@ namespace Infrastructure.Data
             return location;
         }
 
-        public async Task<List<Location>> Find(Func<Location, bool> filter = null)
+        public async Task<List<Location>> FindAll(Expression<Func<Location, bool>> filter = null)
         {
-            return await _context.Locations.Where(filter).AsQueryable().ToListAsync();
+            return await _context.Locations.Where(filter).ToListAsync();
         }
 
         public async Task<Location> FindById(int id)

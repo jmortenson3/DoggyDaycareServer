@@ -1,0 +1,24 @@
+﻿@page "/signup"
+@using Common.Users
+@inject HttpClient Http
+
+<h3>Signup</h3>
+
+<form>
+    <input @bind="model.Email" placeholder="Email" />
+    <input @bind="model.Password" type="password" placeholder="Password" />
+    <label>Remember Me</label>
+    <input @bind="model.RememberMe" />
+    <button @onclick="Submit">Go</button>
+</form>
+
+@code {
+    private UserRegisterModel model;
+
+    private async void Submit()
+    {
+        var response = await Http.PostAsJsonAsync<UserRegisterModel>("https://localhost:5001/auth/signup", model);
+        var json = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(json);
+    }
+}

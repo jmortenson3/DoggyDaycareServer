@@ -40,7 +40,7 @@ namespace Core.Tests.UnitTests.Organizations
         }
 
         [Fact]
-        public async void ShouldCallAddAsyncOnce()
+        public async void ShouldCallAddOnce()
         {
             // Arrange
             var command = new CreateOrganizationCommand

@@ -9,11 +9,11 @@ using Xunit;
 
 namespace Core.Tests.UnitTests.Organizations
 {
-    public class GetOrganizationQueryTest
+    public class GetOrganizationByIdQueryTest
     {
         private readonly Mock<IOrganizationRepository> _repository;
 
-        public GetOrganizationQueryTest()
+        public GetOrganizationByIdQueryTest()
         {
 
             var organization = new Organization
@@ -30,10 +30,10 @@ namespace Core.Tests.UnitTests.Organizations
         public async void ShouldReturnOrganization()
         {
             // Arrange
-            var query = new GetOrganizationQuery { Id = 1 };
+            var query = new GetOrganizationByIdQuery { Id = 1 };
 
             // Act
-            var handler = new GetOrganizationQueryHandler(_repository.Object);
+            var handler = new GetOrganizationByIdQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
@@ -41,13 +41,13 @@ namespace Core.Tests.UnitTests.Organizations
         }
 
         [Fact]
-        public async void ShouldCallFindAsyncOnce()
+        public async void ShouldCallFindByIdOnce()
         {
             // Arrange
-            var query = new GetOrganizationQuery { Id = 1 };
+            var query = new GetOrganizationByIdQuery { Id = 1 };
 
             // Act
-            var handler = new GetOrganizationQueryHandler(_repository.Object);
+            var handler = new GetOrganizationByIdQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert

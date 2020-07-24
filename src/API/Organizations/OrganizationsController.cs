@@ -25,10 +25,22 @@ namespace API.Organizations
         }
 
         [HttpGet]
+        [Route("/organizations")]
+        public async Task<ActionResult<List<Organization>>> Get()
+        {
+            return await Mediator.Send(new GetOrganizationsQuery());
+        }
+
+        [HttpGet]
         [Route("/organizations/{id}")]
         public async Task<ActionResult<Organization>> GetById(int id)
         {
-            return await Mediator.Send(new GetOrganizationQuery { Id = id });
+            var organization = await Mediator.Send(new GetOrganizationByIdQuery { Id = id });
+            if (organization == null)
+            {
+                return NotFound();
+            }
+            return organization;
         }
 
         [HttpPost]
@@ -50,7 +62,12 @@ namespace API.Organizations
             body.Organization.Id = id;
             body.Organization.LastModifiedBy = user.Id;
             body.Organization.LastModifiedUtc = DateTime.UtcNow;
-            return await Mediator.Send(body);
+            var organization = await Mediator.Send(body);
+            if (organization == null)
+            {
+                return NotFound();
+            }
+            return organization;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using API.Exceptions;
+using Common.Users;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -26,49 +27,57 @@ namespace API.Users
             _signInManager = signInManager;
         }
 
-        public async Task<ApplicationUser> Authenticate(string email, string password, bool rememberMe)
+        public async Task<ApplicationUser> Login(UserLoginModel model)
         {
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(model.Password))
             {
                 throw new AppException("Password cannot be empty or whitespace.");
             }
 
-            if (string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(model.Email))
             {
                 throw new AppException("Email cannot be empty or whitespace.");
             }
 
-            var applicationUser = await GetUserByEmail(email);
+            var applicationUser = await GetUserByEmail(model.Email);
 
             if (applicationUser == null)
             {
-                throw new AppException($"Cannot find user with email {email}");
+                throw new AppException($"Cannot find user with email {model.Email}");
             }
 
             var result = await _signInManager.PasswordSignInAsync(applicationUser,
-                password, rememberMe, lockoutOnFailure: false);
+                model.Password, model.RememberMe, lockoutOnFailure: false);
 
             return applicationUser;
         }
 
 
-        public async Task<ApplicationUser> Register(ApplicationUser user, string password)
+        public async Task<ApplicationUser> Register(UserRegisterModel model)
         {
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(model.Password))
             {
                 throw new AppException("Password cannot be empty or whitespace.");
             }
 
-            if (string.IsNullOrWhiteSpace(user.Email))
+            if (string.IsNullOrWhiteSpace(model.Email))
             {
                 throw new AppException("Email cannot be empty or whitespace.");
             }
 
-            var result = await _userManager.CreateAsync(user, password);
+            var applicationUser = new ApplicationUser
+            {
+                Email = model.Email,
+                UserName = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
+
+            var result = await _userManager.CreateAsync(applicationUser, model.Password);
 
             if (result.Succeeded)
             {
-                return user;
+                return applicationUser;
             }
 
             string errors = "";
