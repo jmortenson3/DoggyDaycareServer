@@ -36,7 +36,8 @@ namespace API.Organizations
         [Route("/organizations/{id}")]
         public async Task<ActionResult<Organization>> GetById(int id)
         {
-            var organization = await Mediator.Send(new GetOrganizationByIdQuery { Id = id });
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            var organization = await Mediator.Send(new GetOrganizationByIdQuery { Id = id, UserId = user.Id });
             if (organization == null)
             {
                 return NotFound();

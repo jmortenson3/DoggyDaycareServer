@@ -11,6 +11,7 @@ namespace Core.Organizations
     public class GetOrganizationByIdQuery : IRequest<Organization>
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
     }
 
     public class GetOrganizationByIdQueryHandler : IRequestHandler<GetOrganizationByIdQuery, Organization>
@@ -24,7 +25,7 @@ namespace Core.Organizations
 
         public async Task<Organization> Handle(GetOrganizationByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _organizationRepository.Find(request.Id);
+            return await _organizationRepository.Find(request.Id, request.UserId);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Core.Organizations
     public class UpdateOrganizationCommand : IRequest<Organization>
     {
         public Organization Organization { get; set; }
+        public string UserId { get; set; }
     }
 
     public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, Organization>
@@ -24,7 +25,7 @@ namespace Core.Organizations
 
         public async Task<Organization> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
         {
-            var organization = await _organizationRepository.Find(request.Organization.Id);
+            var organization = await _organizationRepository.Find(request.Organization.Id, request.UserId);
             organization.Name = request.Organization.Name;
             await _organizationRepository.Save();
             return organization;

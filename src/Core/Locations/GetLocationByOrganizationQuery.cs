@@ -12,6 +12,7 @@ namespace Core.Locations
     public class GetLocationByOrganizationQuery : IRequest<List<Location>>
     {
         public int OrganizationId { get; set; }
+        public string UserId { get; set; }
     }
 
     public class GetLocationByOrganizationQueryHandler : IRequestHandler<GetLocationByOrganizationQuery, List<Location>>
@@ -27,7 +28,7 @@ namespace Core.Locations
 
         public async Task<List<Location>> Handle(GetLocationByOrganizationQuery request, CancellationToken cancellationToken)
         {
-            var organization = await _organizationRepository.Find(request.OrganizationId);
+            var organization = await _organizationRepository.Find(request.OrganizationId, request.UserId);
             return await _locationRepository.FindAll(location => location.OrganizationId == organization.Id);
         }
     }
