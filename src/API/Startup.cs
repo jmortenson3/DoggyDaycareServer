@@ -22,6 +22,7 @@ using Core.Pets;
 using Core.Organizations;
 using Core.Locations;
 using Core.Bookings;
+using Core.Memberships;
 
 namespace API
 {
@@ -70,6 +71,8 @@ namespace API
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
             services.AddScoped<ILocationRepository, LocationRepository>();
+
+            services.AddScoped<IMembershipRepository, MembershipRepository>();
 
             services.AddScoped<IBookingRepository, BookingRepository>();
 

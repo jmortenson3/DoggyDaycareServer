@@ -8,10 +8,10 @@ namespace Core.Organizations
 {
     public interface IOrganizationRepository
     {
-        Task<Organization> Add(Organization organization);
-        Task<List<Organization>> FindAll(Expression<Func<Organization, bool>> filter);
+        void Add(Organization organization);
+        Task<List<Organization>> FindAllWhere(Expression<Func<Organization, bool>> filter);
         Task<List<Organization>> FindAll();
-        Task<Organization> FindById(int id);
-        Task<Organization> Update(Organization organization);
+        Task<Organization> Find(int id);
+        Task Save();
     }
 }

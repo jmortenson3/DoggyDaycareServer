@@ -1,4 +1,5 @@
-﻿using Core.Organizations;
+﻿using Core.Memberships;
+using Core.Organizations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,12 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<Organization> Add(Organization organization)
+        public void Add(Organization organization)
         {
-            var entity = _context.Organizations.Add(organization);
-            await _context.SaveChangesAsync();
-            return entity.Entity;
+            _context.Organizations.Add(organization);
         }
 
-        public async Task<List<Organization>> FindAll(Expression<Func<Organization, bool>> filter)
+        public async Task<List<Organization>> FindAllWhere(Expression<Func<Organization, bool>> filter)
         {
             return await _context.Organizations.Where(filter).ToListAsync();
         }
@@ -35,18 +34,14 @@ namespace Infrastructure.Data
             return await _context.Organizations.ToListAsync();
         }
 
-        public async Task<Organization> FindById(int id)
+        public async Task<Organization> Find(int id)
         {
             return await _context.Organizations.FindAsync(id);
         }
 
-        public async Task<Organization> Update(Organization organization)
+        public async Task Save()
         {
-            var entity = await _context.Organizations.FindAsync(organization.Id);
-            entity.Name = organization.Name;
-            entity.LastModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
-            return entity;
         }
     }
 }

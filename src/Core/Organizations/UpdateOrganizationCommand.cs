@@ -24,7 +24,10 @@ namespace Core.Organizations
 
         public async Task<Organization> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
         {
-            return await _organizationRepository.Update(request.Organization);
+            var organization = await _organizationRepository.Find(request.Organization.Id);
+            organization.Name = request.Organization.Name;
+            await _organizationRepository.Save();
+            return organization;
         }
     }
 }

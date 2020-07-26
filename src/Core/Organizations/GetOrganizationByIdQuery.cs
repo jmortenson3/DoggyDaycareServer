@@ -24,7 +24,7 @@ namespace Core.Organizations
 
         public async Task<Organization> Handle(GetOrganizationByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _organizationRepository.FindById(request.Id);
+            return await _organizationRepository.Find(request.Id);
         }
     }
 }

@@ -16,8 +16,7 @@ namespace Core.Tests.UnitTests.Organizations
         public UpdateOrganizationCommandTest()
         {
             _repository = new Mock<IOrganizationRepository>();
-            _repository.Setup(x => x.Update(It.IsAny<Organization>()))
-                .ReturnsAsync(new Organization { Id = 1, Name = "A new name" });
+            _repository.Setup(x => x.Find(It.IsAny<int>())).ReturnsAsync(new Organization { Id = 1 });
         }
 
         [Fact]

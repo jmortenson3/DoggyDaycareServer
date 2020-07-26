@@ -1,4 +1,5 @@
 ﻿using Core.Common;
+using Core.Memberships;
 using Core.Organizations;
 using Moq;
 using System;
@@ -11,17 +12,17 @@ namespace Core.Tests.UnitTests.Organizations
 {
     public class CreateOrganizationCommandTest
     {
-        private readonly Mock<IOrganizationRepository> _repository;
+        private readonly Mock<IOrganizationRepository> _organizationRepository;
+        private readonly Mock<IMembershipRepository> _membershipRepository;
 
         public CreateOrganizationCommandTest()
         {
-            _repository = new Mock<IOrganizationRepository>();
-            _repository.Setup(x => x.Add(It.IsAny<Organization>()))
-                .ReturnsAsync(new Organization { Id = 2, Name = "St. Larry's" });
+            _organizationRepository = new Mock<IOrganizationRepository>();
+            _membershipRepository = new Mock<IMembershipRepository>();
         }
 
         [Fact]
-        public async void ShouldReturnOrganization()
+        public async void ShouldAddAndSaveWithMembership()
         {
             // Arrange
             var command = new CreateOrganizationCommand
@@ -32,30 +33,13 @@ namespace Core.Tests.UnitTests.Organizations
             };
 
             // Act
-            var handler = new CreateOrganizationCommandHandler(_repository.Object);
+            var handler = new CreateOrganizationCommandHandler(_organizationRepository.Object, _membershipRepository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async void ShouldCallAddOnce()
-        {
-            // Arrange
-            var command = new CreateOrganizationCommand
-            {
-                OwnerId = "1",
-                Name = "St. Larry's",
-                CreatedUtc = DateTime.UtcNow
-            };
-
-            // Act
-            var handler = new CreateOrganizationCommandHandler(_repository.Object);
-            var result = await handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            _repository.Verify(x => x.Add(It.IsAny<Organization>()), Times.Once);
+            _organizationRepository.Verify(x => x.Add(It.IsAny<Organization>()), Times.Once);
+            _membershipRepository.Verify(x => x.Add(It.IsAny<Membership>()), Times.Once);
+            _organizationRepository.Verify(x => x.Save(), Times.Once);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Core.Tests.UnitTests.Organizations
             };
 
             _repository = new Mock<IOrganizationRepository>();
-            _repository.Setup(x => x.FindById(It.IsAny<int>())).ReturnsAsync(organization);
+            _repository.Setup(x => x.Find(It.IsAny<int>())).ReturnsAsync(organization);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Core.Tests.UnitTests.Organizations
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.FindById(1), Times.Once);
+            _repository.Verify(x => x.Find(1), Times.Once);
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Infrastructure.Identity
         public string LastName { get; set; }
         public string Token { get; set; }
 
-        //[JsonIgnore]
-        public string PasswordSalt { get; set; }
-        //[JsonIgnore]
-        public override string PasswordHash { get; set; }
         [JsonIgnore]
+        public string PasswordSalt { get; set; }
+        [JsonIgnore]
+        public override string PasswordHash { get; set; }
+        //[JsonIgnore]
         public override bool TwoFactorEnabled { get; set; }
         //[JsonIgnore]
         public override string NormalizedEmail { get; set; }

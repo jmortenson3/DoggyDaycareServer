@@ -1,4 +1,5 @@
 ﻿using Core.Common;
+using Core.Memberships;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -25,10 +26,12 @@ namespace Core.Organizations
     public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Organization>
     {
         private readonly IOrganizationRepository _organizationRepository;
+        private readonly IMembershipRepository _membershipRepository;
 
-        public CreateOrganizationCommandHandler(IOrganizationRepository organizationRepository)
+        public CreateOrganizationCommandHandler(IOrganizationRepository organizationRepository, IMembershipRepository membershipRepository)
         {
             _organizationRepository = organizationRepository;
+            _membershipRepository = membershipRepository;
         }
 
         public async Task<Organization> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
@@ -40,7 +43,22 @@ namespace Core.Organizations
                 CreatedUtc = request.CreatedUtc,
                 CreatedBy = request.CreatedBy
             };
-            return await _organizationRepository.Add(organization);
+            _organizationRepository.Add(organization);
+
+            var membership = new Membership
+            {
+                IsMember = true,
+                IsOwner = true,
+                UserId = request.OwnerId,
+                CreatedUtc = DateTime.UtcNow,
+                CreatedBy = request.CreatedBy,
+                OrganizationId = organization.Id,
+                Organization = organization
+            };
+            _membershipRepository.Add(membership);
+
+            await _organizationRepository.Save();
+            return organization;
         }
     }
 
