@@ -52,7 +52,6 @@ namespace Core.Organizations
                 UserId = request.OwnerId,
                 CreatedUtc = DateTime.UtcNow,
                 CreatedBy = request.CreatedBy,
-                OrganizationId = organization.Id,
                 Organization = organization
             };
             _membershipRepository.Add(membership);

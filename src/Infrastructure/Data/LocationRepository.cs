@@ -18,16 +18,20 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<Location> Add(Location location)
+        public async Task Add(Location location)
         {
             var organization = await _context.Organizations.FindAsync(location.OrganizationId);
+            if (organization == null)
+            {
+                return;
+            }
+
             if (organization.Locations == null)
             {
                 organization.Locations = new List<Location>();
             }
             organization.Locations.Add(location);
-            await _context.SaveChangesAsync();
-            return location;
+            location.Organization = organization;
         }
 
         public async Task<List<Location>> FindAll(Expression<Func<Location, bool>> filter = null)
@@ -40,13 +44,9 @@ namespace Infrastructure.Data
             return await _context.Locations.FindAsync(id);
         }
 
-        public async Task<Location> Update(Location location)
+        public async Task Save()
         {
-            var entity = await _context.Locations.FindAsync(location.Id);
-            entity.Name = location.Name;
-            entity.LastModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
-            return entity;
         }
     }
 }

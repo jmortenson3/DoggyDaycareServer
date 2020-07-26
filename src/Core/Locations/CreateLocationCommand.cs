@@ -1,4 +1,5 @@
 ﻿using Core.Common;
+using Core.Memberships;
 using Core.Organizations;
 using MediatR;
 using System;
@@ -15,6 +16,7 @@ namespace Core.Locations
     {
         [Required]
         public int OrganizationId { get; set; }
+        public string OwnerId { get; set; }
         [Required]
         public string Name { get; set; }
         [JsonIgnore]
@@ -26,10 +28,12 @@ namespace Core.Locations
     public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand, Location>
     {
         private readonly ILocationRepository _locationRepository;
+        private readonly IMembershipRepository _membershipRepository;
 
-        public CreateLocationCommandHandler(ILocationRepository locationRepository)
+        public CreateLocationCommandHandler(ILocationRepository locationRepository, IMembershipRepository membershipRepository)
         {
             _locationRepository = locationRepository;
+            _membershipRepository = membershipRepository;
         }
 
         public async Task<Location> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
@@ -42,7 +46,22 @@ namespace Core.Locations
                 CreatedUtc = request.CreatedUtc
             };
 
-            return await _locationRepository.Add(location);
+            await _locationRepository.Add(location);
+
+            var membership = new Membership
+            {
+                IsMember = true,
+                IsOwner = true,
+                UserId = request.OwnerId,
+                CreatedUtc = DateTime.UtcNow,
+                CreatedBy = request.CreatedBy,
+                Organization = location.Organization,
+                Location = location
+            };
+            _membershipRepository.Add(membership);
+
+            await _locationRepository.Save();
+            return location;
         }
     }
 
