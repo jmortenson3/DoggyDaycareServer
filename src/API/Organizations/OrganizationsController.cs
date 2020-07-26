@@ -28,7 +28,8 @@ namespace API.Organizations
         [Route("/organizations")]
         public async Task<ActionResult<List<Organization>>> Get()
         {
-            return await Mediator.Send(new GetOrganizationsQuery());
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            return await Mediator.Send(new GetOrganizationsQuery { UserId = user.Id});
         }
 
         [HttpGet]

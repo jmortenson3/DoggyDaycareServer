@@ -29,9 +29,15 @@ namespace Infrastructure.Data
             return await _context.Organizations.Where(filter).ToListAsync();
         }
 
-        public async Task<List<Organization>> FindAll()
+        public async Task<List<Organization>> FindAll(string userId)
         {
-            return await _context.Organizations.ToListAsync();
+            var organizations = _context.Organizations.Join(
+                _context.Memberships,
+                org => org.Id,
+                membership => membership.OrganizationId, (org, membership) => new { org, membership })
+                .Where(q => q.membership.UserId == userId)
+                .Select(org => org.org);
+            return await organizations.ToListAsync();
         }
 
         public async Task<Organization> Find(int id)

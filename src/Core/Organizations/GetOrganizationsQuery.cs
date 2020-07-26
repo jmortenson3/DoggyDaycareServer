@@ -10,7 +10,7 @@ namespace Core.Organizations
 {
     public class GetOrganizationsQuery : IRequest<List<Organization>>
     {
-        public int Id { get; set; }
+        public string UserId { get; set; }
     }
 
     public class GetOrganizationsQueryHandler : IRequestHandler<GetOrganizationsQuery, List<Organization>>
@@ -24,7 +24,7 @@ namespace Core.Organizations
 
         public async Task<List<Organization>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
         {
-            return await _organizationRepository.FindAll();
+            return await _organizationRepository.FindAll(request.UserId);
         }
     }
 }
