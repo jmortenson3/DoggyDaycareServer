@@ -31,18 +31,18 @@ namespace Infrastructure.Data
 
         public async Task<List<Organization>> FindAll(string userId)
         {
-            var organizations = _context.Organizations
-                .Join(
-                    _context.Memberships,
-                    org => org.Id,
-                    membership => membership.OrganizationId, 
-                    (org, membership) => new { org, membership })
-                .Where(q => q.membership.UserId == userId)
-                .Select(org => org.org);
-            return await organizations.ToListAsync();
+            var myMemberships = await _context.Memberships.Include(m => m.Organization).Where(m => m.UserId == userId).ToListAsync();
+            var organizations = new List<Organization>();
+
+            foreach (var membership in myMemberships)
+            {
+                organizations.Add(membership.Organization);
+            }
+
+            return organizations.Distinct().ToList();
         }
 
-        public async Task<Organization> Find(int id, string userId)
+        public Organization Find(int id, string userId)
         {
             var organization = _context.Organizations
                 .Join(

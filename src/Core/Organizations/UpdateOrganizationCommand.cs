@@ -1,5 +1,4 @@
-﻿using Core.Common;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +24,7 @@ namespace Core.Organizations
 
         public async Task<Organization> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
         {
-            var organization = await _organizationRepository.Find(request.Organization.Id, request.UserId);
+            var organization = _organizationRepository.Find(request.Organization.Id, request.UserId);
             organization.Name = request.Organization.Name;
             await _organizationRepository.Save();
             return organization;

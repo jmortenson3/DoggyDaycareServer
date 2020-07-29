@@ -11,7 +11,7 @@ namespace Core.Organizations
         void Add(Organization organization);
         Task<List<Organization>> FindAllWhere(Expression<Func<Organization, bool>> filter);
         Task<List<Organization>> FindAll(string userId);
-        Task<Organization> Find(int id, string userId);
+        Organization Find(int id, string userId);
         Task Save();
     }
 }

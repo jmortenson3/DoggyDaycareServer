@@ -30,6 +30,8 @@ namespace Infrastructure.Data
             {
                 organization.Locations = new List<Location>();
             }
+
+            _context.Locations.Add(location);
             organization.Locations.Add(location);
             location.Organization = organization;
         }

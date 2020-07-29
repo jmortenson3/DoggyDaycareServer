@@ -32,7 +32,8 @@ namespace API.Locations
         [Route("/locations")]
         public async Task<ActionResult<List<Location>>> Get([FromQuery(Name = "organization_id")] int organizationId)
         {
-            return await Mediator.Send(new GetLocationByOrganizationQuery { OrganizationId = organizationId });
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+            return await Mediator.Send(new GetLocationByOrganizationQuery { OrganizationId = organizationId, UserId = user.Id });
         }
 
         [HttpPost]

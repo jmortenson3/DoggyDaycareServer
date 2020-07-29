@@ -42,6 +42,7 @@ namespace API.Organizations
             {
                 return NotFound();
             }
+
             return organization;
         }
 
