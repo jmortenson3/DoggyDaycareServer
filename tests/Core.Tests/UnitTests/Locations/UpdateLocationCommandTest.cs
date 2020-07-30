@@ -16,8 +16,6 @@ namespace Core.Tests.UnitTests.Locations
         public UpdateLocationCommandTest()
         {
             _repository = new Mock<ILocationRepository>();
-            _repository.Setup(x => x.Update(It.IsAny<Location>()))
-                .ReturnsAsync(new Location { Id = 1, Name = "A new name" });
         }
 
         [Fact]

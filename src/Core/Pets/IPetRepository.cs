@@ -7,9 +7,10 @@ namespace Core.Pets
 {
     public interface IPetRepository
     {
-        Task<Pet> Add(Pet pet);
-        Task<List<Pet>> Find(Func<Pet, bool> filter);
-        Task<Pet> FindById(int id);
-        Task<Pet> Update(Pet pet);
+        void Add(Pet pet);
+        Task<List<Pet>> FindAsync(Func<Pet, bool> filter);
+        Task<Pet> FindByIdAsync(int id);
+        Task<Pet> UpdateAsync(Pet pet);
+        Task SaveAsync();
     }
 }

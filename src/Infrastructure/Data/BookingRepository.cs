@@ -17,30 +17,46 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<Booking> Add(Booking booking)
+        public void Add(Booking booking)
         {
-            var entity = _context.Bookings.Add(booking);
-            await _context.SaveChangesAsync();
-            return entity.Entity;
-
+            _context.Bookings.AddAsync(booking);
         }
 
-        public async Task<List<Booking>> Find(Func<Booking, bool> filter = null)
+        public async Task<List<Booking>> FindAsync(Func<Booking, bool> filter = null)
         {
             return await _context.Bookings.Where(filter).AsQueryable().ToListAsync();
         }
 
-        public async Task<Booking> FindById(int id)
+        public async Task<Booking> FindByIdAsync(int id)
         {
             return await _context.Bookings.FindAsync(id);
         }
 
-        public async Task<Booking> Update(Booking booking)
+        public async Task<List<Booking>> FindByOrganizationAsync(int organizationId)
+        {
+            var organization = await _context.Organizations.FindAsync(organizationId);
+            var bookings = await _context.Bookings.Where(booking => booking.OrganizationId == organization.Id).ToListAsync();
+            return bookings;
+        }
+
+        public async Task<List<Booking>> FindByLocationAsync(int locationId)
+        {
+            var location = await _context.Locations.FindAsync(locationId);
+            var bookings = await _context.Bookings.Where(booking => booking.LocationId == location.Id).ToListAsync();
+            return bookings;
+        }
+
+        public async Task<Booking> UpdateAsync(Booking booking)
         {
             var entity = await _context.Bookings.FindAsync(booking.Id);
             entity.LastModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

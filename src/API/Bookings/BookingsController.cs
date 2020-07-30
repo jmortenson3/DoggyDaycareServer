@@ -27,6 +27,26 @@ namespace API.Bookings
             return await Mediator.Send(new GetBookingQuery { Id = id });
         }
 
+        [HttpGet]
+        [Route("/bookings")]
+        public async Task <ActionResult<List<Booking>>> Get([FromQuery(Name = "organization_id")] int? organizationId, [FromQuery(Name = "location_id")] int? locationId)
+        {
+            var user = await _userService.GetCurrentUser(HttpContext.User);
+
+            if (locationId != null)
+            {
+                return await Mediator.Send(new GetBookingsByLocationQuery { LocationId = (int)locationId, UserId = user.Id });
+            }
+            else if (organizationId != null)
+            {
+                return await Mediator.Send(new GetBookingsByOrganizationQuery { OrganizationId = (int)organizationId, UserId = user.Id});
+            }
+            else 
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
         [Route("/bookings")]
         public async Task<ActionResult<Booking>> Post(CreateBookingCommand body)

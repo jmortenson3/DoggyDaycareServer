@@ -24,7 +24,7 @@ namespace Core.Bookings
 
         public async Task<Booking> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repository.Update(request.Booking);
+            var entity = await _repository.UpdateAsync(request.Booking);
             return entity;
         }
     }

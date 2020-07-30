@@ -24,7 +24,9 @@ namespace Core.Locations
 
         public async Task<Location> Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
         {
-            await _locationRepository.Add(request.Location);
+            var location = await _locationRepository.FindAsync(request.Location.Id);
+            _locationRepository.Add(request.Location);
+            await _locationRepository.SaveAsync();
             return request.Location;
         }
     }

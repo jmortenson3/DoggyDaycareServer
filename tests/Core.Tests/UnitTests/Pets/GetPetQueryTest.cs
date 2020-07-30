@@ -16,7 +16,7 @@ namespace Core.Tests.UnitTests.Pets
         public GetPetQueryTest()
         {
             _repository = new Mock<IPetRepository>();
-            _repository.Setup(x => x.FindById(It.Is<int>(val => val == 1)))
+            _repository.Setup(x => x.FindByIdAsync(It.Is<int>(val => val == 1)))
                 .ReturnsAsync(new Pet { Id = 1, Name = "Larry", OwnerId = "1" });
         }
 
@@ -45,7 +45,7 @@ namespace Core.Tests.UnitTests.Pets
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.FindById(1), Times.Once);
+            _repository.Verify(x => x.FindByIdAsync(1), Times.Once);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Core.Pets
 
         public async Task<Pet> Handle(UpdatePetCommand request, CancellationToken cancellationToken)
         {
-            return await _petRepository.Update(request.Pet);
+            return await _petRepository.UpdateAsync(request.Pet);
         }
     }
 }

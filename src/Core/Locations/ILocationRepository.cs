@@ -8,9 +8,9 @@ namespace Core.Locations
 {
     public interface ILocationRepository
     {
-        Task Add(Location location);
-        Task<List<Location>> FindAll(Expression<Func<Location, bool>> filter);
-        Task<Location> FindById(int id);
-        Task Save();
+        void Add(Location location);
+        Task<List<Location>> FindAllAsync(Expression<Func<Location, bool>> filter);
+        Task<Location> FindAsync(int id);
+        Task SaveAsync();
     }
 }

@@ -9,9 +9,9 @@ namespace Core.Memberships
     public interface IMembershipRepository
     {
         void Add(Membership membership);
-        Task<List<Membership>> FindAllWhere(Expression<Func<Membership, bool>> filter);
-        Task<List<Membership>> FindAll();
-        Task<Membership> FindById(int id);
-        Task<Membership> Update(Membership membership);
+        Task<List<Membership>> FindAllWhereAsync(Expression<Func<Membership, bool>> filter);
+        Task<List<Membership>> FindAllAsync();
+        Task<Membership> FindByIdAsync(int id);
+        Task<Membership> UpdateAsync(Membership membership);
     }
 }

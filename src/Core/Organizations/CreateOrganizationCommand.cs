@@ -56,7 +56,7 @@ namespace Core.Organizations
             };
             _membershipRepository.Add(membership);
 
-            await _organizationRepository.Save();
+            await _organizationRepository.SaveAsync();
             return organization;
         }
     }

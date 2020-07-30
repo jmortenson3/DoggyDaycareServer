@@ -24,7 +24,7 @@ namespace Core.Pets
 
         public async Task<Pet> Handle(GetPetQuery request, CancellationToken cancellationToken)
         {
-            return await _petRepository.FindById(request.Id);
+            return await _petRepository.FindByIdAsync(request.Id);
         }
     }
 }

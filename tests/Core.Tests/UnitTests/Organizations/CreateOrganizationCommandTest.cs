@@ -39,7 +39,7 @@ namespace Core.Tests.UnitTests.Organizations
             // Assert
             _organizationRepository.Verify(x => x.Add(It.IsAny<Organization>()), Times.Once);
             _membershipRepository.Verify(x => x.Add(It.IsAny<Membership>()), Times.Once);
-            _organizationRepository.Verify(x => x.Save(), Times.Once);
+            _organizationRepository.Verify(x => x.SaveAsync(), Times.Once);
         }
     }
 }

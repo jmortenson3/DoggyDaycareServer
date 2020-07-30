@@ -16,7 +16,7 @@ namespace Core.Tests.UnitTests.Bookings
         public GetBookingQueryTest()
         {
             _repository = new Mock<IBookingRepository>();
-            _repository.Setup(x => x.FindById(It.Is<int>(val => val == 1)))
+            _repository.Setup(x => x.FindByIdAsync(It.Is<int>(val => val == 1)))
                 .ReturnsAsync(new Booking { Id = 1 });
         }
 

@@ -17,30 +17,33 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<Pet> Add(Pet pet)
+        public void Add(Pet pet)
         {
-            var entity = _context.Pets.Add(pet);
-            await _context.SaveChangesAsync();
-            return entity.Entity;
+            _context.Pets.Add(pet);
         }
 
-        public async Task<List<Pet>> Find(Func<Pet, bool> filter = null)
+        public async Task<List<Pet>> FindAsync(Func<Pet, bool> filter = null)
         {
             return await _context.Pets.Where(filter).AsQueryable().ToListAsync();
         }
 
-        public async Task<Pet> FindById(int id)
+        public async Task<Pet> FindByIdAsync(int id)
         {
             return await _context.Pets.FindAsync(id);
         }
 
-        public async Task<Pet> Update(Pet pet)
+        public async Task<Pet> UpdateAsync(Pet pet)
         {
             var entity = await _context.Pets.FindAsync(pet.Id);
             entity.Name = pet.Name;
             entity.LastModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

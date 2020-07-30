@@ -9,9 +9,10 @@ namespace Core.Organizations
     public interface IOrganizationRepository
     {
         void Add(Organization organization);
-        Task<List<Organization>> FindAllWhere(Expression<Func<Organization, bool>> filter);
-        Task<List<Organization>> FindAll(string userId);
+        Task<List<Organization>> FindAllWhereAsync(Expression<Func<Organization, bool>> filter);
+        Task<List<Organization>> FindAllAsync(string userId);
         Organization Find(int id, string userId);
-        Task Save();
+        Task<Organization> FindAsync(int id);
+        Task SaveAsync();
     }
 }

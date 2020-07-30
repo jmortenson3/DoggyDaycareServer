@@ -24,12 +24,12 @@ namespace Infrastructure.Data
             _context.Organizations.Add(organization);
         }
 
-        public async Task<List<Organization>> FindAllWhere(Expression<Func<Organization, bool>> filter)
+        public async Task<List<Organization>> FindAllWhereAsync(Expression<Func<Organization, bool>> filter)
         {
             return await _context.Organizations.Where(filter).ToListAsync();
         }
 
-        public async Task<List<Organization>> FindAll(string userId)
+        public async Task<List<Organization>> FindAllAsync(string userId)
         {
             var myMemberships = await _context.Memberships.Include(m => m.Organization).Where(m => m.UserId == userId).ToListAsync();
             var organizations = new List<Organization>();
@@ -56,9 +56,14 @@ namespace Infrastructure.Data
             return organization;
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Organization> FindAsync(int id)
+        {
+            return await _context.Organizations.FindAsync(id);
         }
     }
 }

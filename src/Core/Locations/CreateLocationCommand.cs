@@ -16,6 +16,7 @@ namespace Core.Locations
     {
         [Required]
         public int OrganizationId { get; set; }
+        public string UserId { get; set; }
         public string OwnerId { get; set; }
         [Required]
         public string Name { get; set; }
@@ -29,24 +30,44 @@ namespace Core.Locations
     {
         private readonly ILocationRepository _locationRepository;
         private readonly IMembershipRepository _membershipRepository;
+        private readonly IOrganizationRepository _organizationRepository;
 
-        public CreateLocationCommandHandler(ILocationRepository locationRepository, IMembershipRepository membershipRepository)
+        public CreateLocationCommandHandler(
+            ILocationRepository locationRepository, 
+            IMembershipRepository membershipRepository,
+            IOrganizationRepository organizationRepository)
         {
             _locationRepository = locationRepository;
             _membershipRepository = membershipRepository;
+            _organizationRepository = organizationRepository;
         }
 
         public async Task<Location> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
         {
+
+            var organization = _organizationRepository.Find(request.OrganizationId, request.UserId);
+
+            if (organization == null)
+            {
+                return null;
+            }
+
             var location = new Location
             {
-                OrganizationId = request.OrganizationId,
+                OrganizationId = organization.Id,
                 Name = request.Name,
                 CreatedBy = request.CreatedBy,
                 CreatedUtc = request.CreatedUtc
             };
 
-            await _locationRepository.Add(location);
+            if (organization.Locations == null)
+            {
+                organization.Locations = new List<Location>();
+            }
+
+            _locationRepository.Add(location);
+            organization.Locations.Add(location);
+            location.Organization = organization;
 
             var membership = new Membership
             {
@@ -60,7 +81,7 @@ namespace Core.Locations
             };
             _membershipRepository.Add(membership);
 
-            await _locationRepository.Save();
+            await _locationRepository.SaveAsync();
             return location;
         }
     }

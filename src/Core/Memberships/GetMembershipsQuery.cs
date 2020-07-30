@@ -23,7 +23,7 @@ namespace Core.Memberships
 
         public async Task<List<Membership>> Handle(GetMembershipsQuery request, CancellationToken cancellationToken)
         {
-            return await _membershipRepository.FindAll();
+            return await _membershipRepository.FindAllAsync();
         }
     }
 }

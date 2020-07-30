@@ -44,6 +44,7 @@ namespace API.Locations
             body.CreatedBy = user.Id;
             body.CreatedUtc = DateTime.UtcNow;
             body.OwnerId = user.Id;
+            body.UserId = user.Id;
             return await Mediator.Send(body);
         }
 

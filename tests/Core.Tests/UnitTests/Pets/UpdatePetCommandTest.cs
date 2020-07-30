@@ -16,7 +16,7 @@ namespace Core.Tests.UnitTests.Pets
         public UpdatePetCommandTest()
         {
             _repository = new Mock<IPetRepository>();
-            _repository.Setup(x => x.Update(It.IsAny<Pet>()))
+            _repository.Setup(x => x.UpdateAsync(It.IsAny<Pet>()))
                 .ReturnsAsync(new Pet { Id = 1, Name = "Pickles", OwnerId = "1" });
         }
 

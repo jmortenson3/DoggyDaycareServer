@@ -41,7 +41,9 @@ namespace Core.Pets
                 CreatedUtc = request.CreatedUtc
             };
 
-            return await _petRepository.Add(pet);
+            _petRepository.Add(pet);
+            await _petRepository.SaveAsync();
+            return pet;
         }
     }
 }

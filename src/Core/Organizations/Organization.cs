@@ -12,7 +12,9 @@ namespace Core.Organizations
     {
         public string OwnerId { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public List<Location> Locations { get; set; }
+        [JsonIgnore]
         public List<Booking> Bookings { get; set; }
     }
 }

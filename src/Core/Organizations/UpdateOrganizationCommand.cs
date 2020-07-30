@@ -26,7 +26,7 @@ namespace Core.Organizations
         {
             var organization = _organizationRepository.Find(request.Organization.Id, request.UserId);
             organization.Name = request.Organization.Name;
-            await _organizationRepository.Save();
+            await _organizationRepository.SaveAsync();
             return organization;
         }
     }

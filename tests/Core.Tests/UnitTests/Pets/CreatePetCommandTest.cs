@@ -16,8 +16,6 @@ namespace Core.Tests.UnitTests.Pets
         public CreatePetCommandTest()
         {
             _repository = new Mock<IPetRepository>();
-            _repository.Setup(x => x.Add(It.IsAny<Pet>()))
-                .ReturnsAsync(new Pet { Id = 2, Name = "Stevie", OwnerId = "1" });
         }
 
         [Fact]

@@ -22,22 +22,22 @@ namespace Infrastructure.Data
             _context.Memberships.Add(membership);
         }
 
-        public Task<List<Membership>> FindAllWhere(Expression<Func<Membership, bool>> filter)
+        public Task<List<Membership>> FindAllWhereAsync(Expression<Func<Membership, bool>> filter)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<Membership>> FindAll()
+        public async Task<List<Membership>> FindAllAsync()
         {
             return await _context.Memberships.ToListAsync();
         }
 
-        public Task<Membership> FindById(int id)
+        public Task<Membership> FindByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Membership> Update(Membership membership)
+        public Task<Membership> UpdateAsync(Membership membership)
         {
             throw new NotImplementedException();
         }

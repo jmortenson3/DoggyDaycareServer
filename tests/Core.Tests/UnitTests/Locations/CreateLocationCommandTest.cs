@@ -1,5 +1,7 @@
 ﻿using Core.Common;
 using Core.Locations;
+using Core.Memberships;
+using Core.Organizations;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -11,13 +13,17 @@ namespace Core.Tests.UnitTests.Locations
 {
     public class CreateLocationCommandTest
     {
-        private readonly Mock<ILocationRepository> _repository;
+        private readonly Mock<ILocationRepository> _locationRepository;
+        private readonly Mock<IOrganizationRepository> _organizationRepository;
+        private readonly Mock<IMembershipRepository> _membershipRepository;
 
         public CreateLocationCommandTest()
         {
-            _repository = new Mock<ILocationRepository>();
-            _repository.Setup(x => x.Add(It.IsAny<Location>()))
-                .ReturnsAsync(new Location { Id = 1, Name = "South Store" });
+            _locationRepository = new Mock<ILocationRepository>();
+            _organizationRepository = new Mock<IOrganizationRepository>();
+            _membershipRepository = new Mock<IMembershipRepository>();
+
+            _organizationRepository.Setup(x => x.Find(It.IsAny<int>(), It.IsAny<string>())).Returns(new Organization { Id = 1 });
         }
 
         [Fact]
@@ -27,7 +33,7 @@ namespace Core.Tests.UnitTests.Locations
             var command = new CreateLocationCommand { OrganizationId = 1, Name = "South Store", CreatedUtc = DateTime.Now };
 
             // Act
-            var handler = new CreateLocationCommandHandler(_repository.Object);
+            var handler = new CreateLocationCommandHandler(_locationRepository.Object, _membershipRepository.Object, _organizationRepository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
@@ -35,17 +41,17 @@ namespace Core.Tests.UnitTests.Locations
         }
 
         [Fact]
-        public async void ShouldCallAddAsyncOnce()
+        public async void ShouldCallAddOnce()
         {
             // Arrange
             var command = new CreateLocationCommand { OrganizationId = 1, Name = "South Store", CreatedUtc = DateTime.Now };
 
             // Act
-            var handler = new CreateLocationCommandHandler(_repository.Object);
+            var handler = new CreateLocationCommandHandler(_locationRepository.Object, _membershipRepository.Object, _organizationRepository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.Add(It.IsAny<Location>()), Times.Once);
+            _locationRepository.Verify(x => x.Add(It.IsAny<Location>()), Times.Once);
         }
     }
 }

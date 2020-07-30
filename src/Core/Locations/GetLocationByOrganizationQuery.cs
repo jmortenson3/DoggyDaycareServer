@@ -29,7 +29,7 @@ namespace Core.Locations
         public async Task<List<Location>> Handle(GetLocationByOrganizationQuery request, CancellationToken cancellationToken)
         {
             var organization = _organizationRepository.Find(request.OrganizationId, request.UserId);
-            var locations = await _locationRepository.FindAll(location => location.OrganizationId == organization.Id);
+            var locations = await _locationRepository.FindAllAsync(location => location.OrganizationId == organization.Id);
             return locations;
         }
     }

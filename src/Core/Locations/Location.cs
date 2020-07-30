@@ -14,6 +14,7 @@ namespace Core.Locations
         public int OrganizationId { get; set; }
         [JsonIgnore]
         public Organization Organization { get; set; }
+        [JsonIgnore]
         public List<Booking> Bookings { get; set; }
     }
 }

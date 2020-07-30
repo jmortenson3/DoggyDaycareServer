@@ -24,7 +24,7 @@ namespace Core.Bookings
 
         public async Task<Booking> Handle(GetBookingQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.FindById(request.Id);
+            return await _repository.FindByIdAsync(request.Id);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Core.Locations
 
         public async Task<Location> Handle(GetLocationQuery request, CancellationToken cancellationToken)
         {
-            return await _locationRepository.FindById(request.Id);
+            return await _locationRepository.FindAsync(request.Id);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Core.Tests.UnitTests.Locations
         public GetLocationQueryTest()
         {
             _repository = new Mock<ILocationRepository>();
-            _repository.Setup(x => x.FindById(It.Is<int>(val => val == 1)))
+            _repository.Setup(x => x.FindAsync(It.Is<int>(val => val == 1)))
                 .ReturnsAsync(new Location { Id = 1, Name = "South Store" });
         }
 
@@ -46,7 +46,7 @@ namespace Core.Tests.UnitTests.Locations
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.FindById(1), Times.Once);
+            _repository.Verify(x => x.FindAsync(1), Times.Once);
 
         }
     }

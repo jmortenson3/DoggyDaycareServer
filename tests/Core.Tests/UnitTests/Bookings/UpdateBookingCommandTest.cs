@@ -16,7 +16,7 @@ namespace Core.Tests.UnitTests.Bookings
         public UpdateBookingCommandTest()
         {
             _repository = new Mock<IBookingRepository>();
-            _repository.Setup(x => x.Update(It.IsAny<Booking>()))
+            _repository.Setup(x => x.UpdateAsync(It.IsAny<Booking>()))
                 .ReturnsAsync(new Booking { Id = 1 });
         }
 
@@ -47,7 +47,7 @@ namespace Core.Tests.UnitTests.Bookings
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.Update(booking), Times.Once);
+            _repository.Verify(x => x.UpdateAsync(booking), Times.Once);
         }
     }
 }

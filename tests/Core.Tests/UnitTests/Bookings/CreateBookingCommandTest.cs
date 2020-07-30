@@ -1,5 +1,7 @@
 ﻿using Core.Bookings;
 using Core.Common;
+using Core.Locations;
+using Core.Organizations;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,9 @@ namespace Core.Tests.UnitTests.Bookings
 {
     public class CreateBookingCommandTest
     {
-        private readonly Mock<IBookingRepository> _repository;
+        private readonly Mock<IBookingRepository> _bookingRepository;
+        private readonly Mock<IOrganizationRepository> _organizationRepository;
+        private readonly Mock<ILocationRepository> _locationRepository;
 
         public CreateBookingCommandTest()
         {
@@ -20,8 +24,12 @@ namespace Core.Tests.UnitTests.Bookings
                 Id = 2
             };
 
-            _repository = new Mock<IBookingRepository>();
-            _repository.Setup(x => x.Add(It.IsAny<Booking>())).ReturnsAsync(booking);
+            _bookingRepository = new Mock<IBookingRepository>();
+            _organizationRepository = new Mock<IOrganizationRepository>();
+            _locationRepository = new Mock<ILocationRepository>();
+
+            _organizationRepository.Setup(x => x.FindAsync(It.IsAny<int>())).ReturnsAsync(new Organization { Id = 1 });
+            _locationRepository.Setup(x => x.FindAsync(It.IsAny<int>())).ReturnsAsync(new Location { Id = 1 });
         }
 
         [Fact]
@@ -46,7 +54,7 @@ namespace Core.Tests.UnitTests.Bookings
 
 
             // Act
-            var handler = new CreateBookingCommandHandler(_repository.Object);
+            var handler = new CreateBookingCommandHandler(_bookingRepository.Object, _organizationRepository.Object, _locationRepository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
@@ -54,7 +62,7 @@ namespace Core.Tests.UnitTests.Bookings
         }
 
         [Fact]
-        public async void ShouldCallAddAsyncOnce()
+        public async void ShouldCallAddOnce()
         {
             // Arrange
             var command = new CreateBookingCommand
@@ -73,11 +81,11 @@ namespace Core.Tests.UnitTests.Bookings
                 }
             };
             // Act
-            var handler = new CreateBookingCommandHandler(_repository.Object);
+            var handler = new CreateBookingCommandHandler(_bookingRepository.Object, _organizationRepository.Object, _locationRepository.Object);
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.Add(It.IsAny<Booking>()), Times.Once);
+            _bookingRepository.Verify(x => x.Add(It.IsAny<Booking>()), Times.Once);
         }
     }
 }

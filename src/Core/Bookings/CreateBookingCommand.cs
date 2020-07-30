@@ -1,4 +1,6 @@
 ﻿using Core.Common;
+using Core.Locations;
+using Core.Organizations;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -23,15 +25,35 @@ namespace Core.Bookings
 
     public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, Booking>
     {
-        private readonly IBookingRepository _repository;
+        private readonly IBookingRepository _bookingRepository;
+        private readonly IOrganizationRepository _organizationRepository;
+        private readonly ILocationRepository _locationRepository;
 
-        public CreateBookingCommandHandler(IBookingRepository repository)
+        public CreateBookingCommandHandler(
+            IBookingRepository bookingRepository, 
+            IOrganizationRepository organizationRepository,
+            ILocationRepository locationRepository)
         {
-            _repository = repository;
+            _bookingRepository = bookingRepository;
+            _organizationRepository = organizationRepository;
+            _locationRepository = locationRepository;
         }
 
         public async Task<Booking> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
+            var organization = await _organizationRepository.FindAsync(request.OrganizationId);
+            if (organization == null)
+            {
+                return null;
+            }
+
+            var location = await _locationRepository.FindAsync(request.LocationId);
+
+            if (location == null)
+            {
+                return null;
+            }
+
             var bookingDetails = new List<BookingDetails>();
 
             foreach (var bookingDetail in request.BookingDetails)
@@ -46,9 +68,14 @@ namespace Core.Bookings
                 LocationId = request.LocationId,
                 CreatedBy = request.CreatedBy,
                 CreatedUtc = request.CreatedUtc,
-                BookingDetails = bookingDetails
+                BookingDetails = bookingDetails,
+                Organization = organization,
+                Location = location
             };
-            return await _repository.Add(booking);
+            _bookingRepository.Add(booking);
+            await _bookingRepository.SaveAsync();
+
+            return booking;
         }
     }
 }
