@@ -25,10 +25,10 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldReturnPets()
         {
             // Arrange
-            var query = new GetPetsByCustomerQuery { OwnerId = "1" };
+            var query = new GetPetsByOwnerQuery { OwnerId = "1" };
 
             // Act
-            var handler = new GetPetsByCustomerQueryHandler(_repository.Object);
+            var handler = new GetPetsByOwnerQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
@@ -39,10 +39,10 @@ namespace Core.Tests.UnitTests.Pets
         public async void ShouldCallFindAllAsyncOnce()
         {
             // Arrange
-            var query = new GetPetsByCustomerQuery { OwnerId = "1" };
+            var query = new GetPetsByOwnerQuery { OwnerId = "1" };
 
             // Act
-            var handler = new GetPetsByCustomerQueryHandler(_repository.Object);
+            var handler = new GetPetsByOwnerQueryHandler(_repository.Object);
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert

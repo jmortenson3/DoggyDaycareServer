@@ -22,11 +22,6 @@ namespace Infrastructure.Data
             _context.Pets.Add(pet);
         }
 
-        public async Task<List<Pet>> FindAsync(Func<Pet, bool> filter = null)
-        {
-            return await _context.Pets.Where(filter).AsQueryable().ToListAsync();
-        }
-
         public async Task<Pet> FindByIdAsync(int id)
         {
             return await _context.Pets.FindAsync(id);
@@ -44,6 +39,11 @@ namespace Infrastructure.Data
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Pet>> FindByOwner(string ownerId)
+        {
+            return await _context.Pets.Where(p => p.OwnerId == ownerId).ToListAsync();
         }
     }
 }
