@@ -15,6 +15,7 @@ namespace Core.Bookings
         [JsonIgnore]
         public Booking Booking { get; set; }
         public int PetId { get; set; }
+        [JsonIgnore]
         public Pet Pet { get; set; }
         public GroomingDetails GroomingDetails { get; set; }
         public BoardingDetails BoardingDetails { get; set; }

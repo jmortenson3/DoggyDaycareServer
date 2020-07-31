@@ -35,14 +35,20 @@ namespace Infrastructure.Data
         public async Task<List<Booking>> FindByOrganizationAsync(int organizationId)
         {
             var organization = await _context.Organizations.FindAsync(organizationId);
-            var bookings = await _context.Bookings.Where(booking => booking.OrganizationId == organization.Id).ToListAsync();
+            var bookings = await _context.Bookings
+                .Include(booking => booking.BookingDetails)
+                .Where(booking => booking.OrganizationId == organization.Id)
+                .ToListAsync();
             return bookings;
         }
 
         public async Task<List<Booking>> FindByLocationAsync(int locationId)
         {
             var location = await _context.Locations.FindAsync(locationId);
-            var bookings = await _context.Bookings.Where(booking => booking.LocationId == location.Id).ToListAsync();
+            var bookings = await _context.Bookings
+                .Include(booking => booking.BookingDetails)
+                .Where(booking => booking.LocationId == location.Id)
+                .ToListAsync();
             return bookings;
         }
 

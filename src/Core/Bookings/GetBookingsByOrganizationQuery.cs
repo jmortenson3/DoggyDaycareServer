@@ -1,4 +1,5 @@
-﻿using Core.Organizations;
+﻿using Core.Exceptions;
+using Core.Organizations;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,10 @@ namespace Core.Bookings
         public async Task<List<Booking>> Handle(GetBookingsByOrganizationQuery request, CancellationToken cancellationToken)
         {
             var organization = _organizationRepository.Find(request.OrganizationId, request.UserId);
+            if (organization == null)
+            {
+                throw new OrganizationNotFoundException($"Organization with id {request.OrganizationId} not found.");
+            }
             var bookings = await _bookingRepository.FindByOrganizationAsync(organization.Id);
             return bookings;
         }
