@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Core.Organizations
 {
-    public class Organization : BaseEntity
+    public class Organization : AuditableEntity
     {
         public string OwnerId { get; set; }
         public string Name { get; set; }

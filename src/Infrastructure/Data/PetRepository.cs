@@ -31,7 +31,7 @@ namespace Infrastructure.Data
         {
             var entity = await _context.Pets.FindAsync(pet.Id);
             entity.Name = pet.Name;
-            entity.LastModifiedUtc = DateTime.UtcNow;
+            entity.ModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return entity;
         }

@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Core.Locations
 {
-    public class Location : BaseEntity
+    public class Location : AuditableEntity
     {
         public string Name { get; set; }
         public int OrganizationId { get; set; }

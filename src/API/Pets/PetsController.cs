@@ -52,8 +52,8 @@ namespace API.Pets
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.Pet.Id = id;
-            body.Pet.LastModifiedBy = user.Id;
-            body.Pet.LastModifiedUtc = DateTime.UtcNow;
+            body.Pet.ModifiedBy = user.Id;
+            body.Pet.ModifiedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
     }

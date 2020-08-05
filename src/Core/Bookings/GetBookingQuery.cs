@@ -15,16 +15,16 @@ namespace Core.Bookings
 
     public class GetBookingQueryHandler : IRequestHandler<GetBookingQuery, Booking>
     {
-        private readonly IBookingRepository _repository;
+        private readonly IBookingRepository _bookingRepository;
 
-        public GetBookingQueryHandler(IBookingRepository repository)
+        public GetBookingQueryHandler(IBookingRepository bookingRepository)
         {
-            _repository = repository;
+            _bookingRepository = bookingRepository;
         }
 
         public async Task<Booking> Handle(GetBookingQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.FindByIdAsync(request.Id);
+            return await _bookingRepository.FindByIdAsync(request.Id);
         }
     }
 }

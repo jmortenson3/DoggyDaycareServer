@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Core.Memberships
 {
-    public class Membership : BaseEntity
+    public class Membership : AuditableEntity
     {
         public bool IsOwner { get; set; }
         public bool IsMember { get; set; }

@@ -8,9 +8,6 @@ namespace Core.Bookings
 {
     public class GroomingDetails : BaseEntity
     {
-        public int BookingDetailsId { get; set; }
-        [JsonIgnore]
-        public BookingDetails BookingDetails { get; set; }
         public string CustomerNotes { get; set; }
     }
 }

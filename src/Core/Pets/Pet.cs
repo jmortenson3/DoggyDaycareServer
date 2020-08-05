@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Core.Pets
 {
-    public class Pet : BaseEntity
+    public class Pet : AuditableEntity
     {
         public string OwnerId { get; set; }
         public string Name { get; set; }

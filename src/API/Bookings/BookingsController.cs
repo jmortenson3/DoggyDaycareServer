@@ -63,8 +63,8 @@ namespace API.Bookings
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.Booking.Id = id;
-            body.Booking.LastModifiedBy = user.Id;
-            body.Booking.LastModifiedUtc = DateTime.UtcNow;
+            body.Booking.ModifiedBy = user.Id;
+            body.Booking.ModifiedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
     }

@@ -17,7 +17,7 @@ namespace Core.Tests.UnitTests.Pets
         public GetPetsByCustomerQueryTest()
         {
             _repository = new Mock<IPetRepository>();
-            _repository.Setup(x => x.FindAsync(It.IsAny<Func<Pet, bool>>()))
+            _repository.Setup(x => x.FindByOwner(It.IsAny<string>()))
                 .ReturnsAsync(new List<Pet> { new Pet { Id = 1, Name = "Larry", OwnerId = "1" } });
         }
 
@@ -46,7 +46,7 @@ namespace Core.Tests.UnitTests.Pets
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            _repository.Verify(x => x.FindAsync(It.IsAny<Func<Pet, bool>>()), Times.Once);
+            _repository.Verify(x => x.FindByOwner(It.IsAny<string>()), Times.Once);
         }
     }
 }

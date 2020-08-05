@@ -11,7 +11,6 @@ namespace Core.Bookings
     {
         public DateTime DropOffDateTime { get; set; }
         public DateTime PickUpDateTime { get; set; }
-        public int BookingId { get; set; }
         [JsonIgnore]
         public Booking Booking { get; set; }
         public int PetId { get; set; }

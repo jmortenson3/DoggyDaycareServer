@@ -53,7 +53,7 @@ namespace API.Organizations
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.CreatedBy = user.Id;
             body.OwnerId = user.Id;
-            body.CreatedUtc = DateTime.UtcNow;
+            //body.CreatedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
 
@@ -63,8 +63,8 @@ namespace API.Organizations
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.Organization.Id = id;
-            body.Organization.LastModifiedBy = user.Id;
-            body.Organization.LastModifiedUtc = DateTime.UtcNow;
+            body.Organization.ModifiedBy = user.Id;
+            body.Organization.ModifiedUtc = DateTime.UtcNow;
             var organization = await Mediator.Send(body);
             if (organization == null)
             {

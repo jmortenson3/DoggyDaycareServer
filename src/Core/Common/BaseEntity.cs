@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Core.Common
 {
     public abstract class BaseEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedUtc { get; set; }
-        public string LastModifiedBy { get; set; }
-        public DateTime? LastModifiedUtc { get; set; }
     }
 }

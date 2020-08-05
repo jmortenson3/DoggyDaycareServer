@@ -29,7 +29,12 @@ namespace Infrastructure.Data
 
         public async Task<Booking> FindByIdAsync(int id)
         {
-            return await _context.Bookings.FindAsync(id);
+            return await _context.Bookings
+                .Include(booking => booking.BookingDetails)
+                .ThenInclude(bookingDetails => bookingDetails.GroomingDetails)
+                .Include(booking => booking.BookingDetails)
+                .ThenInclude(bookingDetails => bookingDetails.BoardingDetails)
+                .FirstOrDefaultAsync(booking => booking.Id == id);
         }
 
         public async Task<List<Booking>> FindByOrganizationAsync(int organizationId)
@@ -37,6 +42,9 @@ namespace Infrastructure.Data
             var organization = await _context.Organizations.FindAsync(organizationId);
             var bookings = await _context.Bookings
                 .Include(booking => booking.BookingDetails)
+                .ThenInclude(bookingDetails => bookingDetails.BoardingDetails)
+                .Include(booking => booking.BookingDetails)
+                .ThenInclude(bookingDetails => bookingDetails.GroomingDetails)
                 .Where(booking => booking.OrganizationId == organization.Id)
                 .ToListAsync();
             return bookings;
@@ -47,6 +55,9 @@ namespace Infrastructure.Data
             var location = await _context.Locations.FindAsync(locationId);
             var bookings = await _context.Bookings
                 .Include(booking => booking.BookingDetails)
+                .ThenInclude(bookingDetails => bookingDetails.BoardingDetails)
+                .Include(booking => booking.BookingDetails)
+                .ThenInclude(bookingDetails => bookingDetails.GroomingDetails)
                 .Where(booking => booking.LocationId == location.Id)
                 .ToListAsync();
             return bookings;
@@ -55,7 +66,7 @@ namespace Infrastructure.Data
         public async Task<Booking> UpdateAsync(Booking booking)
         {
             var entity = await _context.Bookings.FindAsync(booking.Id);
-            entity.LastModifiedUtc = DateTime.UtcNow;
+            entity.ModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return entity;
         }

@@ -54,8 +54,8 @@ namespace API.Locations
         {
             var user = await _userService.GetCurrentUser(HttpContext.User);
             body.Location.Id = id;
-            body.Location.LastModifiedBy = user.Id;
-            body.Location.LastModifiedUtc = DateTime.UtcNow;
+            body.Location.ModifiedBy = user.Id;
+            body.Location.ModifiedUtc = DateTime.UtcNow;
             return await Mediator.Send(body);
         }
 
