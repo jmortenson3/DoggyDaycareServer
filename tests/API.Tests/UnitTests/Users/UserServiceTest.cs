@@ -158,7 +158,7 @@ namespace API.Tests.UnitTests.Users
 
             _mockSignInManager
                 .Setup(x => x.PasswordSignInAsync(applicationUser, model.Password, model.RememberMe, false))
-                .ReturnsAsync(new MockSignInResult());
+                .ReturnsAsync(SignInResult.Success);
 
             // Act
             var user = await _sut.Login(model);
@@ -175,8 +175,11 @@ namespace API.Tests.UnitTests.Users
             var applicationUser = new ApplicationUser { Email = "stevie@test.com" };
             var model = new UserLoginModel { Email = "stevie@test.com", Password = "test123", RememberMe = true };
 
+
             _mockUserManager.Setup(x => x.FindByEmailAsync(model.Email))
                 .ReturnsAsync(applicationUser);
+            _mockSignInManager.Setup(x => x.PasswordSignInAsync(It.IsAny<ApplicationUser>(),
+                model.Password, model.RememberMe, false)).ReturnsAsync(SignInResult.Success);
 
             // Act
             var user = await _sut.Login(model);

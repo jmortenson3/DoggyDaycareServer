@@ -3,6 +3,7 @@ using Common.Users;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -48,6 +49,11 @@ namespace API.Users
 
             var result = await _signInManager.PasswordSignInAsync(applicationUser,
                 model.Password, model.RememberMe, lockoutOnFailure: false);
+
+            if (!result.Succeeded)
+            {
+                throw new AppException($"Login failed");
+            }
 
             return applicationUser;
         }

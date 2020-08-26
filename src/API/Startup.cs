@@ -49,7 +49,11 @@ namespace API
                     name: "AllowSpecificOrigins",
                     builder =>
                     {
-                        builder.WithOrigins(new string[] { "https://localhost:3001", "http://localhost:3000" });
+                        builder.WithOrigins(new string[] { 
+                            "https://localhost:3001", 
+                            "http://localhost:3000", 
+                            "https://localhost:5001", 
+                            "http://localhost:5000" });
                         builder.AllowAnyMethod();
                         builder.AllowAnyHeader();
                         builder.AllowCredentials();
